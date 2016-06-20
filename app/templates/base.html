@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" {% block html_attribs %}{% endblock html_attribs %}>
+{% block html %}
+<head>
+    {% block head %}
+
+    {% block metas %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Ethan Huang">
+    {% endblock metas %}
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    {% block styles %}
+    <!--<link href="{%% url_for('.static', filename='css/bootstrap.min.css') %%}" rel="stylesheet">-->
+    <link id="bs-css" href="{%% url_for('.static', filename='css/bootstrap-cerulean.min.css') %%}" rel="stylesheet">
+    <link href="{%% url_for('.static', filename='css/custom-app.css') %%}" rel="stylesheet">
+    <link href="{%% url_for('.static', filename='lib/fullcalendar/dist/fullcalendar.css') %%}" rel="stylesheet">
+    <link href="{%% url_for('.static', filename='lib/fullcalendar/dist/fullcalendar.print.css') %%}" rel='stylesheet' media='print'>
+    <link href="{%% url_for('.static', filename='lib/chosen/chosen.min.css') %%}" rel='stylesheet'>
+    <link href="{%% url_for('.static', filename='lib/colorbox/example3/colorbox.css') %%}" rel='stylesheet'>
+    <link href="{%% url_for('.static', filename='lib/responsive-tables/responsive-tables.css') %%}" rel='stylesheet'>
+    <!--<link href="{%% url_for('.static', filename='') %%}" 'bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>-->
+    <link href="{%% url_for('.static', filename='css/jquery.noty.css') %%}" rel='stylesheet'>
+    <!--<link href="{%% url_for('.static', filename='css/noty_theme_default.css') %%}" rel='stylesheet'>-->
+    <!--<link href="{%% url_for('.static', filename='css/elfinder.min.css') %%}" rel='stylesheet'>-->
+    <!--<link href="{%% url_for('.static', filename='css/elfinder.theme.css') %%}" rel='stylesheet'>-->
+    <link href="{%% url_for('.static', filename='css/jquery.iphone.toggle.css') %%}" rel='stylesheet'>
+    <link href="{%% url_for('.static', filename='css/uploadify.css') %%}" rel='stylesheet'>
+    <link href="{%% url_for('.static', filename='css/animate.min.css') %%}" rel='stylesheet'>
+
+    <!--<link href="{%% url_for('.static', filename='lib/bootstrap/css/bootstrap.min.css') %%}" rel="stylesheet">-->
+    <link href="{%% url_for('.static', filename='css/style.css') %%}" rel="stylesheet">
+    {% endblock styles %}
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="{%% url_for('.static', filename='img/favicon.ico') %%}">
+
+    {% endblock head %}
+</head>
+<body {% block body_attribs %}{% endblock body_attribs %} ng-app="app">
+{% block body %}
+<header>
+    {% block header %}
+    {% block navbar %}
+    {% endblock navbar %}
+    {% endblock header %}
+</header>
+
+<div class="ch-container">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+
+<footer>
+    {% block footer %}
+    <p class="text-center">
+        <small>&copy; COPYRIGHT 2016 ALIENVAULT, INC. | LEGAL</small>
+    </p>
+    {% endblock footer %}
+</footer>
+
+{% block scripts %}
+<script src="{%% url_for('.static', filename='lib/jquery/jquery.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/bootstrap/js/bootstrap.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/angular/angular.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/angular/angular-ui-router.js') %%}"></script>
+
+<script src="{%% url_for('.static', filename='js/jquery.cookie.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/moment/min/moment.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/fullcalendar/dist/fullcalendar.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.dataTables.min.js') %%}"></script>
+
+<script src="{%% url_for('.static', filename='lib/chosen/chosen.jquery.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/colorbox/jquery.colorbox-min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.noty.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/responsive-tables/responsive-tables.js') %%}"></script>
+<!--<script src="bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>-->
+<script src="{%% url_for('.static', filename='js/jquery.raty.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.iphone.toggle.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.autogrow-textarea.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.uploadify-3.1.min.js') %%}"></script>
+<script src="{%% url_for('.static', filename='js/jquery.history.js') %%}"></script>
+
+<script src="{%% url_for('.static', filename='js/custom.js') %%}"></script>
+<script src="{%% url_for('.static', filename='lib/highcharts/highcharts.js') %%}"></script>
+<script src="{%% url_for('.static', filename='modules/app.js') %%}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+{% endblock scripts %}
+{% endblock body %}
+</body>
+{% endblock html %}
+</html>

@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block content%}
+<div class="margintopbar" ng-controller="overview">
+    <div class="overview">
+        <div class="page-header">Suspect Computers</div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">按操作系统分类</div>
+                    <div class="panel-body">
+                        <canvas></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">按组分类</div>
+                    <div class="panel-body">
+                        <canvas></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">Suspect Files</div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Latest Two Weeks</div>
+                    <div class="panel-body">
+                        <div id="susFileTwoWeeksChart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Latest Three Months</div>
+                    <div class="panel-body">
+                        <div id="susFileThreeMonthsChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">Classified Statics</div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Classified by OS</div>
+                    <div class="panel-body">
+                        <div id="statsByOsChart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Classified by Group</div>
+                    <div class="panel-body">
+                        <div id="statsByGroup"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

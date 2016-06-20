@@ -1,0 +1,15 @@
+{
+  "NAME": "Admin",
+  "VERSION": 2.1,
+  "DATABASE": {
+    "name": "htAdmin",
+    "engine": "peewee.MySQLDatabase",
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "passwd": "tempfavbuy",
+    "threadlocals": true
+  },
+  "CLIENTKEY": "37bdbea9-92f2-49f6-a4c6-dff88a0d24a5",
+  "DEBUG": true
+}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-inner">
+        <a class="navbar-brand" href="javascript:void(0)">
+            <img alt="Logo" src="{%% url_for('.static', filename='img/logo.jpg') %%}" class="hidden-xs"/>
+            <span>Huating</span>
+        </a>
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block content %}
+<div class="ch-container">
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12 center login-header">
+                <h2>Welcome to Huating2.1</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="well col-md-5 center login-box">
+                {% with messages = get_flashed_messages()%}
+                {% for message in messages %}
+                <div class="alert alert-danger">
+                    {%% message %%}
+                </div>
+                {% endfor %}
+                {%endwith%}
+                <form class="form-horizontal" action="/login/" method="post" name="login_form">
+                    <fieldset>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   ng-model="user.username"
+                                   placeholder="Username" required>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   ng-model="login.password"
+                                   placeholder="Password" required>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="input-prepend">
+                            <label class="remember" for="remember"><input type="checkbox" id="remember"> Remember
+                                me</label>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <p class="center col-md-5">
+                            <button type="submit" class="btn btn-primary"
+                                    ng-disabled="login_form.username.$error.required || login_form.password.$error.required">
+                                Login
+                            </button>
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
