@@ -1,0 +1,175 @@
+<div class="settings_user">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well user-setting-info">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">Edit User Permissions</h4>
+                        <p>Click on a user's name to edit permissions.
+                            You can add or remove users you manage.
+                            Hover over each role to view permissions.
+                        </p>
+                        <ul class="list-inline">
+                            <li><b>&middot;</b> User</li>
+                            <li><b>&middot;</b> Admin</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <form action="">
+                    <p>Add Users
+                        <small>(All fields are required)</small>
+                    </p>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Enter Email" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select class="form-control">
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary">add</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2><i class="glyphicon glyphicon-user"></i> Users</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content" style="display: block;">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-sm btn-primary" ng-click="removeUsers()">Remove</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <div id="DataTables_Table_0_length" class="dataTables_length"><label><select
+                                            size="1" name="DataTables_Table_0_length"
+                                            aria-controls="DataTables_Table_0">
+                                        <option value="10" selected="selected">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> records per page</label></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input
+                                            type="text" aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable"
+                               id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                            <tr role="row">
+                                <th><input type="checkbox" ng-model="toRemoveAll" ng-click="checkAll()"></th>
+                                <th class="sorting_asc" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending"
+                                    aria-label="Username: activate to sort column descending" style="width: 225px;">
+                                    Username
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Email: activate to sort column ascending" style="width: 225px;">
+                                    Email
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Role: activate to sort column ascending" style="width: 102px;">Role
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Status: activate to sort column ascending" style="width: 118px;">
+                                    Status
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Date registered: activate to sort column ascending"
+                                    style="width: 189px;">Date registered
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Actions: activate to sort column ascending" style="width: 416px;">
+                                    Actions
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            <tr ng-repeat="user in users">
+                                <td><input type="checkbox" ng-model="user.toRemove"></td>
+                                <td class=" sorting_1">{{ user.username }}</td>
+                                <td class="center ">{{ user.email }}</td>
+                                <td class="center ">{{ user.role }}</td>
+                                <td class="center ">
+                                    <span class="label-warning label label-default">Pending</span>
+                                </td>
+                                <td class="center ">{{ user.dateAdded }}</td>
+                                <td class="center ">
+                                    <a class="btn btn-success" href="#">
+                                        <i class="glyphicon glyphicon-edit icon-white"></i>
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-danger" href="#">
+                                        <i class="glyphicon glyphicon-trash icon-white"></i>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 10 of 32
+                                    entries
+                                </div>
+                            </div>
+                            <div class="col-md-12 center-block">
+                                <div class="dataTables_paginate paging_bootstrap pagination">
+                                    <ul class="pagination">
+                                        <li class="prev disabled"><a href="#">← </a></li>
+                                        <li class="active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li class="next"><a href="#"> → </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

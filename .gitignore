@@ -1,0 +1,5 @@
+/tests
+/bower_components
+*.pyc
+.idea
+*.DS_Store

@@ -1,0 +1,42 @@
+footer {
+    padding: 32px;
+    margin-bottom: 0;
+}
+
+.margintopbar {
+    margin-top: 65px;
+}
+
+#threatsChart {
+    min-height: 450px;
+}
+
+.historyAlerts {
+    padding: 15px;
+}
+
+#historyAlerts {
+    padding-top: 15px;
+}
+
+#currslnALerts {
+    padding-top: 15px;
+}
+
+.settings_basic .page-header-first {
+    margin-top: 0;
+}
+
+/*.overview .page-header:first-child{*/
+    /*margin-top: 21px;*/
+/*}*/
+
+.user-setting-info {
+    min-height: 176px;
+}
+
+form[name=invComForm] .btn,
+form[name=invIpForm] .btn
+{
+    margin-top: 25px;
+}
