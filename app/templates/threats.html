@@ -15,7 +15,8 @@
     </div>
     ',
     'Status',
-    '')
+    icon = 'glyphicon glyphicon-camera'
+    )
     %%}
 
     {%% panel_box('
@@ -32,8 +33,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="alert in alerts" class="text-info">
-                    <td><span class="glyphicon glyphicon-modal-window"></span><span ng-bind="alert.sensor.name"></span>
+                <tr ng-repeat="alert in alerts">
+                    <td>
+                        <a href="#" class="text-info">
+                            <span class="glyphicon glyphicon-credit-card"></span>
+                            <span ng-bind="alert.sensor.name"></span>
+                        </a>
                     </td>
                     <td ng-bind="alert.type"></td>
                     <td ng-bind="alert.timestamp"></td>
@@ -43,7 +48,8 @@
                         </a>
                     </td>
                     <td>
-                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}" ng-bind="alert.status"
+                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
+                              ng-bind="alert.status"
                               ng-click="changeAlertStatus(alert)"></span>
                         <span class="label label-primary"
                               ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
@@ -55,7 +61,8 @@
         </div>
     </div>
     ',
-    'Alerts'
+    'Alerts',
+    icon = 'glyphicon glyphicon-bell'
     )
     %%}
 
@@ -84,9 +91,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="alert in historyAlerts" class="text-info">
-                                    <td><span class="glyphicon glyphicon-modal-window"></span><span
-                                            ng-bind="alert.sensor.name"></span>
+                                <tr ng-repeat="alert in historyAlerts">
+                                    <td>
+                                        <a href="#" class="text-info">
+                                            <span class="glyphicon glyphicon-credit-card"></span>
+                                            <span ng-bind="alert.sensor.name"></span>
+                                        </a>
                                     </td>
                                     <td ng-bind="alert.type"></td>
                                     <td ng-bind="alert.timestamp"></td>
@@ -97,9 +107,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}" ng-bind="alert.status"
+                                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
+                                              ng-bind="alert.status"
                                               ng-click="changeAlertStatus(alert)"></span>
-                                        <span class="label label-primary" ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'" ng-click="exceptAlert(alert)">Exception</span>
+                                        <span class="label label-primary"
+                                              ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
+                                              ng-click="exceptAlert(alert)">Exception</span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -121,18 +134,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="alert in currSlnAlerts" class="text-info">
-                                    <td><span class="glyphicon glyphicon-modal-window"></span><span ng-bind="alert.sensor.name"></span>
+                                <tr ng-repeat="alert in currSlnAlerts">
+                                    <td>
+                                        <a href="#" class="text-info">
+                                            <span class="glyphicon glyphicon-credit-card"></span>
+                                            <span ng-bind="alert.sensor.name"></span>
+                                        </a>
                                     </td>
                                     <td ng-bind="alert.type"></td>
                                     <td ng-bind="alert.timestamp"></td>
                                     <td>
-                                        <a href="#" title="Level {{alert.level}}" data-toggle="tooltip" ng-show="alert.level === 100">
+                                        <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
+                                           ng-show="alert.level === 100">
                                             <img src="/static/img/star-on.png"/>
                                         </a>
                                     </td>
                                     <td>
-                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}" ng-bind="alert.status"
+                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
+                              ng-bind="alert.status"
                               ng-click="changeAlertStatus(alert)"></span>
                         <span class="label label-primary"
                               ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
@@ -149,7 +168,8 @@
     </div>
     ',
     'History Alerts',
-    collapse = True
+    collapse = True,
+    icon = 'glyphicon glyphicon-time'
     ) %%}
 </div>
 {% endblock content %}

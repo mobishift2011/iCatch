@@ -1,0 +1,66 @@
+<div class="settings_group" ng-controller="settings_group">
+    <div class="row">
+        <form name="">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>How will group members be added?</label>
+                    <select class="form-control" ng-options="r for r in groupRules" ng-model="selectedRule">
+                        <option value="">-- Please choose --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div ng-show="selectedRule === 'Added by Rules'">
+                <div class="col-md-12 form-group">
+                    <label>Rules </label>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            Add Rule <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Computer Name</a></li>
+                            <li><a href="#">Operation System</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            operrationnam <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm dropdown-toggle">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group pull-right">
+                    <button class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="text-info">Groups</span></h3>
+        </div>
+        <div class="panel-body" style="padding: 0">
+            <div class="padding10">
+                <small>鼠标右键点击参数可以新增，或删除小组。</small>
+            </div>
+            <div id="groupTree" class="text-info"></div>
+        </div>
+    </div>
+</div>

@@ -3,63 +3,63 @@
 {% block content%}
 <div class="margintopbar" ng-controller="overview">
     <div class="overview">
-        <div class="page-header">Suspect Computers</div>
+        <div class="page-header"><span class="glyphicon glyphicon-briefcase"></span> Suspect Computers</div>
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">按操作系统分类</div>
-                    <div class="panel-body">
-                        <canvas></canvas>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="susComThreeMonthsChart"></div>
+                ',
+                'By Computers'
+                ) %%}
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">按组分类</div>
-                    <div class="panel-body">
-                        <canvas></canvas>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="susComTwoWeeksChart"></div>
+                ',
+                'By Days'
+                ) %%}
             </div>
         </div>
 
-        <div class="page-header">Suspect Files</div>
+        <div class="page-header"><span class="glyphicon glyphicon-file"></span> Suspect Files</div>
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Latest Two Weeks</div>
-                    <div class="panel-body">
-                        <div id="susFileTwoWeeksChart"></div>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="susFileTwoWeeksChart"></div>
+                ',
+                'By Days'
+                ) %%}
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Latest Three Months</div>
-                    <div class="panel-body">
-                        <div id="susFileThreeMonthsChart"></div>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="susFileThreeMonthsChart"></div>
+                ',
+                'By Files'
+                ) %%}
             </div>
         </div>
 
-        <div class="page-header">Classified Statics</div>
+        <div class="page-header"><span class="glyphicon glyphicon-stats"></span> Classified Threats</div>
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Classified by OS</div>
-                    <div class="panel-body">
-                        <div id="statsByOsChart"></div>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="statsByOsChart" style="height:400px"></div>
+                ',
+                'By OS'
+                ) %%}
             </div>
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Classified by Group</div>
-                    <div class="panel-body">
-                        <div id="statsByGroup"></div>
-                    </div>
-                </div>
+                {%% panel(
+                '
+                <div id="statsByGroup" style="height:400px"></div>
+                ',
+                'By Group'
+                ) %%}
             </div>
         </div>
     </div>

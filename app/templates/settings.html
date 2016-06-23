@@ -1,29 +1,7 @@
 {% extends "layout.html" %}
 
 {% block sidebar %}
-<li class="nav-header">Settings</li>
-<li class="active">
-    <a ui-sref="settings_basic">
-        <i class="glyphicon glyphicon-home"></i>
-        <span> Basic Settings</span>
-    </a>
-</li>
-<li>
-    <a class="ajax-link" ui-sref="settings_user">
-        <i class="glyphicon glyphicon-user"></i>
-        <span> User Settings</span>
-    </a>
-</li>
-<li class="accordion">
-    <a class="ajax-link" ui-sref="settings.profile">
-        <i class="glyphicon glyphicon-paperclip"></i>
-        <span> Profile Settings</span>
-    </a>
-    <ul class="nav nav-pills nav-stacked">
-        <li><a href="#">Child Menu 1</a></li>
-        <li><a href="#">Child Menu 2</a></li>
-    </ul>
-</li>
+<sidebar ng-controller="settings"></sidebar>
 {% endblock sidebar %}
 
 {% block container%}

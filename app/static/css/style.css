@@ -1,3 +1,12 @@
+a, a:hover,
+a:visited {
+    text-decoration: none;
+}
+
+.padding10 {
+    padding: 10px;
+}
+
 footer {
     padding: 32px;
     margin-bottom: 0;
@@ -28,15 +37,21 @@ footer {
 }
 
 /*.overview .page-header:first-child{*/
-    /*margin-top: 21px;*/
+/*margin-top: 21px;*/
 /*}*/
 
-.user-setting-info {
+.user-setting-info,
+.profile-setting-info {
     min-height: 176px;
 }
 
 form[name=invComForm] .btn,
-form[name=invIpForm] .btn
-{
+form[name=invIpForm] .btn {
     margin-top: 25px;
+}
+
+/*settings group*/
+#groupTree .list-group .list-group-item {
+    border: 0;
+    border-radius: 0;
 }

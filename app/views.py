@@ -36,3 +36,9 @@ def settings():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html')
+
+
+@app.route('/computer/detail/')
+@auth.login_required
+def computer_detail():
+    return render_template('computer-detail.html')

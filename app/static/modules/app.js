@@ -1,15 +1,19 @@
 adminApp = angular.module('app', [
-        'ui.router',
-        'overviewCtrls',
-        'threatsCtrls',
-        'investigateCtrls',
-        'settingsCtrls',
-    ])
+    'ui.router',
+    'overviewCtrls',
+    'threatsCtrls',
+    'investigateCtrls',
+    'computerCtrls',
+    'settingsCtrls',
+])
     .run(['$rootScope', function ($rootScope) {
-        $rootScope.notifications = [
-            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
-            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
-        ]
+        $rootScope.comStatStyle = {
+            'on': 'success',
+            'pause': 'primary',
+            'resume': 'warning',
+            'off': 'default',
+            'uninstall': 'danger',
+        };
     }])
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
         $locationProvider.html5Mode({
@@ -45,6 +49,15 @@ adminApp = angular.module('app', [
                     }
                 }
             })
+            .state('investigate_ioc', {
+                url: '/investigates/ioc',
+                views: {
+                    'investigate': {
+                        templateUrl: '/static/modules/templates/investigate-ioc.html',
+                        controllers: 'investigate_ioc'
+                    }
+                }
+            })
 
             .state('settings_basic', {
                 url: '/settings/basic',
@@ -64,5 +77,70 @@ adminApp = angular.module('app', [
                     }
                 }
             })
+            .state('settings_profile', {
+                url: '/settings/profile',
+                views: {
+                    'settings': {
+                        templateUrl: '/static/modules/templates/settings-profile.html',
+                        controllers: 'settings_profile'
+                    }
+                }
+            })
+            .state('settings_group', {
+                url: '/settings/group',
+                views: {
+                    'settings': {
+                        templateUrl: '/static/modules/templates/settings-group.html',
+                        controllers: 'settings_group'
+                    }
+                }
+            })
         ;
-    }]);
+    }])
+    .directive('sidebar', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            templateUrl: '/static/modules/templates/sidebar.html',
+            link: function ($scope) {
+                $scope.selectSidebar = function (title) {
+                    $scope.selectedSidebarItem = title;
+                };
+            }
+        }
+    })
+    .directive('panel', function () {
+        return {
+            restrict: 'EA',
+            // replace: true,
+            transclude: true,
+            templateUrl: '/static/modules/templates/panel.html',
+            link: function ($scope, $element, $attrs) {
+                $element.find('.panel-title').find('span').html($attrs.title);
+            }
+        }
+    })
+    .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
+        $scope.navs = [
+            {'title': 'Overview', 'url': '/overview/', 'icon': 'glyphicon-cog'},
+            {'title': 'Threats', 'url': '/threats/', 'icon': 'glyphicon-cog'},
+            {'title': 'Security Investigates', 'url': '/investigates/', 'icon': 'glyphicon-cog'},
+            {'title': 'Computer', 'url': '/computers/', 'icon': 'glyphicon-cog'},
+            {'title': 'Settings', 'url': '/settings/', 'icon': 'glyphicon-cog'},
+        ];
+        (function (title) {
+            for (var i in $scope.navs) {
+                nav = $scope.navs[i];
+                if (nav.url === location.pathname) {
+                    $scope.selectedNavTitle = nav.title;
+                    break
+                }
+            }
+        })();
+        $scope.notifications = [
+            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
+            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
+        ];
+
+    }])
+;

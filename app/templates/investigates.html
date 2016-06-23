@@ -1,37 +1,7 @@
 {% extends "layout.html" %}
 
 {% block sidebar %}
-<li class="nav-header">Investigates</li>
-<li class="active">
-    <a class="ajax-link" ui-sref="investigate_computer">
-        <i class="glyphicon glyphicon-home"></i>
-        <span> Computer</span>
-    </a>
-</li>
-<li>
-    <a class="ajax-link" ui-sref="investigate_file">
-        <i class="glyphicon glyphicon-user"></i>
-        <span> File</span>
-    </a>
-</li>
-<li>
-    <a class="ajax-link" ui-sref="investigate_ip">
-        <i class="glyphicon glyphicon-user"></i>
-        <span> IP</span>
-    </a>
-</li>
-<li>
-    <a class="ajax-link" ui-sref="investigate_user">
-        <i class="glyphicon glyphicon-user"></i>
-        <span> User</span>
-    </a>
-</li>
-<li>
-    <a class="ajax-link" ui-sref="investigate_ioc">
-        <i class="glyphicon glyphicon-user"></i>
-        <span> IOC</span>
-    </a>
-</li>
+<sidebar ng-controller="investigates"></sidebar>
 {% endblock sidebar %}
 
 {% block container %}

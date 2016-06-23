@@ -1,13 +1,18 @@
 angular.module('investigateCtrls', [])
 
     .controller('investigates', ['$state', '$scope', function ($state, $scope) {
-        $state.go('investigate_computer');
-        $scope.comStatStyle = {
-            'on': 'success',
-            'pause': 'primary',
-            'off': 'default',
-            'uninstall': 'danger',
+        $scope.sidebar = {
+            title: 'Investigates',
+            items: [
+                {title: 'Computer', state: 'investigate_computer', icon: 'glyphicon-home'},
+                {title: 'File', state: 'investigate_file', icon: 'glyphicon-user'},
+                {title: 'IP', state: 'investigate_ip', icon: 'glyphicon-file'},
+                {title: 'User', state: 'investigate_user', icon: 'glyphicon-file'},
+                {title: 'IOC', state: 'investigate_ioc', icon: 'glyphicon-file'}
+
+            ]
         }
+        $state.go('investigate_computer');
     }])
 
     .controller('investigate_computer', ['$scope', function ($scope) {
@@ -17,8 +22,12 @@ angular.module('investigateCtrls', [])
     .controller('investigate_ip', ['$scope', function ($scope) {
         $scope.results = testdata;
     }])
+
     .controller('investigate_user', ['$scope', function ($scope) {
         $scope.results = testdata;
+    }])
+    
+    .controller('investigate_ioc', ['$scope', function ($scope) {
     }])
 ;
 
