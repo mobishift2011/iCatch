@@ -17,21 +17,13 @@ adminApp = angular.module('app', [
         };
     }])
 
-    .config(['$stateProvider', '$locationProvider', '$translateProvider',
-        function ($stateProvider, $locationProvider, $translateProvider) {
+    .config(['$stateProvider', '$locationProvider',
+        function ($stateProvider, $locationProvider) {
             $locationProvider.html5Mode({
                 enabled: true,
                 requireBase: false,
                 rewriteLinks: false,
             });
-
-            $translateProvider.preferredLanguage('cn')
-            $translateProvider.useStaticFilesLoader({
-                prefix: '/static/translates/',
-                suffix: '.json'
-
-            });
-
             $stateProvider
                 .state('threatsFile', {
                     params: {id: null},
@@ -145,8 +137,8 @@ adminApp = angular.module('app', [
                         }
                     }
                 })
-            ;
-        }])
+        }
+    ])
     .directive('sidebar', function () {
         return {
             restrict: 'EA',
@@ -194,7 +186,7 @@ adminApp = angular.module('app', [
             templateUrl: '/static/modules/templates/directives/computer-table.html',
             link: function ($scope, $element, $attrs) {
                 $scope.data = $scope[$attrs.datasource];
-                
+
                 $scope.checkAll = function (checked) {
                     $scope.data.map(function (e) {
                         e.checked = checked;
@@ -213,7 +205,7 @@ adminApp = angular.module('app', [
                 $scope.uninstallSensor = function () {
                     if (confirm('Are you sure to uninstall sensor ?')) {
                         $scope.data.map(function (e) {
-                            if(e.checked) {
+                            if (e.checked) {
                                 e.status = 'uninstall';
                             }
                         })
@@ -241,7 +233,7 @@ adminApp = angular.module('app', [
                     if (confirm('Are you sure to change profile ?')) {
                         alert(item.name);
                         $scope.data.map(function (e) {
-                            if(e.checked) {
+                            if (e.checked) {
                                 alert(e.name);
                             }
                         })
@@ -253,7 +245,7 @@ adminApp = angular.module('app', [
                     if (confirm('Are you sure to upgrade sensor ?')) {
                         alert(item.name);
                         $scope.data.map(function (e) {
-                            if(e.checked) {
+                            if (e.checked) {
                                 alert(e.name);
                             }
                         })

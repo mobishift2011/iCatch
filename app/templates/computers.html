@@ -6,43 +6,41 @@
         <div class="page-header"><h3>Computer List</h3></div>
         <div class="navbtn padding-bottom15" datasource="comTabs" selectedIndex="0"></div>
 
-        <div ng-show="selectedTab==='Protected'">
-            <div class="row">
-                <form method="get" name="protectedComForm">
-                    <div class="col-md-2 form-group">
-                        <label>Computer Name</label>
-                        <input type="text" class="form-control" name="comName" placeholder="*"
-                               ng-model="query.comName" ng-readonly="queryTitle != 'comName'"
-                               ng-mousedown="activateQuery('comName')">
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label>Profile</label>
-                        <select name="comProfile" class="form-control" ng-model='query.comProfile'
-                                ng-readonly="queryTitle != 'comProfile'" ng-mousedown="activateQuery('comProfile')">
-                            <option value="">All</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label>Group</label>
-                        <select name="comGroup" class="form-control" ng-model='query.comGroup'
-                                ng-readonly="queryTitle != 'comGroup'" ng-mousedown="activateQuery('comGroup')">
-                            <option value="">All</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 form-group">
-                        <label>Sensor Version</label>
-                        <select name="comSensor" class="form-control" ng-model='query.comSensor'
-                                ng-readonly="queryTitle != 'comSensor'" ng-mousedown="activateQuery('comSensor')">
-                            <option value="">All</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary" ng-click="search()">Search</button>
-                    </div>
-                </form>
-            </div>
+        <div class="row" ng-show="selectedTab==='Protected'">
+            <form method="get" name="protectedComForm">
+                <div class="col-md-2 form-group">
+                    <label>Computer Name</label>
+                    <input type="text" class="form-control" name="comName" placeholder="*"
+                           ng-model="query.comName" ng-readonly="queryTitle != 'comName'" ng-mousedown="activateQuery('comName')">
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Profile</label>
+                    {{com.profile}}
+                    <select name="comProfile" class="form-control" ng-model='query.comProfile'
+                            ng-readonly="queryTitle != 'comProfile'" ng-mousedown="activateQuery('comProfile')">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Group</label>
+                    <select name="comGroup" class="form-control" ng-model='query.comGroup'
+                            ng-readonly="queryTitle != 'comGroup'" ng-mousedown="activateQuery('comGroup')">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Sensor Version</label>
+                    <select name="comSensor" class="form-control" ng-model='query.comSensor'
+                            ng-readonly="queryTitle != 'comSensor'" ng-mousedown="activateQuery('comSensor')">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary" ng-click="search()">Search</button>
+                </div>
+            </form>
         </div>
-        
+
         <div ui-view="computerList">
             <div class="computer-table" datasource="coms"></div>
         </div>

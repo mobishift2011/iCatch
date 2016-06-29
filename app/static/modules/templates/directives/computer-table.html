@@ -12,6 +12,7 @@
                     translate="Uninstall sensor"></button>
         </div>
     </div>
+
     <table class="table table-striped table-hover table-bordered bootstrap-datatable datatable responsive">
         <thead>
         <tr class="bg-grey">
@@ -30,7 +31,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="item in data">
-            <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check(item.checked)">
+            <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check()">
             </td>
             <td><a class="text-info" ng-bind="item.name" ui-sref="computer_detail({id: item.id})"></a></td>
             <td>
