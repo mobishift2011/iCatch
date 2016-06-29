@@ -1,5 +1,6 @@
 adminApp = angular.module('app', [
     'ui.router',
+    'pascalprecht.translate',
     'overviewCtrls',
     'threatsCtrls',
     'investigateCtrls',
@@ -15,127 +16,137 @@ adminApp = angular.module('app', [
             'uninstall': 'danger',
         };
     }])
-    .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false,
-            rewriteLinks: false,
-        });
-        $stateProvider
-            .state('threatsFile', {
-                params: {id: null},
-                url: '/threats/file',
-                views: {
-                    'threats': {
-                        templateUrl: '/static/modules/templates/threats-file.html',
-                        controllers: 'threats_file'
-                    }
-                }
-            })
-            .state('investigate_computer', {
-                url: '/investigates/computer',
-                views: {
-                    'investigate': {
-                        templateUrl: '/static/modules/templates/investigate-computer.html',
-                        controllers: 'investigate_computer'
-                    }
-                }
-            })
-            .state('investigate_ip', {
-                url: '/investigates/ip',
-                views: {
-                    'investigate': {
-                        templateUrl: '/static/modules/templates/investigate-ip.html',
-                        controllers: 'investigate_ip'
-                    }
-                }
-            })
-            .state('investigate_user', {
-                url: '/investigates/user',
-                views: {
-                    'investigate': {
-                        templateUrl: '/static/modules/templates/investigate-user.html',
-                        controllers: 'investigate_user'
-                    }
-                }
-            })
-            .state('investigate_ioc', {
-                url: '/investigates/ioc',
-                views: {
-                    'investigate': {
-                        templateUrl: '/static/modules/templates/investigate-ioc.html',
-                        controllers: 'investigate_ioc'
-                    }
-                }
-            })
 
-            .state('computers_protected', {
-                url: '/computers/protected',
-                views: {
-                    'computerList': {
-                        template: '<div class="computer-table" datasource="coms" ng-controller="protectedComs"></div>',
-                        controllers: 'protectedComs'
-                    }
-                }
-            })
-            .state('computers_isolated', {
-                url: '/computers/isolated',
-                views: {
-                    'computerList': {
-                        template: '<div class="computer-table" datasource="coms" ng-controller="isolatedComs"></div>',
-                        controllers: 'isolatedComs'
-                    }
-                }
-            })
-            .state('computer_detail', {
-                params: {id: null},
-                url: '/computer',
-                views: {
-                    'computer': {
-                        templateUrl: '/static/modules/templates/computer-detail.html',
-                        controllers: 'computerDetail'
-                    }
-                }
-            })
+    .config(['$stateProvider', '$locationProvider', '$translateProvider',
+        function ($stateProvider, $locationProvider, $translateProvider) {
+            $locationProvider.html5Mode({
+                enabled: true,
+                requireBase: false,
+                rewriteLinks: false,
+            });
 
-            .state('settings_basic', {
-                url: '/settings/basic',
-                views: {
-                    'settings': {
-                        templateUrl: '/static/modules/templates/settings-basic.html',
-                        controllers: 'settings_basic'
+            $translateProvider.preferredLanguage('cn')
+            $translateProvider.useStaticFilesLoader({
+                prefix: '/static/translates/',
+                suffix: '.json'
+
+            });
+
+            $stateProvider
+                .state('threatsFile', {
+                    params: {id: null},
+                    url: '/threats/file',
+                    views: {
+                        'threats': {
+                            templateUrl: '/static/modules/templates/threats-file.html',
+                            controllers: 'threats_file'
+                        }
                     }
-                }
-            })
-            .state('settings_user', {
-                url: '/settings/user',
-                views: {
-                    'settings': {
-                        templateUrl: '/static/modules/templates/settings-user.html',
-                        controllers: 'settings_user'
+                })
+                .state('investigate_computer', {
+                    url: '/investigates/computer',
+                    views: {
+                        'investigate': {
+                            templateUrl: '/static/modules/templates/investigate-computer.html',
+                            controllers: 'investigate_computer'
+                        }
                     }
-                }
-            })
-            .state('settings_profile', {
-                url: '/settings/profile',
-                views: {
-                    'settings': {
-                        templateUrl: '/static/modules/templates/settings-profile.html',
-                        controllers: 'settings_profile'
+                })
+                .state('investigate_ip', {
+                    url: '/investigates/ip',
+                    views: {
+                        'investigate': {
+                            templateUrl: '/static/modules/templates/investigate-ip.html',
+                            controllers: 'investigate_ip'
+                        }
                     }
-                }
-            })
-            .state('settings_group', {
-                url: '/settings/group',
-                views: {
-                    'settings': {
-                        templateUrl: '/static/modules/templates/settings-group.html',
-                        controllers: 'settings_group'
+                })
+                .state('investigate_user', {
+                    url: '/investigates/user',
+                    views: {
+                        'investigate': {
+                            templateUrl: '/static/modules/templates/investigate-user.html',
+                            controllers: 'investigate_user'
+                        }
                     }
-                }
-            })
-        ;
-    }])
+                })
+                .state('investigate_ioc', {
+                    url: '/investigates/ioc',
+                    views: {
+                        'investigate': {
+                            templateUrl: '/static/modules/templates/investigate-ioc.html',
+                            controllers: 'investigate_ioc'
+                        }
+                    }
+                })
+
+                .state('computers_protected', {
+                    url: '/computers/protected',
+                    views: {
+                        'computerList': {
+                            template: '<div class="computer-table" datasource="coms" ng-controller="protectedComs"></div>',
+                            controllers: 'protectedComs'
+                        }
+                    }
+                })
+                .state('computers_isolated', {
+                    url: '/computers/isolated',
+                    views: {
+                        'computerList': {
+                            template: '<div class="computer-table" datasource="coms" ng-controller="isolatedComs"></div>',
+                            controllers: 'isolatedComs'
+                        }
+                    }
+                })
+                .state('computer_detail', {
+                    params: {id: null},
+                    url: '/computer',
+                    views: {
+                        'computer': {
+                            templateUrl: '/static/modules/templates/computer-detail.html',
+                            controllers: 'computerDetail'
+                        }
+                    }
+                })
+
+                .state('settings_basic', {
+                    url: '/settings/basic',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-basic.html',
+                            controllers: 'settings_basic'
+                        }
+                    }
+                })
+                .state('settings_user', {
+                    url: '/settings/user',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-user.html',
+                            controllers: 'settings_user'
+                        }
+                    }
+                })
+                .state('settings_profile', {
+                    url: '/settings/profile',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-profile.html',
+                            controllers: 'settings_profile'
+                        }
+                    }
+                })
+                .state('settings_group', {
+                    url: '/settings/group',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-group.html',
+                            controllers: 'settings_group'
+                        }
+                    }
+                })
+            ;
+        }])
     .directive('sidebar', function () {
         return {
             restrict: 'EA',
@@ -183,6 +194,71 @@ adminApp = angular.module('app', [
             templateUrl: '/static/modules/templates/directives/computer-table.html',
             link: function ($scope, $element, $attrs) {
                 $scope.data = $scope[$attrs.datasource];
+                
+                $scope.checkAll = function (checked) {
+                    $scope.data.map(function (e) {
+                        e.checked = checked;
+                    })
+                };
+                $scope.check = function () {
+                    $scope.selectAll = true;
+                    for (var i in $scope.data) {
+                        checked = $scope.data[i].checked;
+                        if (!checked) {
+                            $scope.selectAll = false;
+                            break;
+                        }
+                    }
+                };
+                $scope.uninstallSensor = function () {
+                    if (confirm('Are you sure to uninstall sensor ?')) {
+                        $scope.data.map(function (e) {
+                            if(e.checked) {
+                                e.status = 'uninstall';
+                            }
+                        })
+                    }
+                }
+
+                $scope.profiles = [
+                    {name: 'profile1'},
+                    {name: 'profile3'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                    {name: 'profile2'},
+                ];
+
+                $scope.sensor = $scope.profiles;
+
+                $scope.addProfile = function (item) {
+                    $('#addProfileModal').modal('hide');
+                    if (confirm('Are you sure to change profile ?')) {
+                        alert(item.name);
+                        $scope.data.map(function (e) {
+                            if(e.checked) {
+                                alert(e.name);
+                            }
+                        })
+                    }
+                };
+
+                $scope.upgradeSensor = function (item) {
+                    $('#upgradeSensorModal').modal('hide');
+                    if (confirm('Are you sure to upgrade sensor ?')) {
+                        alert(item.name);
+                        $scope.data.map(function (e) {
+                            if(e.checked) {
+                                alert(e.name);
+                            }
+                        })
+                    }
+                };
             }
         }
     })

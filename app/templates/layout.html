@@ -39,7 +39,7 @@ Huating Admin Panel
                     <li ng-repeat="nav in navs" ng-class="{active: selectedNavTitle == nav.title}">
                         <a ng-href="{{nav.url}}" ng-click="selectNav(nav.title)">
                             <span class="glyphicon {{nav.icon}}"></span>
-                            <span ng-bind="nav.title"></span>
+                            <span translate="{{nav.title}}"></span>
                         </a>
                     </li>
                 </ul>

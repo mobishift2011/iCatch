@@ -1,12 +1,28 @@
 <div>
+    <div class="panel-body" ng-if="!tableCheckHide" style="border: 1px solid #dddddd; padding: 10px;">
+        <input type="checkbox" ng-model="selectAll" ng-click="checkAll(selectAll)">&nbsp;
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addProfileModal"
+                    translate="Add profile to computers"></button>
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addGroupModal"
+                    translate="Add group to computers"></button>
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#upgradeSensorModal"
+                    translate="Upgrade sensor"></button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="uninstallSensor()"
+                    translate="Uninstall sensor"></button>
+        </div>
+    </div>
     <table class="table table-striped table-hover table-bordered bootstrap-datatable datatable responsive">
         <thead>
         <tr class="bg-grey">
+            <td ng-if="!tableCheckHide">
+            </td>
             <th>Computer Name</th>
-            <th>Last Communicated</th>
-            <th>Added Time</th>
-            <th>OF Threats</th>
             <th>Status</th>
+            <th>IP Address</th>
+            <th>OS</th>
+            <th>Last Communicated</th>
+            <th>Protected Time Started</th>
             <th ng-if="queryTitle === 'comProfile'">Profile</th>
             <th ng-if="queryTitle === 'comGroup'">Group</th>
             <th ng-if="queryTitle === 'comSensor'">Sensor Version</th>
@@ -14,15 +30,48 @@
         </thead>
         <tbody>
         <tr ng-repeat="item in data">
+            <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check(item.checked)">
+            </td>
             <td><a class="text-info" ng-bind="item.name" ui-sref="computer_detail({id: item.id})"></a></td>
+            <td>
+                <span ng-bind="item.status" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
+            </td>
+            <td ng-bind="item.ip"></td>
+            <td ng-bind="item.os"></td>
             <td ng-bind="item.lastCommunicated"></td>
             <td ng-bind="item.addedTime"></td>
-            <td ng-bind="item.threatsCount"></td>
-            <td><span ng-bind="item.status" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span></td>
             <td ng-bind="item.profile" ng-if="queryTitle === 'comProfile'"></td>
             <td ng-bind="item.group" ng-if="queryTitle === 'comGroup'"></td>
             <td ng-bind="item.sensor" ng-if="queryTitle === 'comSensor'"></td>
         </tr>
         </tbody>
     </table>
+
+    <modal id="addProfileModal" title="{{'Profiles'|translate}}">
+        <table class="table table-hover">
+            <tr ng-repeat="item in profiles">
+                <td style="padding: auto; border-top: 0;" ng-click="addProfile(item)">
+                    <span class="glyphicon glyphicon-file text-info"></span>&nbsp;
+                    <span ng-bind="item.name"></span>
+                </td>
+            </tr>
+        </table>
+    </modal>
+    <modal id="addGroupModal" title="{{'Groups'|translate}}">
+        <table class="table table-hover">
+            <tr ng-repeat="item in groups">
+                <td ng-bind="item.name" style="padding: auto; border-top: 0;"></td>
+            </tr>
+        </table>
+    </modal>
+    <modal id="upgradeSensorModal" title="{{'Sensor'|translate}}">
+        <table class="table table-hover">
+            <tr ng-repeat="item in sensor">
+                <td style="padding: auto; border-top: 0;" ng-click="upgradeSensor(item)">
+                    <span class="glyphicon glyphicon-screenshot text-info"></span>&nbsp;
+                    <span ng-bind="item.name"></span>
+                </td>
+            </tr>
+        </table>
+    </modal>
 </div>
