@@ -156,29 +156,49 @@ var test_coms2 = [
         'name': 'Lunar21',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
         'status': 'on',
         'profile': 'shide',
         'group': 'asdfasdfasfd',
         'sensor': 0.1,
         'os': 'windows'
+=======
+        'threatsCount': 16,
+        'status': 'on',
+        'profile': 'shide',
+        'group': 'asdfasdfasfd',
+        'sensor': 0.1
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
     },
     {
         'name': 'Lunar32',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1,
         'os': 'windows'
+=======
+        'threatsCount': 16,
+        'status': 'on',
+        'profile': 'adfasdfasdf',
+        'group': 'asdfasdfasfd',
+        'sensor': 0.1
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
     },
     {
         'name': 'Lunar44',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -188,7 +208,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -198,7 +222,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -208,7 +236,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -218,7 +250,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -228,7 +264,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -238,7 +278,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -247,7 +291,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -256,7 +304,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -265,7 +317,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -274,7 +330,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -283,7 +343,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -292,7 +356,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -301,7 +369,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -310,7 +382,11 @@ var test_coms2 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -319,7 +395,11 @@ var test_coms2 = [
         'name': 'Lunarhaha',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -334,7 +414,11 @@ var test_coms1 = [
         'name': 'Lunar11',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -344,7 +428,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -354,7 +442,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -364,7 +456,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -374,7 +470,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -384,7 +484,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -394,7 +498,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -404,7 +512,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -414,7 +526,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -423,7 +539,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -432,7 +552,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -441,7 +565,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -450,7 +578,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -459,7 +591,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -468,7 +604,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -477,7 +617,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -486,7 +630,11 @@ var test_coms1 = [
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
@@ -495,7 +643,11 @@ var test_coms1 = [
         'name': 'Lunar88',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
+<<<<<<< HEAD
         'ip': '128.196.3.1',
+=======
+        'threatsCount': 16,
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
         'status': 'on',
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',

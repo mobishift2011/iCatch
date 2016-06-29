@@ -25,7 +25,10 @@ angular.module('computerCtrls', [])
     .controller('isolatedComs', ['$scope',
         function ($scope) {
             $scope.queryTitle = '';
+<<<<<<< HEAD
             $scope.tableCheckHide = true;
+=======
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
             $scope.coms = test_coms2;
         }])
     

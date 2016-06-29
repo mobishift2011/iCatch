@@ -16,6 +16,7 @@ adminApp = angular.module('app', [
             'uninstall': 'danger',
         };
     }])
+<<<<<<< HEAD
     .config(['$stateProvider', '$locationProvider', '$translateProvider',
         function ($stateProvider, $locationProvider, $translateProvider) {
             $locationProvider.html5Mode({
@@ -40,6 +41,31 @@ adminApp = angular.module('app', [
                             templateUrl: '/static/modules/templates/threats-file.html',
                             controllers: 'threats_file'
                         }
+=======
+    .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false,
+        });
+        $stateProvider
+            .state('threatsFile', {
+                params: {id: null},
+                url: '/threats/file',
+                views: {
+                    'threats': {
+                        templateUrl: '/static/modules/templates/threats-file.html',
+                        controllers: 'threats_file'
+                    }
+                }
+            })
+            .state('investigate_computer', {
+                url: '/investigates/computer',
+                views: {
+                    'investigate': {
+                        templateUrl: '/static/modules/templates/investigate-computer.html',
+                        controllers: 'investigate_computer'
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
                     }
                 })
                 .state('investigate_computer', {
@@ -79,6 +105,7 @@ adminApp = angular.module('app', [
                     }
                 })
 
+<<<<<<< HEAD
                 .state('computers_protected', {
                     url: '/computers/protected',
                     views: {
@@ -86,6 +113,43 @@ adminApp = angular.module('app', [
                             template: '<div class="computer-table" datasource="coms" ng-controller="protectedComs"></div>',
                             controllers: 'protectedComs'
                         }
+=======
+            .state('computers_protected', {
+                url: '/computers/protected',
+                views: {
+                    'computerList': {
+                        template: '<div class="computer-table" datasource="coms" ng-controller="protectedComs"></div>',
+                        controllers: 'protectedComs'
+                    }
+                }
+            })
+            .state('computers_isolated', {
+                url: '/computers/isolated',
+                views: {
+                    'computerList': {
+                        template: '<div class="computer-table" datasource="coms" ng-controller="isolatedComs"></div>',
+                        controllers: 'isolatedComs'
+                    }
+                }
+            })
+            .state('computer_detail', {
+                params: {id: null},
+                url: '/computer',
+                views: {
+                    'computer': {
+                        templateUrl: '/static/modules/templates/computer-detail.html',
+                        controllers: 'computerDetail'
+                    }
+                }
+            })
+
+            .state('settings_basic', {
+                url: '/settings/basic',
+                views: {
+                    'settings': {
+                        templateUrl: '/static/modules/templates/settings-basic.html',
+                        controllers: 'settings_basic'
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
                     }
                 })
                 .state('computers_isolated', {
@@ -193,6 +257,7 @@ adminApp = angular.module('app', [
             templateUrl: '/static/modules/templates/directives/computer-table.html',
             link: function ($scope, $element, $attrs) {
                 $scope.data = $scope[$attrs.datasource];
+<<<<<<< HEAD
                 $scope.checkAll = function (checked) {
                     $scope.data.map(function (e) {
                         e.checked = checked;
@@ -259,6 +324,8 @@ adminApp = angular.module('app', [
                 };
 
 
+=======
+>>>>>>> 5d4fd3318aef67b34ed821dccbecbc2e2b774092
             }
         }
     })
