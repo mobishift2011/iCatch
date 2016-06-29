@@ -1,4 +1,4 @@
-<div class="settings_user">
+<div class="settings_user" ng-controller="settings_user">
     <div class="row">
         <div class="col-md-6">
             <div class="well user-setting-info">
@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-6">
             <div class="well">
-                <form action="">
+                <form name="userForm">
                     <p>Add Users
                         <small>(All fields are required)</small>
                     </p>
@@ -69,7 +69,7 @@
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-sm btn-primary" ng-click="removeUsers()">Remove</button>
+                                <button class="btn btn-sm btn-danger" ng-click="removeUsers()">Remove</button>
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-6">
@@ -100,12 +100,12 @@
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Email: activate to sort column ascending" style="width: 225px;">
-                                    Email
+                                    aria-label="Role: activate to sort column ascending" style="width: 102px;">Role
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Role: activate to sort column ascending" style="width: 102px;">Role
+                                    aria-label="Email: activate to sort column ascending" style="width: 225px;">
+                                    Email
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -117,11 +117,6 @@
                                     aria-label="Date registered: activate to sort column ascending"
                                     style="width: 189px;">Date registered
                                 </th>
-                                <th class="sorting" role="columnheader" tabindex="0"
-                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Actions: activate to sort column ascending" style="width: 416px;">
-                                    Actions
-                                </th>
                             </tr>
                             </thead>
 
@@ -129,22 +124,12 @@
                             <tr ng-repeat="user in users">
                                 <td><input type="checkbox" ng-model="user.toRemove"></td>
                                 <td class=" sorting_1">{{ user.username }}</td>
-                                <td class="center ">{{ user.email }}</td>
                                 <td class="center ">{{ user.role }}</td>
+                                <td class="center ">{{ user.email }}</td>
                                 <td class="center ">
-                                    <span class="label-warning label label-default">Pending</span>
+                                    <span class="label label-success">Active</span>
                                 </td>
                                 <td class="center ">{{ user.dateAdded }}</td>
-                                <td class="center ">
-                                    <a class="btn btn-success" href="#">
-                                        <i class="glyphicon glyphicon-edit icon-white"></i>
-                                        Edit
-                                    </a>
-                                    <a class="btn btn-danger" href="#">
-                                        <i class="glyphicon glyphicon-trash icon-white"></i>
-                                        Delete
-                                    </a>
-                                </td>
                             </tr>
                             </tbody>
                         </table>

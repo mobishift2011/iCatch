@@ -1,0 +1,96 @@
+<div class="threats-file" ng-controller="threatsFile">
+    <div class="page-header">
+        <h3 class="padding-top10">
+            <span ng-bind="file.name"></span>
+        </h3>
+    </div>
+    <div class="row file-detail">
+        <div class="col-xs-4 sep-right section">
+            <div class="col-md-12 sep-bottom main">
+                <div class="row padding-left15">
+                    <div class="col-md-1 text-danger"><span class="glyphicon glyphicon-file"></span></div>
+                    <div class="col-md-11">
+                        <div><label class="media-heading">File Name: </label> asdfasf</div>
+                        <div><label class="media-heading">Hash: </label> asdfasf</div>
+                        <div><label class="media-heading">Path: </label> asdfasf</div>
+                        <div><label class="media-heading">Size: </label> asdfasf</div>
+                    </div>
+                </div>
+                <div class="row padding-bottom10 padding-left15">
+                    <div class="col-md-1 text-danger"><span class="glyphicon glyphicon-folder-close"></span></div>
+                    <div class="col-md-11">
+                        <div>
+                            <label class="media-heading">Computer: </label>
+                            <a class="text-info" ui-sref="computer_detail({id: 1})">asdfasf</a>
+                        </div>
+                        <div><label class="media-heading">IP Address: </label> asdfasf</div>
+                        <div><label class="media-heading">Domain: </label> asdfasf</div>
+                        <div><label class="media-heading">Group: </label> asdfasf</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 padding-top15">
+                <div><label>First Found: </label></div>
+                <div><label>Last Found: </label></div>
+            </div>
+
+        </div>
+        <div class="col-xs-4 sep-right section">
+            <div><label>Create Time: </label></div>
+            <div><label>Signature: </label></div>
+            <div><label>Signature Publish: </label></div>
+            <div><label>Network: </label></div>
+        </div>
+        <div class="col-xs-4 section">
+            <button class="btn btn-success" ng-click="addToWhitelist(file)"><span class="glyphicon glyphicon-ok"></span>
+                Add to Whitelist
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills threats-nav" role="tablist">
+                <li role="presentation" class="active"><a href="#path" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Affected Path</a></li>
+                <li role="presentation"><a href="#currCom" aria-controls="profile" role="tab" data-toggle="tab">Current
+                    Affected Computer</a></li>
+                <li role="presentation"><a href="#histCom" aria-controls="messages" role="tab" data-toggle="tab">History
+                    Affected Computer</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="path">
+                    <panel class="affect-path-panel" title="sadfasdf">
+                        <div class="col-md-12" ng-class="{'col-md-9': sideDetailShow}">
+                            asdfas;dfkjas;dfjas;dfa
+                        </div>
+                        <div ng-if="sideDetailShow" class="col-md-3 side-detail-box">
+                            <ul class="list-group side-detail">
+                                <li class="list-group-item">
+                                    <h4><span class="glyphicon glyphicon-cog"></span><span> dadfasf</span></h4>
+                                </li>
+                                <li class="list-group-item">
+                                    <p><span class="glyphicon glyphicon-time"></span> 1927-7-12 11:11:03</p>
+                                    <p><label>Summary: </label> Lunar</p>
+                                    <p><label>Description: </label> test test setstadf asdfasdfsafa fsdafa</p>
+                                    <p><label>Computer Name: </label> Lunar</p>
+                                    <p><label>IP Address: </label> Lunar</p>
+                                    <p><label>User Name: </label> Lunar</p>
+                                    <p><label>SID: </label> Lunar</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </panel>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="currCom">
+                    <div class="computerTable" datasource="currAffectedComs"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="histCom">
+                    <div class="computerTable" datasource="histAffectedComs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

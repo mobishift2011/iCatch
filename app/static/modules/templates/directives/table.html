@@ -1,0 +1,14 @@
+<table class="table table-striped table-hover bootstrap-datatable datatable responsive">
+    <thead>
+    <tr>
+        <th ng-repeat="th in table.headers" ng-bind="th.title"></th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in table.data">
+            <td ng-repeat="th in table.headers">
+                <span ng-bind="item[th.field]"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
