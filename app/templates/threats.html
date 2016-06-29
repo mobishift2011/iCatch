@@ -6,170 +6,178 @@
 {% block content %}
 <link rel="stylesheet" href="{%% url_for('.static', filename='img/star-on.png') %%}">
 <div class="threats margintopbar">
-    {%% panel_box(
-    '
-    <div class="row" id="threatsChart" ng-controller="threatsChartCtrl">
-        <div class="col-md-6">
-            <div id="threatsRealChart"></div>
-        </div>
-    </div>
-    ',
-    'Status',
-    icon = 'glyphicon glyphicon-camera'
-    )
-    %%}
+    <div ui-view="computer">
+        <div ui-view="threats">
+            {%% panel_box(
+            '
+            <div class="row" id="threatsChart" ng-controller="threatsChartCtrl">
+                <div class="col-md-6">
+                    <div id="threatsRealChart"></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="threatsRealChartTemp"></div>
+                </div>
+            </div>
+            ',
+            'Status',
+            icon = 'glyphicon glyphicon-camera'
+            )
+            %%}
 
-    {%% panel_box('
-    <div class="row" ng-controller="threatsAlerts">
-        <div class="col-md-12">
-            <table class="table table-striped table-hover datatable responsive">
-                <thead>
-                <tr>
-                    <th>Computer</th>
-                    <th>Alert Event</th>
-                    <th>Alert Time</th>
-                    <th>Level</th>
-                    <th style="min-width: 90px">Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="alert in alerts">
-                    <td>
-                        <a href="#" class="text-info">
-                            <span class="glyphicon glyphicon-credit-card"></span>
-                            <span ng-bind="alert.sensor.name"></span>
-                        </a>
-                    </td>
-                    <td ng-bind="alert.type"></td>
-                    <td ng-bind="alert.timestamp"></td>
-                    <td>
-                        <a href="#" title="Level {{alert.level}}" data-toggle="tooltip" ng-show="alert.level === 100">
-                            <img src="/static/img/star-on.png"/>
-                        </a>
-                    </td>
-                    <td>
+            {%% panel_box('
+            <div class="row" ng-controller="threatsAlerts">
+                <div class="col-md-12">
+                    <table class="table table-striped table-hover datatable responsive">
+                        <thead>
+                        <tr>
+                            <th>Computer</th>
+                            <th>Alert Event</th>
+                            <th>Alert Time</th>
+                            <th>Level</th>
+                            <th style="min-width: 90px">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="alert in alerts">
+                            <td>
+                                <span class="glyphicon glyphicon-credit-card"></span>
+                                <span ng-bind="alert.sensor.name"></span>
+                            </td>
+                            <td><a href="#" class="text-info" ng-bind="alert.type" ng-click="clickAlert(alert)"></a>
+                            </td>
+                            <td ng-bind="alert.timestamp"></td>
+                            <td>
+                                <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
+                                   ng-show="alert.level === 100">
+                                    <img src="/static/img/star-on.png"/>
+                                </a>
+                            </td>
+                            <td>
                         <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
                               ng-bind="alert.status"
                               ng-click="changeAlertStatus(alert)"></span>
                         <span class="label label-primary"
                               ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
                               ng-click="exceptAlert(alert)">Exception</span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    ',
-    'Alerts',
-    icon = 'glyphicon glyphicon-bell'
-    )
-    %%}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            ',
+            'Alerts',
+            collapse = True,
+            icon = 'glyphicon glyphicon-bell'
+            )
+            %%}
 
-    {%% panel_box(
-    '
-    <div class="row historyAlerts" ng-controller="threatsAlerts">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#historyAlerts" role="tab" data-toggle="tab">History
-                    Alerts in Three Months</a></li>
-                <li role="presentation"><a href="#currslnALerts" role="tab" data-toggle="tab">Current Solution Alerts in
-                    Three Months</a></li>
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="historyAlerts">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-striped table-hover datatable responsive">
-                                <thead>
-                                <tr>
-                                    <th>Computer</th>
-                                    <th>Alert Event</th>
-                                    <th>Alert Time</th>
-                                    <th>Level</th>
-                                    <th style="min-width: 90px">Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="alert in historyAlerts">
-                                    <td>
-                                        <a href="#" class="text-info">
-                                            <span class="glyphicon glyphicon-credit-card"></span>
-                                            <span ng-bind="alert.sensor.name"></span>
-                                        </a>
-                                    </td>
-                                    <td ng-bind="alert.type"></td>
-                                    <td ng-bind="alert.timestamp"></td>
-                                    <td>
-                                        <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
-                                           ng-show="alert.level === 100">
-                                            <img src="/static/img/star-on.png"/>
-                                        </a>
-                                    </td>
-                                    <td>
+            {%% panel_box(
+            '
+            <div class="row historyAlerts" ng-controller="threatsAlerts">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#historyAlerts" role="tab" data-toggle="tab">History
+                            Alerts in Three Months</a></li>
+                        <li role="presentation"><a href="#currslnALerts" role="tab" data-toggle="tab">Current Solution
+                            Alerts in
+                            Three Months</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="historyAlerts">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover datatable responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Computer</th>
+                                            <th>Alert Event</th>
+                                            <th>Alert Time</th>
+                                            <th>Level</th>
+                                            <th style="min-width: 90px">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="alert in historyAlerts">
+                                            <td>
+                                                <span class="glyphicon glyphicon-credit-card"></span>
+                                                <span ng-bind="alert.sensor.name"></span>
+
+                                            </td>
+                                            <td><a href="#" class="text-info" ng-bind="alert.type"
+                                                   ng-click="clickAlert(alert)"></a></td>
+                                            <td ng-bind="alert.timestamp"></td>
+                                            <td>
+                                                <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
+                                                   ng-show="alert.level === 100">
+                                                    <img src="/static/img/star-on.png"/>
+                                                </a>
+                                            </td>
+                                            <td>
                                         <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
                                               ng-bind="alert.status"
                                               ng-click="changeAlertStatus(alert)"></span>
                                         <span class="label label-primary"
                                               ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
                                               ng-click="exceptAlert(alert)">Exception</span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="currslnALerts">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-striped table-hover datatable responsive">
-                                <thead>
-                                <tr>
-                                    <th>Computer</th>
-                                    <th>Alert Event</th>
-                                    <th>Alert Time</th>
-                                    <th>Level</th>
-                                    <th style="min-width: 90px">Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="alert in currSlnAlerts">
-                                    <td>
-                                        <a href="#" class="text-info">
-                                            <span class="glyphicon glyphicon-credit-card"></span>
-                                            <span ng-bind="alert.sensor.name"></span>
-                                        </a>
-                                    </td>
-                                    <td ng-bind="alert.type"></td>
-                                    <td ng-bind="alert.timestamp"></td>
-                                    <td>
-                                        <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
-                                           ng-show="alert.level === 100">
-                                            <img src="/static/img/star-on.png"/>
-                                        </a>
-                                    </td>
-                                    <td>
+                        <div role="tabpanel" class="tab-pane" id="currslnALerts">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-hover datatable responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Computer</th>
+                                            <th>Alert Event</th>
+                                            <th>Alert Time</th>
+                                            <th>Level</th>
+                                            <th style="min-width: 90px">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="alert in currSlnAlerts">
+                                            <td>
+                                                <span class="glyphicon glyphicon-credit-card"></span>
+                                                <span ng-bind="alert.sensor.name"></span>
+                                            </td>
+                                            <td><a href="#" class="text-info" ng-bind="alert.type"
+                                                   ng-click="clickAlert(alert)"></a></td>
+                                            <td ng-bind="alert.timestamp"></td>
+                                            <td>
+                                                <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
+                                                   ng-show="alert.level === 100">
+                                                    <img src="/static/img/star-on.png"/>
+                                                </a>
+                                            </td>
+                                            <td>
                         <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
                               ng-bind="alert.status"
                               ng-click="changeAlertStatus(alert)"></span>
                         <span class="label label-primary"
                               ng-if="alert.status === \'unsolved\' && alert.type.toLowerCase() === \'action\'"
                               ng-click="exceptAlert(alert)">Exception</span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            ',
+            'History Alerts',
+            collapse = True,
+            icon = 'glyphicon glyphicon-time'
+            ) %%}
         </div>
     </div>
-    ',
-    'History Alerts',
-    collapse = True,
-    icon = 'glyphicon glyphicon-time'
-    ) %%}
 </div>
 {% endblock content %}

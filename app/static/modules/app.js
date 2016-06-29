@@ -22,6 +22,16 @@ adminApp = angular.module('app', [
             rewriteLinks: false,
         });
         $stateProvider
+            .state('threatsFile', {
+                params: {id: null},
+                url: '/threats/file',
+                views: {
+                    'threats': {
+                        templateUrl: '/static/modules/templates/threats-file.html',
+                        controllers: 'threats_file'
+                    }
+                }
+            })
             .state('investigate_computer', {
                 url: '/investigates/computer',
                 views: {
@@ -55,6 +65,35 @@ adminApp = angular.module('app', [
                     'investigate': {
                         templateUrl: '/static/modules/templates/investigate-ioc.html',
                         controllers: 'investigate_ioc'
+                    }
+                }
+            })
+
+            .state('computers_protected', {
+                url: '/computers/protected',
+                views: {
+                    'computerList': {
+                        template: '<div class="computer-table" datasource="coms" ng-controller="protectedComs"></div>',
+                        controllers: 'protectedComs'
+                    }
+                }
+            })
+            .state('computers_isolated', {
+                url: '/computers/isolated',
+                views: {
+                    'computerList': {
+                        template: '<div class="computer-table" datasource="coms" ng-controller="isolatedComs"></div>',
+                        controllers: 'isolatedComs'
+                    }
+                }
+            })
+            .state('computer_detail', {
+                params: {id: null},
+                url: '/computer',
+                views: {
+                    'computer': {
+                        templateUrl: '/static/modules/templates/computer-detail.html',
+                        controllers: 'computerDetail'
                     }
                 }
             })
@@ -101,7 +140,7 @@ adminApp = angular.module('app', [
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: '/static/modules/templates/sidebar.html',
+            templateUrl: '/static/modules/templates/directives/sidebar.html',
             link: function ($scope) {
                 $scope.selectSidebar = function (title) {
                     $scope.selectedSidebarItem = title;
@@ -114,9 +153,53 @@ adminApp = angular.module('app', [
             restrict: 'EA',
             // replace: true,
             transclude: true,
-            templateUrl: '/static/modules/templates/panel.html',
+            templateUrl: '/static/modules/templates/directives/panel.html',
             link: function ($scope, $element, $attrs) {
                 $element.find('.panel-title').find('span').html($attrs.title);
+            }
+        }
+    })
+    .directive('modal', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            templateUrl: '/static/modules/templates/directives/modal.html',
+            link: function ($scope, $element, $attrs) {
+                $element.attr('id', $attrs.id);
+                $element.attr('aria-labelledby', $attrs.title);
+                $element.find('.modal-title').html($attrs.title);
+                $scope.saveModal = $scope[$attrs.save];
+                $scope.modalFooter = !!parseInt($attrs.footer)
+            }
+
+        }
+    })
+    .directive('computerTable', function () {
+        return {
+            restrict: 'C',
+            replace: true,
+            transclude: true,
+            templateUrl: '/static/modules/templates/directives/computer-table.html',
+            link: function ($scope, $element, $attrs) {
+                $scope.data = $scope[$attrs.datasource];
+            }
+        }
+    })
+    .directive('navbtn', function () {
+        return {
+            restrict: 'C',
+            replace: true,
+            templateUrl: '/static/modules/templates/directives/navbtn.html',
+            link: function ($scope, $element, $attrs) {
+                $scope.tabs = $scope[$attrs.datasource];
+
+                $scope.selectedTab = $attrs.selectedindex !== undefined ?
+                    $scope.tabs[parseInt($attrs.selectedindex)].title : null;
+
+                $scope.selectTab = function (title) {
+                    $scope.selectedTab = title;
+                }
             }
         }
     })

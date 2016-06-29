@@ -25,30 +25,30 @@
     </div>
 
     <div class="row">
-        <!--{% panel_box('-->
-        <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable">
-            <thead>
-            <tr>
-                <th>Computer</th>
-                <th>Status</th>
-                <th>IP Address</th>
-                <th>OS</th>
-                <th>The Earlist Visit</th>
-                <th>The Lastest Visit</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="result in results">
-                <td ng-bind="result.name"></td>
-                <td><span ng-bind="result.status"
-                          class="label label-{{ comStatStyle[result.status.toLowerCase()] }}"></span></td>
-                <td ng-bind="result.ip"></td>
-                <td ng-bind="result.os"></td>
-                <td ng-bind="result.earliestVisit"></td>
-                <td ng-bind="result.latestVisit"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!--') %}-->
+        <panel>
+            <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable">
+                <thead>
+                <tr>
+                    <th>Computer</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                    <th>OS</th>
+                    <th>The Earlist Visit</th>
+                    <th>The Lastest Visit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="result in results">
+                    <td ng-bind="result.name"></td>
+                    <td><span ng-bind="result.status"
+                              class="label label-{{ comStatStyle[result.status.toLowerCase()] }}"></span></td>
+                    <td ng-bind="result.ip"></td>
+                    <td ng-bind="result.os"></td>
+                    <td ng-bind="result.earliestVisit"></td>
+                    <td ng-bind="result.latestVisit"></td>
+                </tr>
+                </tbody>
+            </table>
+        </panel>
     </div>
 </div>
