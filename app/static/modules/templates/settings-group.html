@@ -1,29 +1,83 @@
 <div class="settings_group" ng-controller="settings_group">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><span class="text-info">Groups</span></h3>
+            <h3 class="panel-title"><span class="text-info" translate="Groups"></span></h3>
         </div>
         <div class="panel-body" style="padding: 0">
             <div class="padding10">
-                <small>Select the group and</small>
+                <small translate="Select the group and"></small>
                 <div class="btn-group">
                     <button ng-disabled="!selectedGroup" type="button" class="btn btn-default btn-sm"
                             data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                        Operate <span class="caret"></span>
+                        <span translate="Operate"></span> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" data-toggle="modal" data-target="#groupModal">Create Group</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#groupModal">Create Child Group</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#groupModal">Edit Group</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#groupModal" translate="Create Group"></a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#groupModal" translate="Create Child Group"></a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#groupModal" translate="Edit Group"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#" ng-click="deleteGroup(selectedGroup)">Delete Group</a></li>
+                        <li><a href="#" ng-click="deleteGroup(selectedGroup)" translate="Delete Group"></a></li>
                     </ul>
                 </div>
             </div>
             <div id="groupTree" class="text-info"></div>
         </div>
     </div>
+
+
+            <form name="groupForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label translate="Group Name"></label>
+                        <input type="text" class="form-control" ng-model="selectedGroup.text">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label translate="How will group members be added"></label>?
+                        <select class="form-control" ng-model="selectedGroup.rule">
+                            <option value="">-- Please Choose --</option>
+                            <option ng-value="item.value" ng-repeat="item in groupRules"
+                                    ng-selected="item.value === selectedGroup.rule">{{item.title}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="selectedGroup.rule === 'rule'">
+                <div class="col-md-12 form-group">
+                    <label>Rules </label>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Add Rule <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Computer Name</a></li>
+                            <li><a href="#">Operation System</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            operrationnam <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm dropdown-toggle">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     <modal id="groupModal" title="Create/Edit Group" save="saveGroup">
         <form name="groupForm">

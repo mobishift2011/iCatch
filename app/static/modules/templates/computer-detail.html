@@ -1,55 +1,57 @@
 <div class="computer-detail" ng-controller="computerDetail">
     <div class="page-header">
         <h4>
-            <!--<a class="text-info"><span class="glyphicon glyphicon-chevron-left"></span></a>-->
+            <span class="iconfont icon-computer"></span>
             <span ng-bind="computer.name"></span>
         </h4>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="row form-group">
-                <div class="col-md-3"><label>OS</label></div>
+                <div class="col-md-3"><label translate="OS"></label></div>
                 <div class="col-md-9" ng-bind="computer.name"></div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Domain</label></div>
+                <div class="col-md-3"><label translate="Domain"></label></div>
                 <div class="col-md-9" ng-bind="computer.domain"></div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>IP Address</label></div>
+                <div class="col-md-3"><label translate="IP Address"></label></div>
                 <div class="col-md-9" ng-bind="computer.ip"></div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Profile</label></div>
+                <div class="col-md-3"><label translate="Profile"></label></div>
                 <div class="col-md-9" ng-bind="computer.profile"></div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Groups</label></div>
+                <div class="col-md-3"><label translate="Groups"></label></div>
                 <div class="col-md-9" ng-bind="computer.groups"></div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row form-group">
-                <div class="col-md-3"><label>Status</label></div>
+                <div class="col-md-3"><label translate="Status"></label></div>
                 <div class="col-md-9">
                         <span ng-bind="computer.status"
-                              class="label label-{{ comStatStyle[computer.status.toLowerCase()] }}">1sadfasdf</span>
+                              class="label label-{{ comStatStyle[computer.status.toLowerCase()] }}"></span>
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Quarantine</label></div>
+                <div class="col-md-3"><label translate="Quarantine"></label></div>
                 <div class="col-md-9">
                     {{computer.quarantine}}
+                    
+                    <input data-no-uniform="true" type="checkbox" class="iphone-toggle">
                     <input id='quarantine_toggle' data-no-uniform="true" type="checkbox" class="iphone-toggle"
                            ng-model="computer.quarantine">
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Sensor Version</label></div>
+                <div class="col-md-3"><label translate="Sensor Version"></label></div>
                 <div class="col-md-9" ng-bind="computer.version"></div>
             </div>
             <div class="row form-group">
-                <div class="col-md-3"><label>Sensor ID</label></div>
+                <div class="col-md-3"><label translate="Sensor ID"></label></div>
                 <div class="col-md-9" ng-bind="computer.sensorID"></div>
             </div>
         </div>

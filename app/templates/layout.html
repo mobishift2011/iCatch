@@ -5,16 +5,6 @@
 {% from "macros.html" import panel %}
 {% from "macros.html" import panel_box %}
 
-{% block scripts %}
-{%% super() %%}
-{%% includeJs([
-'modules/controllers/overview.js',
-'modules/controllers/threats.js',
-'modules/controllers/investigates.js',
-'modules/controllers/computers.js',
-'modules/controllers/settings.js']) %%}
-{% endblock %}
-
 {% block title%}
 Huating Admin Panel
 {% endblock %}
@@ -27,18 +17,18 @@ Huating Admin Panel
                 <img alt="Logo" src="{%% url_for('.static', filename='img/logo.jpg') %%}"/>
                 <span>Admin2.1</span>
             </a>
-            <button class="navbar-toggle" data-toggle="collpase" data-target=".nav-menu">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <!--<button class="navbar-toggle" data-toggle="collpase" data-target=".nav-menu">-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
         </div>
         <div class="container">
             <div class="collapse navbar-collapse nav-menu">
                 <ul class="nav navbar-nav">
                     <li ng-repeat="nav in navs" ng-class="{active: selectedNavTitle == nav.title}">
                         <a ng-href="{{nav.url}}" ng-click="selectNav(nav.title)">
-                            <span class="glyphicon {{nav.icon}}"></span>
+                            <span class="{{nav.icon}}"></span>
                             <span translate="{{nav.title}}"></span>
                         </a>
                     </li>
@@ -54,17 +44,18 @@ Huating Admin Panel
     </nav>
 
     {%% modal('
-    <table class="table table-borded" style="margin-bottom: 0">
-        <tr ng-repeat="n in notifications">
-            <td style="padding: 10px 20px">
-                <div><h4>{{n.content}}</h4></div>
-                <div>{{ n.date }}</div>
+    <table class="table table-borded" style="margin-bottom: 0" ng-controller="notificationCtrl">
+        <tr ng-repeat="item in notifications">
+            <td style="padding: 10px 20px" ng-click="readNotification(item)">
+                <div><h4><span ng-bind="item.title" ng-class="{\'text-muted\': item.is_read}"></span></h4></div>
+                <div ng-bind="item.date" ng-class="{\'text-muted\': item.is_read}"></div>
             </td>
         </tr>
     </table>
     ',
     'Notification Center', '
-    <button type="button" class="btn btn-primary btn-block">Show More</button>
+    <a href="/notification/center" type="button" class="btn btn-primary btn-block"
+       translate="Show More" target="_blank"></a>
     ') %%}
 </div>
 {% endblock navbar %}
@@ -84,16 +75,16 @@ Huating Admin Panel
 
     <div id="content" class="col-lg-10 col-sm-10">
         <!--<div>-->
-            <!--<ul class="breadcrumb">-->
-                <!--{% block breadcrumb %}-->
-                <!--<li>-->
-                    <!--<a href="#">Home</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="#">Tables</a>-->
-                <!--</li>-->
-                <!--{% endblock breadcrumb %}-->
-            <!--</ul>-->
+        <!--<ul class="breadcrumb">-->
+        <!--{% block breadcrumb %}-->
+        <!--<li>-->
+        <!--<a href="#">Home</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#">Tables</a>-->
+        <!--</li>-->
+        <!--{% endblock breadcrumb %}-->
+        <!--</ul>-->
         <!--</div>-->
         {% block container %}{% endblock container %}
     </div>

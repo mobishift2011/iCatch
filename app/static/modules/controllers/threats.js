@@ -12,7 +12,7 @@ angular.module('threatsCtrls', [])
                 };
             });
 
-            option = {
+            var option = {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -60,70 +60,27 @@ angular.module('threatsCtrls', [])
                         }
                     ]
                 }]
-            }
+            };
+
             $('#threatsRealChart').highcharts(option);
             $('#threatsRealChartTemp').highcharts(option);
         }])
 
-    .controller('threatsAlerts', ['$scope', '$state',
-        function ($scope, $state) {
-            $scope.alertStyle = {
-                'new': 'warning',
-                'unsolved': 'danger',
-                'solved': 'success',
-                'exception': 'primary',
-            };
+    .controller('threatsAlerts', ['$scope', '$timeout',
+        function ($scope, $timeout) {
             $scope.alerts = test_data;
-            $scope.historyAlerts = test_data;
-            $scope.currSlnAlerts = test_data;
-            $scope.changeAlertStatus = changeAlertStatus;
-            $scope.exceptAlert = exceptAlert;
-
-            function changeAlertStatus(alert) {
-                if (alert.status === 'exception') {
-                    removeExcept(alert);
-                    return
-                }
-
-                process = ['new', 'unsolved', 'solved'];
-
-                for (var i = 0; i <= (process.length - 1); i++) {
-                    if (alert.status === process[i] && i < (process.length - 1)) {
-                        var nextStatus = process[i + 1];
-                        alert.status = nextStatus;
-
-                        // if (nextStatus === 'solved') {
-                        //     $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-                        // }
-
-                        break
-                    }
-                }
-            }
-
-            function exceptAlert(alert) {
-                if (alert.type.toLowerCase() === 'action') {
-                    alert.status = 'exception';
-                    // $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-                }
-            }
-
-            function removeExcept(alert) {
-                alert.status = 'unsolved';
-                // $scope.historyAlerts.splice($scope.historyAlerts.indexOf(alert), 1);
-            }
-
-            $scope.clickAlert = function (alert) {
-                if (alert.type === 'File') {
-                    $state.go('threatsFile', {id: alert.fileId});
-                }
-                else if (alert.type === 'Action') {
-                    $state.go('threatsAction', {id: alert.actionId});
-                }
-            }
         }]
     )
-
+    .controller('historyAlerts', ['$scope', '$timeout',
+        function ($scope, $timeout) {
+            $scope.historyAlerts = test_data1;
+        }]
+    )
+    .controller('currSlnAlerts', ['$scope', '$timeout',
+        function ($scope, $timeout) {
+            $scope.currSlnAlerts = test_data2;
+        }]
+    )
     .controller('threatsFile', ['$scope', '$stateParams',
         function ($scope, $stateParams) {
             $scope.file = test_file;
@@ -147,8 +104,166 @@ angular.module('threatsCtrls', [])
 
             $scope.currAffectedComs = test_coms2;
             $scope.histAffectedComs = test_coms1;
+
+            // $scope.sideDetailShow = true;
+
         }
     ])
+
+    .controller('threatsAction', ['$scope', '$stateParams', '$timeout',
+        function ($scope, $stateParams, $timeout) {
+            var action_id = $stateParams.id;
+            $scope.showType = 'chart';
+
+            $scope.switchShow = function () {
+                $scope.showType = ($scope.showType === 'table') ? 'chart' : 'table';
+                $scope.showThreatDetail = false;
+            };
+
+            $scope.closeSideDetail = function () {
+                $scope.showThreatDetail = false;
+            };
+
+            $scope.showSideDetail = function (data) {
+                $scope.showThreatDetail = true;
+                $scope.selectedNode = data;
+            }
+
+            $timeout(function () {
+                var storyLineChart = echarts.init(document.getElementById('storyLineChart'));
+                option = {
+                    // title: {
+                    //     text: '',
+                    //     subtext: '',
+                    //     x: 'right',
+                    //     y: 'bottom'
+                    // },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} : {b}'
+                    },
+                    // toolbox: {
+                    //     show: true,
+                    //     feature: {
+                    //         restore: {show: true},
+                    //         magicType: {show: true, type: ['force', 'chord']},
+                    //         saveAsImage: {show: true}
+                    //     }
+                    // },
+                    legend: {
+                        x: 'left',
+                        data: []
+                    },
+                    series: [
+                        {
+                            type: 'force',
+                            name: "",
+                            ribbonType: false,
+                            categories: [
+                                {
+                                    name: 'threats'
+                                },
+                                {
+                                    name: 'threated'
+                                },
+
+                            ],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        textStyle: {
+                                            color: '#333'
+                                        }
+                                    },
+                                    nodeStyle: {
+                                        brushType: 'both',
+                                        borderColor: 'rgba(255,0,0,0.4)',
+                                        borderWidth: 3
+                                    },
+                                    linkStyle: {
+                                        type: 'curve'
+                                    }
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: false
+                                        // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                                    },
+                                    nodeStyle: {
+                                        //r: 30
+                                    },
+                                    linkStyle: {}
+                                }
+                            },
+                            useWorker: false,
+                            minRadius: 15,
+                            maxRadius: 25,
+                            gravity: 1.1,
+                            scaling: 1.1,
+                            roam: 'move',
+                            linkSymbol: 'arrow',
+                            nodes: [
+                                {category: 0, name: '乔布斯', value: 10, label: '乔布斯'},
+                                {category: 1, name: '丽萨-乔布斯', value: 2},
+                                {category: 1, name: '保罗-乔布斯', value: 3},
+                                {category: 1, name: '克拉拉-乔布斯', value: 3},
+                                {category: 1, name: '劳伦-鲍威尔', value: 7},
+                                {category: 1, name: '史蒂夫-沃兹尼艾克', value: 5},
+                                {category: 1, name: '奥巴马', value: 8},
+                                {category: 1, name: '比尔-盖茨', value: 9},
+                                {category: 1, name: '乔纳森-艾夫', value: 4},
+                                {category: 1, name: '蒂姆-库克', value: 4},
+                                {category: 1, name: '龙-韦恩', value: 1},
+                            ],
+                            links: [
+                                {source: '乔布斯', target: '乔布斯', weight: 1, name: '女儿'},
+                                {source: '丽萨-乔布斯', target: '丽萨-乔布斯', weight: 1},
+                                {source: '丽萨-乔布斯', target: '乔布斯', weight: 1, name: '女儿'},
+                                {source: '保罗-乔布斯', target: '乔布斯', weight: 2, name: '父亲'},
+                                {source: '克拉拉-乔布斯', target: '乔布斯', weight: 1, name: '母亲'},
+                                {source: '劳伦-鲍威尔', target: '乔布斯', weight: 2},
+                                {source: '史蒂夫-沃兹尼艾克', target: '乔布斯', weight: 3, name: '合伙人'},
+                                {source: '奥巴马', target: '乔布斯', weight: 1},
+                            ]
+                        }
+                    ]
+                };
+                var ecConfig = echarts.config;
+
+                function focus(param) {
+                    var data = param.data;
+                    var links = option.series[0].links;
+                    var nodes = option.series[0].nodes;
+                    if (
+                        data.source !== undefined
+                        && data.target !== undefined
+                    ) { //点击的是边
+                        var sourceNode = nodes.filter(function (n) {
+                            return n.name == data.source
+                        })[0];
+                        var targetNode = nodes.filter(function (n) {
+                            return n.name == data.target
+                        })[0];
+                        console.log("选中了边 " + sourceNode.name + ' -> ' + targetNode.name + ' (' + data.weight + ')');
+                    } else { // 点击的是点
+                        $scope.$apply(function () {
+                            $scope.showSideDetail(data.value);
+                        });
+                        console.log("选中了" + data.name + '(' + data.value + ')');
+                    }
+                }
+
+                storyLineChart.on(ecConfig.EVENT.CLICK, focus);
+
+                storyLineChart.on(ecConfig.EVENT.FORCE_LAYOUT_END, function () {
+                    console.log(storyLineChart.chart.force.getPosition());
+                });
+
+                storyLineChart.setOption(option);
+            }, 0);
+
+        }])
 ;
 
 var test_coms2 = [
@@ -260,7 +375,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -270,7 +385,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -280,7 +395,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -290,7 +405,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -300,7 +415,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -310,7 +425,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -320,7 +435,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -330,7 +445,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -340,7 +455,7 @@ var test_coms2 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunarhaha',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -454,7 +569,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -464,7 +579,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -474,7 +589,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -484,7 +599,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -494,7 +609,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -504,7 +619,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -514,7 +629,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -524,7 +639,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -534,7 +649,7 @@ var test_coms1 = [
         'profile': 'adfasdfasdf',
         'group': 'asdfasdfasfd',
         'sensor': 0.1
-    },    {
+    }, {
         'name': 'Lunar88',
         'lastCommunicated': '2016-12-1 15:00',
         'addedTime': '2016-12-1 15:00',
@@ -553,7 +668,7 @@ var test_file = {
 
 var test_data = [
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF1'},
         'type': 'File',
         'timestamp': 123123123123,
         'level': 10,
@@ -561,35 +676,35 @@ var test_data = [
         fileId: 235,
     },
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF2'},
         'type': 'Action',
         'timestamp': 123123123123,
         'level': 10,
         'status': 'new'
     },
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF3'},
         'type': 'Action',
         'timestamp': 123123123123,
         'level': 10,
         'status': 'new'
     },
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF4'},
         'type': 'Action',
         'timestamp': 123123123123,
         'level': 10,
         'status': 'new'
     },
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF5'},
         'type': 'File',
         'timestamp': 123123123123,
         'level': 100,
         'status': 'new'
     },
     {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
+        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF6'},
         'type': 'File',
         'timestamp': 123123123123,
         'level': 10,
@@ -629,3 +744,6 @@ var test_data = [
         fileId: 234,
     },
 ];
+
+var test_data1 = test_data.slice(0, 3);
+var test_data2 = test_data.slice(3, 6);

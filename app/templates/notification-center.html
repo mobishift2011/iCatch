@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content%}
+<div class="margintopbar" ng-controller="notificationCtrl">
+    <div class="notification-center" ui-view="notificationView">
+        <div class="page-header text-center">
+            <h3 translate="Notification Center"></h3>
+        </div>
+        <div class="list-group">
+            <a href="#" class="list-group-item" ng-repeat="item in notifications" ng-click="readNotification(item)">
+                <div class="table-cell">
+                    <label class="label label-default" ng-class="{'label-warning': !item.is_read}"
+                           translate="{{item.type || 'Notification'}}"></label>
+                </div>
+                <div class="table-cell padding-left15">
+                    <h4>
+                        <span ng-bind="item.title" ng-class="{'text-muted': item.is_read}"></span>
+                    </h4>
+                    <div ng-bind="item.date" ng-class="{'text-muted': item.is_read}"></div>
+                </div>
+            </a>
+        </div>
+        <nav class="pull-right">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#" class="text-info">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock content%}

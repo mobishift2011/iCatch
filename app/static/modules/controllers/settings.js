@@ -3,10 +3,11 @@ angular.module('settingsCtrls', [])
         $scope.sidebar = {
             title: 'Settings',
             items: [
-                {title: 'Basic Settings', state: 'settings_basic', icon: 'glyphicon-home'},
-                {title: 'Users Management', state: 'settings_user', icon: 'glyphicon-user'},
-                {title: 'Profiles Management', state: 'settings_profile', icon: 'glyphicon-file'},
-                {title: 'Groups Management', state: 'settings_group', icon: 'glyphicon-folder-close'}
+                {title: 'Basic Settings', state: 'settings_basic', icon: 'glyphicon glyphicon-home'},
+                {title: 'Users Management', state: 'settings_user', icon: 'glyphicon glyphicon-user'},
+                {title: 'Profiles Management', state: 'settings_profile', icon: 'glyphicon glyphicon-file'},
+                {title: 'Groups Management', state: 'settings_group', icon: 'glyphicon glyphicon-folder-close'},
+                {title: 'Email Notification', state: 'settings_email', icon: 'glyphicon glyphicon-envelope'}
             ]
         }
         $state.go('settings_basic');

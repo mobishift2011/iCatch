@@ -3,40 +3,39 @@
 {% block content%}
 <div class="margintopbar" ng-controller="computers">
     <div ui-view="computer">
-        <div class="page-header"><h3>Computer List</h3></div>
+        <div class="page-header"><h3 translate="Computer List"></h3></div>
         <div class="navbtn padding-bottom15" datasource="comTabs" selectedIndex="0"></div>
 
         <div class="row" ng-show="selectedTab==='Protected'">
             <form method="get" name="protectedComForm">
                 <div class="col-md-2 form-group">
-                    <label>Computer Name</label>
+                    <label translate="Computer Name"></label>
                     <input type="text" class="form-control" name="comName" placeholder="*"
                            ng-model="query.comName" ng-readonly="queryTitle != 'comName'" ng-mousedown="activateQuery('comName')">
                 </div>
                 <div class="col-md-2 form-group">
-                    <label>Profile</label>
-                    {{com.profile}}
+                    <label translate="Profile"></label>
                     <select name="comProfile" class="form-control" ng-model='query.comProfile'
                             ng-readonly="queryTitle != 'comProfile'" ng-mousedown="activateQuery('comProfile')">
                         <option value="">All</option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
-                    <label>Group</label>
+                    <label translate="Group"></label>
                     <select name="comGroup" class="form-control" ng-model='query.comGroup'
                             ng-readonly="queryTitle != 'comGroup'" ng-mousedown="activateQuery('comGroup')">
                         <option value="">All</option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
-                    <label>Sensor Version</label>
+                    <label translate="Sensor Version"></label>
                     <select name="comSensor" class="form-control" ng-model='query.comSensor'
                             ng-readonly="queryTitle != 'comSensor'" ng-mousedown="activateQuery('comSensor')">
                         <option value="">All</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-primary" ng-click="search()">Search</button>
+                    <button class="btn btn-primary" ng-click="search()" translate="Search"></button>
                 </div>
             </form>
         </div>

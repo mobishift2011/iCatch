@@ -1,9 +1,9 @@
 <ul class="nav nav-pills nav-stacked main-menu">
-    <li class="nav-header" ng-if="sidebar.title">{{sidebar.title}}</li>
+    <li class="nav-header" ng-if="sidebar.title" translate="{{sidebar.title}}"></li>
     <li ng-repeat="item in sidebar.items" ng-class="{active: selectedSidebarItem === item.title}">
         <a class="ajax-link" ui-sref="{{item.state}}" ng-click="selectSidebar(item.title)">
-            <i class="glyphicon {{item.icon}}"></i>
-            <span> {{item.title}}</span>
+            <i class="{{item.icon}}"></i>
+            <span translate="{{item.title}}"></span>
         </a>
     </li>
 </ul>

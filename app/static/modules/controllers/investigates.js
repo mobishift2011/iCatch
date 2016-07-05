@@ -4,11 +4,11 @@ angular.module('investigateCtrls', [])
         $scope.sidebar = {
             title: 'Investigates',
             items: [
-                {title: 'Computer', state: 'investigate_computer', icon: 'glyphicon-home'},
-                {title: 'File', state: 'investigate_file', icon: 'glyphicon-user'},
-                {title: 'IP', state: 'investigate_ip', icon: 'glyphicon-file'},
-                {title: 'User', state: 'investigate_user', icon: 'glyphicon-file'},
-                {title: 'IOC', state: 'investigate_ioc', icon: 'glyphicon-file'}
+                {title: 'Computer', state: 'investigate_computer', icon: 'glyphicon glyphicon-hdd'},
+                {title: 'File', state: 'investigate_file', icon: 'glyphicon glyphicon-file'},
+                {title: 'IP', state: 'investigate_ip', icon: 'glyphicon glyphicon-globe'},
+                {title: 'User', state: 'investigate_user', icon: 'glyphicon glyphicon-user'},
+                {title: 'IOC', state: 'investigate_ioc', icon: 'glyphicon glyphicon-cloud-upload'}
 
             ]
         }

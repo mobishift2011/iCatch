@@ -1,9 +1,9 @@
 angular.module('overviewCtrls', [])
     .controller('overview', ['$scope', function ($scope) {
-        chartSusComTwoWeeks(test_data1);
-        chartSusComThreeMonths(test_data2);
-        chartSusFileTwoWeeks(test_data1);
-        chartSusFileThreeMonths(test_data2);
+        chartSusComTwoWeeks(test_datad1);
+        chartSusComThreeMonths(test_datad2);
+        chartSusFileTwoWeeks(test_datad1);
+        chartSusFileThreeMonths(test_datad2);
         chartStatsByOs(test_data3);
         chartStatsByGroup(test_data4);
     }])
@@ -340,7 +340,7 @@ function chartStats(chartObj, data) {
     });
 }
 
-var test_data1 = {
+var test_datad1 = {
     '2016-6-15': 40,
     '2016-6-16': 32,
     '2016-6-17': 84,
@@ -357,7 +357,7 @@ var test_data1 = {
     '2016-6-28': 42,
 };
 
-var test_data2 = {
+var test_datad2 = {
     'adfasdf-dsfa-adf1': 40,
     'adfasdf-dsfa-adf2': 39,
     'adfasdf-dsfa-adf3': 33,

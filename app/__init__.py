@@ -1,7 +1,6 @@
 #-*- encoding: utf-8 -*-
 from flask import Flask
 from flask_peewee.db import Database
-from flask_peewee.rest import RestAPI
 
 import errno
 import json
@@ -20,12 +19,6 @@ def config_from_jsonfile (app, silent=False):
         raise
     return app.config.from_mapping(obj)
 
-def init_apis(app):
-    api = RestAPI(app)
-    for model in db.Model.__subclasses__():
-        api.register(model)
-    api.register(auth.User)
-    api.setup()
 
 app = Flask(__name__)
 config_from_jsonfile(app)
@@ -36,5 +29,4 @@ db = Database(app)
 from auth import auth
 import models
 import views
-
-init_apis(app)
+import apis

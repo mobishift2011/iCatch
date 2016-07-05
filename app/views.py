@@ -10,6 +10,12 @@ def index():
     return render_template('overview.html')
 
 
+@app.route('/notification/center/')
+@auth.login_required
+def notification_center():
+    return render_template('notification-center.html')
+
+
 @app.route('/threats/')
 @auth.login_required
 def threats():

@@ -1,0 +1,62 @@
+<div class="settings_email">
+    <form action="">
+        <div class="page-header"><h4 translate="Email Server"></h4></div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="SMTP Server"></div>
+                <div class="col-md-3"><input type="text" class="form-control"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="SMTP Port"></div>
+                <div class="col-md-3"><input type="text" class="form-control" value="25"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="SMTP Enable Security SSL"></div>
+                <div class="col-md-3">
+                    <label class="radio-inline">
+                        <input type="radio" name="emailSSL"> <span translate="Yes"></span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="emailSSL"> <span translate="No"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header"><h4 translate="Email Account"></h4></div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="Email Address"></div>
+                <div class="col-md-3"><input type="text" class="form-control"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="Email Password"></div>
+                <div class="col-md-3"><input type="password" class="form-control"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3" translate="Send Email to the Address When Alerts"></div>
+                <div class="col-md-3">
+                    <label class="radio-inline">
+                        <input type="radio" name="enableEmailNotify"> <span translate="Yes"></span>
+                    </label>
+                    <label class="radio-inline"></label>
+                        <input type="radio" name="enableEmailNotify"> <span translate="No"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <button class="btn btn-default" translate="Send Test Email"></button>
+        <button class="btn btn-primary" translate="Save"></button>
+    </form>
+</div>

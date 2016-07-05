@@ -17,13 +17,20 @@ adminApp = angular.module('app', [
         };
     }])
 
-    .config(['$stateProvider', '$locationProvider',
-        function ($stateProvider, $locationProvider) {
+    .config(['$stateProvider', '$locationProvider', '$translateProvider',
+        function ($stateProvider, $locationProvider, $translateProvider) {
             $locationProvider.html5Mode({
                 enabled: true,
                 requireBase: false,
                 rewriteLinks: false,
             });
+
+            $translateProvider.preferredLanguage('cn');
+            $translateProvider.useStaticFilesLoader({
+                prefix: '/static/translates/',
+                suffix: '.json'
+            });
+
             $stateProvider
                 .state('threatsFile', {
                     params: {id: null},
@@ -35,6 +42,17 @@ adminApp = angular.module('app', [
                         }
                     }
                 })
+                .state('threatsAction', {
+                    params: {id: null},
+                    url: '/threats/actioin',
+                    views: {
+                        'threats': {
+                            templateUrl: '/static/modules/templates/threats-action.html',
+                            controllers: 'threats_action'
+                        }
+                    }
+                })
+
                 .state('investigate_computer', {
                     url: '/investigates/computer',
                     views: {
@@ -137,6 +155,15 @@ adminApp = angular.module('app', [
                         }
                     }
                 })
+                .state('settings_email', {
+                    url: '/settings/email',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-email.html',
+                            controllers: 'settings_email'
+                        }
+                    }
+                })
         }
     ])
     .directive('sidebar', function () {
@@ -158,7 +185,8 @@ adminApp = angular.module('app', [
             transclude: true,
             templateUrl: '/static/modules/templates/directives/panel.html',
             link: function ($scope, $element, $attrs) {
-                $element.find('.panel-title').find('span').html($attrs.title);
+                $element.find('.panel-title').find('.panelTitle').html($attrs.title);
+                $element.find('.panel-title').find('.panelIcon').attr('class', $attrs.icon);
             }
         }
     })
@@ -178,10 +206,66 @@ adminApp = angular.module('app', [
 
         }
     })
+    .directive('alertTable', function () {
+        return {
+            restrict: 'C',
+            replace: true,
+            transclude: true,
+            templateUrl: '/static/modules/templates/directives/alert-table.html',
+            link: function ($scope, $element, $attrs) {
+                $scope.alerts = $scope[$attrs.datasource];
+                $scope.alertStyle = {
+                    'new': 'warning',
+                    'unsolved': 'danger',
+                    'solved': 'success',
+                    'except': 'primary',
+                    'exception': 'primary',
+                };
+
+                $scope.changeAlertStatus = changeAlertStatus;
+                $scope.exceptAlert = exceptAlert;
+
+                function changeAlertStatus(alert) {
+                    if (alert.status === 'exception') {
+                        removeExcept(alert);
+                        return
+                    }
+
+                    process = ['new', 'unsolved', 'solved'];
+
+                    for (var i = 0; i <= (process.length - 1); i++) {
+                        if (alert.status === process[i] && i < (process.length - 1)) {
+                            var nextStatus = process[i + 1];
+                            alert.status = nextStatus;
+
+                            // if (nextStatus === 'solved') {
+                            //     $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
+                            // }
+
+                            break
+                        }
+                    }
+                }
+
+                function exceptAlert(alert) {
+                    if (alert.type.toLowerCase() === 'action') {
+                        alert.status = 'exception';
+                        // $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
+                    }
+                }
+
+                function removeExcept(alert) {
+                    alert.status = 'unsolved';
+                    // $scope.historyAlerts.splice($scope.historyAlerts.indexOf(alert), 1);
+                }
+            }
+        }
+    })
     .directive('computerTable', function () {
         return {
             restrict: 'C',
             replace: true,
+            scope: false,
             transclude: true,
             templateUrl: '/static/modules/templates/directives/computer-table.html',
             link: function ($scope, $element, $attrs) {
@@ -273,11 +357,11 @@ adminApp = angular.module('app', [
     })
     .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
         $scope.navs = [
-            {'title': 'Overview', 'url': '/overview/', 'icon': 'glyphicon-cog'},
-            {'title': 'Threats', 'url': '/threats/', 'icon': 'glyphicon-cog'},
-            {'title': 'Security Investigates', 'url': '/investigates/', 'icon': 'glyphicon-cog'},
-            {'title': 'Computer', 'url': '/computers/', 'icon': 'glyphicon-cog'},
-            {'title': 'Settings', 'url': '/settings/', 'icon': 'glyphicon-cog'},
+            {'title': 'Overview', 'url': '/overview/', 'icon': 'glyphicon glyphicon-stats'},
+            {'title': 'Threats', 'url': '/threats/', 'icon': 'glyphicon glyphicon-exclamation-sign'},
+            {'title': 'Security Investigates', 'url': '/investigates/', 'icon': 'glyphicon glyphicon-search'},
+            {'title': 'Computer', 'url': '/computers/', 'icon': 'iconfont icon-computer'},
+            {'title': 'Settings', 'url': '/settings/', 'icon': 'glyphicon glyphicon-cog'},
         ];
         (function (title) {
             for (var i in $scope.navs) {
@@ -288,10 +372,25 @@ adminApp = angular.module('app', [
                 }
             }
         })();
-        $scope.notifications = [
-            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
-            {'content': 'this is just a test', 'date': '1987-7-15 12:23:45'},
-        ];
 
+        $scope.isNotified = true;
+    }])
+    .controller('notificationCtrl', ['$scope', function($scope, $stateParams){
+            $scope.notifications = [
+                {'title': 'this is just a test', 'date': '1987-7-15 12:23:45', 'is_read': true},
+                {'title': 'hahahaha', 'date': '1987-7-15 12:23:45', 'is_read': false},
+                {'title': 'Cras justo odio', 'date': '1987-7-15 12:23:45'},
+                {'title': 'Dapibus ac facilisis in', 'date': '1987-7-15 12:23:45'},
+                {'title': 'Morbi leo risus', 'date': '1987-7-15 12:23:45'},
+                {'title': 'Porta ac consectetur ac', 'date': '1987-7-15 12:23:45'},
+                {'title': 'Vestibulum at eros', 'date': '1987-7-15 12:23:45'},
+            ];
+
+            $scope.isNotified = true;
+
+            $scope.readNotification = function(item) {
+                item.is_read = true;
+                //todo
+            };
     }])
 ;

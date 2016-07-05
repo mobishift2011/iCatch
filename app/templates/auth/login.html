@@ -24,10 +24,8 @@
         <div class="row">
             <div class="well col-md-5 center login-box">
                 {% with messages = get_flashed_messages()%}
-                {% for message in messages %}
-                <div class="alert alert-danger">
-                    {%% message %%}
-                </div>
+                {% for message in messages[-1:] %}
+                <div class="alert alert-danger" translate="{%% message %%}"></div>
                 {% endfor %}
                 {%endwith%}
                 <form class="form-horizontal" action="/login/" method="post" name="login_form">
