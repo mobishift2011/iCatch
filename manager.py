@@ -23,7 +23,7 @@ def runserver():
 def init_db():
     # db_name = app.config['DATABASE']['name']
     # db.database.execute('CREATE SCHEMA `{}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;'.format(db_name))
-    db.database.create_tables(db.Model.__subclasses__())
+    db.database.create_tables(db.Model.__subclasses__(), safe=True)
 
 
 def _init_admin():

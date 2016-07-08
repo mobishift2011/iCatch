@@ -220,6 +220,7 @@ adminApp = angular.module('app', [
                     'solved': 'success',
                     'except': 'primary',
                     'exception': 'primary',
+                    'whitelist': 'success'
                 };
 
                 $scope.changeAlertStatus = changeAlertStatus;

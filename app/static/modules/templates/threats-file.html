@@ -2,10 +2,10 @@
     <div>
         <ul class="breadcrumb">
             <li>
-                <a href="#">Alerts</a>
+                <a href="#" translate="Alerts"></a>
             </li>
             <li>
-                <a href="#">Suspect File</a>
+                <a href="#" translate="Suspect File"></a>
             </li>
         </ul>
     </div>
@@ -20,40 +20,40 @@
                 <div class="row padding-left15">
                     <div class="col-md-1 text-danger"><span class="glyphicon glyphicon-file"></span></div>
                     <div class="col-md-11">
-                        <div><label class="media-heading">File Name: </label> asdfasf</div>
-                        <div><label class="media-heading">Hash: </label> asdfasf</div>
-                        <div><label class="media-heading">Path: </label> asdfasf</div>
-                        <div><label class="media-heading">Size: </label> asdfasf</div>
+                        <div><label class="media-heading" translate="File Name"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Hash"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Path"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Size"></label>: asdfasf</div>
                     </div>
                 </div>
                 <div class="row padding-bottom10 padding-left15">
                     <div class="col-md-1 text-danger"><span class="iconfont icon-computer"></span></div>
                     <div class="col-md-11">
                         <div>
-                            <label class="media-heading">Computer: </label>
-                            <a class="text-info" ui-sref="computer_detail({id: 1})">asdfasf</a>
+                            <label class="media-heading" translate="Computer"></label>
+                            <a class="text-info" ui-sref="computer_detail({id: 1})">: asdfasf</a>
                         </div>
-                        <div><label class="media-heading">IP Address: </label> asdfasf</div>
-                        <div><label class="media-heading">Domain: </label> asdfasf</div>
-                        <div><label class="media-heading">Group: </label> asdfasf</div>
+                        <div><label class="media-heading" translate="IP Address"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Domain"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Group"></label>: asdfasf</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 padding-top15">
-                <div><label>First Found: </label></div>
-                <div><label>Last Found: </label></div>
+                <div><label translate="First Found In the Latest Year"> </label>: <span translate=""></span></div>
+                <div><label translate="Last Found"></label>: <span translate=""></span></div>
             </div>
 
         </div>
         <div class="col-xs-4 sep-right section">
-            <div><label>Create Time: </label></div>
-            <div><label>Signature: </label></div>
-            <div><label>Signature Publish: </label></div>
-            <div><label>Network: </label></div>
+            <div><label translate="Create Time"></label>: <span></span></div>
+            <div><label translate="Signature"></label>: <span></span></div>
+            <div><label translate="Signature Publish"></label>: <span></span></div>
+            <div><label translate="Network"></label>: <span></span></div>
         </div>
         <div class="col-xs-4 section">
             <button class="btn btn-success" ng-click="addToWhitelist(file)"><span class="glyphicon glyphicon-ok"></span>
-                Add to Whitelist
+                <span translate="Add to Whitelist"></span>
             </button>
         </div>
     </div>
@@ -61,12 +61,17 @@
     <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-pills threats-nav" role="tablist">
-                <li role="presentation" class="active"><a href="#path" aria-controls="home" role="tab"
-                                                          data-toggle="tab">Affected Path</a></li>
-                <li role="presentation"><a href="#currCom" aria-controls="profile" role="tab" data-toggle="tab">Current
-                    Affected Computer</a></li>
-                <li role="presentation"><a href="#histCom" aria-controls="messages" role="tab" data-toggle="tab">History
-                    Affected Computer</a></li>
+                <li role="presentation" class="active">
+                    <a href="#path" aria-controls="home" role="tab" data-toggle="tab" translate="Affected Path"></a>
+                </li>
+                <li role="presentation">
+                    <a href="#currCom" aria-controls="profile" role="tab" data-toggle="tab"
+                       translate="Current Affected Computer"></a>
+                </li>
+                <li role="presentation">
+                    <a href="#histCom" aria-controls="messages" role="tab" data-toggle="tab"
+                       translate="History Affected Computer"></a>
+                </li>
             </ul>
 
             <!-- Tab panes -->

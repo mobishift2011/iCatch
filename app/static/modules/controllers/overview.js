@@ -149,7 +149,7 @@ function chartSusFileTwoWeeks(data) {
     var categories = Object.keys(data);
     $('#susFileTwoWeeksChart').highcharts({
         chart: {
-            type: 'area'
+            type: 'spline'
         },
         title: {
             text: 'The suspect files daily in the latest 2 weeks'
@@ -192,7 +192,7 @@ function chartSusFileTwoWeeks(data) {
                 }
             }
         },
-        colors: [Highcharts.getOptions().colors[1]],
+//        colors: [Highcharts.getOptions().colors[1]],
         credits: {
             enabled: false
         },
@@ -329,11 +329,11 @@ function chartStats(chartObj, data) {
         },
         series: [
             {
-                name: 'Action',
+                name: 'Alerts',
                 data: [2, 2, 3, 2, 1]
             },
             {
-                name: 'File',
+                name: 'Without Alerts',
                 data: [5, 3, 4, 7, 2]
             }
         ]

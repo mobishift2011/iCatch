@@ -9,14 +9,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="alert in alerts">
+    <tr ng-repeat="alert in alerts" ui-sref="threats{{alert.type}}({id: alert.{{alert.type.toLowerCase()}}Id})">
         <td>
             <span class="iconfont icon-computer"></span>
             <span ng-bind="alert.sensor.name"></span>
         </td>
         <td>
-            <a href="#" class="text-info" translate="Suspect {{alert.type}}" ng-click="clickAlert(alert)"
-               ui-sref="threats{{alert.type}}({id: alert.{{alert.type.toLowerCase()}}Id})"></a>
+            <a href="#" class="text-info" translate="Suspect {{alert.type}}"></a>
         </td>
         <td ng-bind="alert.timestamp"></td>
         <td>
@@ -25,13 +24,22 @@
                 <img src="/static/img/star-on.png"/>
             </a>
         </td>
-        <td>
+        <td ng-click="$event.stopPropagation()">
             <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
-                  translate="{{alert.status}}"
-                  ng-click="changeAlertStatus(alert)"></span>
+                  ng-click="changeAlertStatus(alert)">
+                <span translate="{{alert.status}}"></span>
+                <span class="caret" ng-if="alert.status == 'new' || alert.status == 'unsolved'"></span>
+            </span>
+            &nbsp;
+            <span class="label label-success"
+                  ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'file'"
+                  ng-click="">
+                <span translate="Add to Whitelist"></span>
+            </span>
             <span class="label label-primary"
                   ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'action'"
-                  ng-click="exceptAlert(alert)" translate="except"></span>
+                  ng-click="exceptAlert(alert)" translate="except">
+            </span>
         </td>
     </tr>
     </tbody>

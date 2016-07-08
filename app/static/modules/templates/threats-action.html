@@ -2,10 +2,10 @@
     <div>
         <ul class="breadcrumb">
             <li>
-                <a href="#">Alerts</a>
+                <a href="#" translate="Alerts"></a>
             </li>
             <li>
-                <a href="#">Suspect Action</a>
+                <a href="#" translate="Suspect Action"></a>
             </li>
         </ul>
     </div>
@@ -19,15 +19,20 @@
                     <div class="text-danger" style="display: table-cell"><span
                             class="iconfont icon-computer"></span></div>
                     <div class="padding-left15" style="display: table-cell;">
-                        <div><label class="media-heading"><span translate="Computer"></span>: </label>
+                        <div>
+                            <label class="media-heading"><span translate="Computer"></span>: </label>&nbsp;
+                            <a class="text-info" ui-sref="computer_detail({id: 1})">asdfasf</a>
+                        </div>
+                        <div>
+                            <label class="media-heading"><span translate="IP Address"></span>: </label>&nbsp;
                             asdfasf
                         </div>
-                        <div><label class="media-heading"><span translate="IP Address"></span>: </label>
+                        <div>
+                            <label class="media-heading"><span translate="Domain"></span>: </label>&nbsp;
                             asdfasf
                         </div>
-                        <div><label class="media-heading"><span translate="Domain"></span>: </label> asdfasf
-                        </div>
-                        <div><label class="media-heading"><span translate="Detect Time"></span>: </label>
+                        <div>
+                            <label class="media-heading"><span translate="Detect Time"></span>: </label>&nbsp;
                             asdfasf
                         </div>
                     </div>
@@ -40,27 +45,55 @@
 
     <div class="panel panel-default story-line-panel">
         <div class="panel-heading">
-            <a class="btn btn-default btn-sm pull-right" style="margin-top: -6px"
-               ng-show="showType == 'table'">
-                <span class="glyphicon glyphicon-th-large glyphicon glyphicon-download-alt"></span>
-            </a>
-            <a class="btn btn-default btn-sm pull-right" ng-click="switchShow()" style="margin-top: -6px">
-                                <span class="glyphicon glyphicon-th-large"
-                                      ng-class="{'glyphicon-th-list': (showType == 'table')}">
-                                </span>
-            </a>
             <h3 class="panel-title">
-                            <span class="text-info">
-                                <span class="glyphicon glyphicon-camera"></span> <span>Story Line</span>
-                            </span>
+                <span class="text-info">
+                    <span class="glyphicon glyphicon-camera"></span> <span translate="Story Line"></span>
+                </span>
             </h3>
         </div>
         <div class="panel-body">
-            <div class="col-md-12" ng-class="{'col-md-9': showThreatDetail}" ng-show="showType == 'chart'">
+            <div class="col-md-12" ng-class="{'col-md-9': showChartThreatDetail}">
                 <div id="storyLineChart"></div>
             </div>
+            <div ng-show="showChartThreatDetail" class="col-md-3 side-detail-box">
+                <ul class="list-group side-detail">
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-remove pull-right padding-top10"
+                           ng-click="closeSideDetail('Chart')"></i>
+                        <h4>
+                            <span class="glyphicon glyphicon-cog"></span>
+                            <span ng-bind="selectedChartNode"></span>
+                        </h4>
+                    </li>
+                    <li class="list-group-item">
+                        <p><span class="glyphicon glyphicon-time"></span> 1927-7-12 11:11:03</p>
+                        <p><label translate="Description"></label>: test test setstadf asdfasdfsafa fsdafa</p>
+                        <p><label translate="Process"></label>: Lunar</p>
+                        <p><label translate="PID"></label>: Lunar</p>
+                        <p><label translate="Computer Name"></label>: Lunar</p>
+                        <p><label translate="IP Address"></label>: Lunar</p>
+                        <p><label translate="User Name"></label>: Lunar</p>
+                        <p><label translate="SID"></label>: Lunar</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-            <div class="col-md-12" ng-class="{'col-md-9': showThreatDetail}" ng-show="showType == 'table'">
+
+    <div class="panel panel-default story-line-panel">
+        <div class="panel-heading">
+            <a class="btn btn-default btn-sm pull-right" style="margin-top: -6px">
+                <span class="glyphicon glyphicon-th-large glyphicon glyphicon-download-alt"></span>
+            </a>
+            <h3 class="panel-title">
+                <span class="text-info">
+                    <span class="glyphicon glyphicon-time"></span> <span translate="Time Sequence Table"></span>
+                </span>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" ng-class="{'col-md-9': showTableThreatDetail}">
                 <table class="table table-striped table-hover bootstrap-datatable responsive">
                     <thead>
                     <tr>
@@ -70,7 +103,7 @@
                     </tr>
                     </thead>
                     <tbody ng-init="events=[{time:'sadf', event: 'dsdfa', 'computer': 'adsf'}]">
-                    <tr ng-repeat="item in events" ng-click="showSideDetail(item)">
+                    <tr ng-repeat="item in events" ng-click="showSideDetail(item, 'Table')">
                         <td translate="{{item.time}}"></td>
                         <td translate="{{item.event}}"></td>
                         <td translate="{{item.computer}}"></td>
@@ -124,28 +157,29 @@
                     </tbody>
                 </table>
             </div>
-
-            <div ng-show="showThreatDetail" class="col-md-3 side-detail-box">
+            <div ng-show="showTableThreatDetail" class="col-md-3 side-detail-box">
                 <ul class="list-group side-detail">
                     <li class="list-group-item">
                         <i class="glyphicon glyphicon-remove pull-right padding-top10"
-                           ng-click="closeSideDetail()"></i>
+                           ng-click="closeSideDetail('Table')"></i>
                         <h4>
                             <span class="glyphicon glyphicon-cog"></span>
-                            <span ng-bind="selectedNode"></span>
+                            <span ng-bind="selectedTableNode"></span>
                         </h4>
                     </li>
                     <li class="list-group-item">
                         <p><span class="glyphicon glyphicon-time"></span> 1927-7-12 11:11:03</p>
-                        <p><label>Summary: </label> Lunar</p>
-                        <p><label>Description: </label> test test setstadf asdfasdfsafa fsdafa</p>
-                        <p><label>Computer Name: </label> Lunar</p>
-                        <p><label>IP Address: </label> Lunar</p>
-                        <p><label>User Name: </label> Lunar</p>
-                        <p><label>SID: </label> Lunar</p>
+                        <p><label translate="Description"></label>: test test setstadf asdfasdfsafa fsdafa</p>
+                        <p><label translate="Process"></label>: Lunar</p>
+                        <p><label translate="PID"></label>: Lunar</p>
+                        <p><label translate="Computer Name"></label>: Lunar</p>
+                        <p><label translate="IP Address"></label>: Lunar</p>
+                        <p><label translate="User Name"></label>: Lunar</p>
+                        <p><label translate="SID"></label>: Lunar</p>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+
 </div>

@@ -113,20 +113,14 @@ angular.module('threatsCtrls', [])
     .controller('threatsAction', ['$scope', '$stateParams', '$timeout',
         function ($scope, $stateParams, $timeout) {
             var action_id = $stateParams.id;
-            $scope.showType = 'chart';
 
-            $scope.switchShow = function () {
-                $scope.showType = ($scope.showType === 'table') ? 'chart' : 'table';
-                $scope.showThreatDetail = false;
+            $scope.closeSideDetail = function (type) {
+                $scope['show' + type + 'ThreatDetail'] = false;
             };
 
-            $scope.closeSideDetail = function () {
-                $scope.showThreatDetail = false;
-            };
-
-            $scope.showSideDetail = function (data) {
-                $scope.showThreatDetail = true;
-                $scope.selectedNode = data;
+            $scope.showSideDetail = function (data, type) {
+                $scope['show' + type + 'ThreatDetail'] = true;
+                $scope['selected' + type + 'Node'] = data;
             }
 
             $timeout(function () {
@@ -248,7 +242,7 @@ angular.module('threatsCtrls', [])
                         console.log("选中了边 " + sourceNode.name + ' -> ' + targetNode.name + ' (' + data.weight + ')');
                     } else { // 点击的是点
                         $scope.$apply(function () {
-                            $scope.showSideDetail(data.value);
+                            $scope.showSideDetail(data.value, 'Chart');
                         });
                         console.log("选中了" + data.name + '(' + data.value + ')');
                     }
