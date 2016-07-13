@@ -1,4 +1,4 @@
-angular.module('settingsCtrls', ['userServices', 'configServices'])
+angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServices'])
     .controller('settings', ['$scope', '$state', function ($scope, $state) {
         $scope.sidebar = {
             title: 'Settings',
@@ -119,26 +119,59 @@ angular.module('settingsCtrls', ['userServices', 'configServices'])
         }
     ])
 
-    .controller('settings_profile', ['$scope',
-        function ($scope) {
-            $scope.profiles = test_profiles;
-            $scope.addProfile = function () {
-                $scope.profiles.push({'name': 'testddd', 'description': 'testAdd'});
+    .controller('settings_profile', ['$scope', '$filter', 'Profile',
+        function ($scope, $filter, Profile) {
+            $scope.profileFormData = {};
+
+            function getProfileList(data) {
+                $scope.pagination = data.meta;
+                $scope.profiles = data.objects;
+            }
+
+            Profile.list(getProfileList);
+
+            $scope.pageChanged = function (page) {
+                Profile.list({page: page}, getProfileList);
             };
+
+            $scope.addProfile = function () {
+                // if (!$scope.profileFormData.originpath) {
+                //     console.log('no file');
+                //     return;
+                // }
+                Profile.add($scope.profileFormData, function (result) {
+                    console.log(result);
+                    if (result.status) {
+                        alert($filter('translate')('Save Successfully') + '!');
+                        Profile.list({page: $scope.pagination.page}, getProfileList);
+                    } else {
+                        alert($filter('translate')(result.message));
+                    }
+
+                });
+            };
+
             $scope.checkAll = function () {
                 var that = this;
                 angular.forEach($scope.profiles, function (e) {
                     e.toRemove = that.toRemoveAll;
                 });
             };
+
             $scope.removeProfiles = function () {
-                if (confirm('Are you sure to delete?')) {
-                    this.toRemoveAll = false;
-                    for (var i = ($scope.profiles.length - 1); i >= 0; i--) {
-                        if ($scope.profiles[i].toRemove) {
-                            $scope.profiles.splice(i, 1);
-                        }
+                var delete_ids = [];
+                var tip = $filter('translate')('Are you sure to delete') + ' ?';
+
+                $scope.profiles.map(function(e){
+                    if (e.toRemove) {
+                        delete_ids.push(e.id);
                     }
+                });
+
+                if (delete_ids.length && confirm(tip)) {
+                    Profile.delete({ids: delete_ids.join(',')}, function(data){
+                        Profile.list({page: $scope.pagination.page}, getProfileList);
+                    });
                 }
             };
         }
@@ -200,7 +233,7 @@ angular.module('settingsCtrls', ['userServices', 'configServices'])
                 $scope.emailConfigs = {};
                 $scope.emailFormData = {smtp_port: 25, smtp_ssl: false, email_notify: true};
 
-                if(data.objects && data.objects.length) {
+                if (data.objects && data.objects.length) {
                     setEmailConfigs(data.objects[0]);
                 }
             });

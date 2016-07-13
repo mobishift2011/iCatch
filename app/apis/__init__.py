@@ -19,5 +19,6 @@ api = RestAPI(app, default_auth=LoginUserAuthentication())
 
 import user
 import config
+import profile
 
 api.setup()

@@ -50,7 +50,7 @@ class Group(db.Model, InheritanceMixin):
 
 class Profile(db.Model):
     title = CharField(max_length=64, unique=True)
-    description = CharField(max_length=255)
+    description = CharField(max_length=255, null=True)
     addedBy = ForeignKeyField(User)
     dateAdded = DateTimeField(default=datetime.datetime.now)
     originpath = CharField(null=True)
