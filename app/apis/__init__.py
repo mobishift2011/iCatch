@@ -8,7 +8,7 @@ class LoginUserAuthentication(Authentication):
         return auth.get_logged_in_user()
 
 class RestResource(BaseResource):
-    def operationresponse(self, data, status=True):
+    def operationresponse(self, data=None, status=True):
         res = {'status': status}
         field = 'data' if status else 'message'
         res[field] = data

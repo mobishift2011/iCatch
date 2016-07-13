@@ -128,6 +128,8 @@
   "Description": "描述",
   "Character Max": "最多字符数",
   "File": "文件",
-  "Save Successfully": "保存成功"
+  "Save Successfully": "保存成功",
+  "Send mail successfully": "发送邮件成功",
+  "Send mail fail": "发送邮件失败"
 
 }

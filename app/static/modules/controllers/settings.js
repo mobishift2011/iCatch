@@ -224,7 +224,11 @@ angular.module('settingsCtrls', ['userServices', 'configServices'])
             };
 
             $scope.sendTestMail = function () {
-                console.log($scope.emailFormData);
+                Config.testMail($scope.emailFormData, function (data) {
+                    status = data.status;
+                    message = {true: 'successfully', false: 'fail'}[status];
+                    alert($filter('translate')('Send mail ' + message) + '!');
+                });
             };
         }
     ])
