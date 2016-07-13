@@ -1,4 +1,4 @@
-angular.module('settingsCtrls', [])
+angular.module('settingsCtrls', ['userServices', 'configServices'])
     .controller('settings', ['$scope', '$state', function ($scope, $state) {
         $scope.sidebar = {
             title: 'Settings',
@@ -74,9 +74,9 @@ angular.module('settingsCtrls', [])
         }
     ])
 
-    .controller('settings_user', ['$scope',
-        function ($scope) {
-            $scope.users = test_users;
+    .controller('settings_user', ['$scope', 'User',
+        function ($scope, User) {
+            $scope.userFormData = {admin: 0};
 
             $scope.checkAll = function () {
                 for (var i in $scope.users) {
@@ -84,8 +84,30 @@ angular.module('settingsCtrls', [])
                 }
             };
 
+            function getUserList(data) {
+                $scope.pagination = data.meta;
+                $scope.users = data.objects;
+            }
+
+            $scope.users = User.list({}, getUserList);
+            $scope.pageChanged = function (page) {
+                User.list({page: page}, getUserList);
+            };
+
+            $scope.addUser = function () {
+                var userData = $scope.userFormData
+                User.add(userData, function (result) {
+                    if (result.status) {
+                        $scope.users.unshift(result.data);
+                        alert('Add user ' + result.data.username + ' successfully' + '!')
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            };
+
             $scope.removeUsers = function () {
-                if(confirm('Are you sure to delete?')) {
+                if (confirm('Are you sure to delete?')) {
                     this.toRemoveAll = false;
                     for (var i = ($scope.users.length - 1); i >= 0; i--) {
                         if ($scope.users[i].toRemove) {
@@ -93,7 +115,7 @@ angular.module('settingsCtrls', [])
                         }
                     }
                 }
-            }
+            };
         }
     ])
 
@@ -110,7 +132,7 @@ angular.module('settingsCtrls', [])
                 });
             };
             $scope.removeProfiles = function () {
-                if(confirm('Are you sure to delete?')){
+                if (confirm('Are you sure to delete?')) {
                     this.toRemoveAll = false;
                     for (var i = ($scope.profiles.length - 1); i >= 0; i--) {
                         if ($scope.profiles[i].toRemove) {
@@ -166,6 +188,46 @@ angular.module('settingsCtrls', [])
             };
         }
     ])
+
+    .controller('settings_email', ['$scope', '$filter', 'Config',
+        function ($scope, $filter, Config) {
+            var setEmailConfigs = function (data) {
+                $scope.emailConfigs = data;
+                $scope.emailFormData = JSON.parse($scope.emailConfigs.value);
+            }
+
+            Config.get({title: 'email'}, function (data) {
+                $scope.emailConfigs = {};
+                $scope.emailFormData = {smtp_port: 25, smtp_ssl: false, email_notify: true};
+
+                if(data.objects && data.objects.length) {
+                    setEmailConfigs(data.objects[0]);
+                }
+            });
+
+            $scope.saveEmailConfigs = function () {
+                var id = $scope.emailConfigs.id || '';
+                var config = {
+                    title: 'email',
+                    type: 'email',
+                    value: JSON.stringify($scope.emailFormData)
+                }
+
+                if (id) {
+                    config.id = id;
+                }
+
+                Config.add(config, function (data) {
+                    setEmailConfigs(data);
+                    alert($filter('translate')('Save Successfully') + '!');
+                });
+            };
+
+            $scope.sendTestMail = function () {
+                console.log($scope.emailFormData);
+            };
+        }
+    ])
 ;
 
 
@@ -178,74 +240,6 @@ var test_profiles = [
     {name: 'profile6', description: 'dexc6'},
     {name: 'profile7', description: 'dexc7'},
 ]
-var test_users = [
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-    {
-        'username': 'ethan',
-        'email': 'sorrowkid@163.com',
-        'role': 'admin',
-        'dateAdded': '1927-07-12'
-    },
-];
 
 var test_group_data = [
     {

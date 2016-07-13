@@ -27,12 +27,18 @@ class User(db.Model, BaseUser):
 
 
 class ConfigValue(db.Model):
-    title = CharField(max_length=32)
-    type = CharField(max_length=16, null=True)
+    title = CharField(max_length=64)
+    type = CharField(max_length=32, null=True)
     value = TextField()
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        indexes = (
+            (('title', 'type'), True),
+        )
+        ordering = (('title', 'asc'),)
 
 
 class Group(db.Model, InheritanceMixin):

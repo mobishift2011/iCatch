@@ -1,16 +1,22 @@
-<div class="settings_email">
-    <form action="">
+<div class="settings_email" ng-controller="settings_email">
+    <form name="emailForm">
         <div class="page-header"><h4 translate="Email Server"></h4></div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3" translate="SMTP Server"></div>
-                <div class="col-md-3"><input type="text" class="form-control"></div>
+                <div class="col-md-3">
+                    <input type="text" name="smtpServer" class="form-control" ng-model="emailFormData.smtp_server"
+                           required>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3" translate="SMTP Port"></div>
-                <div class="col-md-3"><input type="text" class="form-control" value="25"></div>
+                <div class="col-md-3">
+                    <input type="text" name="smtpPort" class="form-control"
+                           ng-model="emailFormData.smtp_port" required>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -18,10 +24,12 @@
                 <div class="col-md-3" translate="SMTP Enable Security SSL"></div>
                 <div class="col-md-3">
                     <label class="radio-inline">
-                        <input type="radio" name="emailSSL"> <span translate="Yes"></span>
+                        <input type="radio" name="smtpSSL" value=1 ng-model="emailFormData.smtp_ssl" required> <span
+                            translate="Yes"></span>
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="emailSSL"> <span translate="No"></span>
+                        <input type="radio" name="smtpSSL" value=0 ng-model="emailFormData.smtp_ssl" required> <span
+                            translate="No"></span>
                     </label>
                 </div>
             </div>
@@ -31,13 +39,19 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3" translate="Email Address"></div>
-                <div class="col-md-3"><input type="text" class="form-control"></div>
+                <div class="col-md-3">
+                    <input type="text" name="emailAddress" class="form-control" ng-model="emailFormData.email_address"
+                           required>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3" translate="Email Password"></div>
-                <div class="col-md-3"><input type="password" class="form-control"></div>
+                <div class="col-md-3">
+                    <input type="password" name="emailPwd" class="form-control" ng-model="emailFormData.email_password"
+                           required>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -45,10 +59,13 @@
                 <div class="col-md-3" translate="Send Email to the Address When Alerts"></div>
                 <div class="col-md-3">
                     <label class="radio-inline">
-                        <input type="radio" name="enableEmailNotify"> <span translate="Yes"></span>
+                        <input type="radio" name="enableEmailNotify" value=1 ng-model="emailFormData.email_notify"
+                               required> <span
+                            translate="Yes"></span>
                     </label>
                     <label class="radio-inline"></label>
-                        <input type="radio" name="enableEmailNotify"> <span translate="No"></span>
+                    <input type="radio" name="enableEmailNotify" value=0 ng-model="emailFormData.email_notify" required> <span
+                        translate="No"></span>
                     </label>
                 </div>
             </div>
@@ -56,7 +73,11 @@
 
         <hr>
 
-        <button class="btn btn-default" translate="Send Test Email"></button>
-        <button class="btn btn-primary" translate="Save"></button>
+        <button class="btn btn-default" ng-click="sendTestMail()"
+                ng-disabled="emailForm.smtpServer.$error.required || emailForm.smtpPort.$error.required || emailForm.smtpSSL.$error.required || emailForm.emailAddress.$error.required || emailForm.emailPwd.$error.required || emailForm.enableEmailNotify.$error.required"
+                translate="Send Test Email"></button>
+        <button class="btn btn-primary" ng-click="saveEmailConfigs()"
+                ng-disabled="emailForm.smtpServer.$error.required || emailForm.smtpPort.$error.required || emailForm.smtpSSL.$error.required || emailForm.emailAddress.$error.required || emailForm.emailPwd.$error.required || emailForm.enableEmailNotify.$error.required"
+                translate="Save"></button>
     </form>
 </div>

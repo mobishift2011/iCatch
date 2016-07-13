@@ -7,14 +7,14 @@
                         <a href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">Edit User Permissions</h4>
+                        <h4 class="media-heading" translate="Edit User Permissions"></h4>
                         <p>Click on a user's name to edit permissions.
                             You can add or remove users you manage.
                             Hover over each role to view permissions.
                         </p>
                         <ul class="list-inline">
-                            <li><b>&middot;</b> User</li>
-                            <li><b>&middot;</b> Admin</li>
+                            <li><b>&middot;</b> <span translate="User"></span></li>
+                            <li><b>&middot;</b> <span translate="Admin"></span></li>
                         </ul>
                     </div>
                 </div>
@@ -23,13 +23,15 @@
         <div class="col-md-6">
             <div class="well">
                 <form name="userForm">
-                    <p>Add Users
-                        <small>(All fields are required)</small>
+                    <p>
+                        <label translate="Add User"></label>
+                        <small>(<span translate="All fields are required"></span>)</small>
                     </p>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Enter Email" required>
+                                <input type="email" name="username" class="form-control" placeholder="Enter Email"
+                                       ng-model="userFormData.username" required>
                             </div>
                         </div>
 
@@ -37,13 +39,25 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <select class="form-control">
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
+                                <input type="password" name="password" class="form-control" placeholder="Enter Password"
+                                       ng-model="userFormData.password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select class="form-control" name="admin" ng-model="userFormData.admin" required>
+                                    <option value=0 translate="User"></option>
+                                    <option value=1 translate="Admin"></option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <button class="btn btn-primary">add</button>
+                                <button class="btn btn-primary" ng-click="addUser()" translate="Add"
+                                        ng-disabled="userForm.username.$error.required || userForm.username.$invalid
+                                            || userForm.password.$error.required || userForm.admin.$error.required">
+
+                                </button>
                             </div>
                         </div>
 
@@ -57,7 +71,7 @@
         <div class="box col-md-12">
             <div class="box-inner">
                 <div class="box-header well" data-original-title="">
-                    <h2><i class="glyphicon glyphicon-user"></i> Users</h2>
+                    <h2><i class="glyphicon glyphicon-user"></i> <span translate="Users"></span></h2>
                     <div class="box-icon">
                         <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                 class="glyphicon glyphicon-chevron-up"></i></a>
@@ -69,22 +83,18 @@
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-sm btn-danger" ng-click="removeUsers()">Remove</button>
+                                <button class="btn btn-sm btn-danger" ng-click="removeUsers()"
+                                        translate="Remove"></button>
                             </div>
                             <div class="col-md-6">
-                                <div class="col-md-6">
-                                    <div id="DataTables_Table_0_length" class="dataTables_length"><label><select
-                                            size="1" name="DataTables_Table_0_length"
-                                            aria-controls="DataTables_Table_0">
-                                        <option value="10" selected="selected">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> records per page</label></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input
-                                            type="text" aria-controls="DataTables_Table_0"></label></div>
+                                <div class="col-md-6 col-md-offset-6">
+                                    <div class="dataTables_filter" id="DataTables_Table_0_filter">
+                                        <label>
+                                            <span translate="Search"></span>:
+                                            <input type="text" aria-controls="DataTables_Table_0"
+                                                   ng-model="searchedUser">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -92,64 +102,65 @@
                                id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
                             <thead>
                             <tr role="row">
-                                <th><input type="checkbox" ng-model="toRemoveAll" ng-click="checkAll()"></th>
+                                <th>
+                                    <input type="checkbox" ng-model="toRemoveAll" ng-click="checkAll()">
+                                </th>
                                 <th class="sorting_asc" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending"
-                                    aria-label="Username: activate to sort column descending" style="width: 225px;">
-                                    Username
+                                    aria-label="Username: activate to sort column descending"
+                                    translate="Username">
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Role: activate to sort column ascending" style="width: 102px;">Role
+                                    aria-label="Role: activate to sort column ascending"
+                                    translate="Role">
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Email: activate to sort column ascending" style="width: 225px;">
-                                    Email
-                                </th>
-                                <th class="sorting" role="columnheader" tabindex="0"
-                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                    aria-label="Status: activate to sort column ascending" style="width: 118px;">
-                                    Status
+                                    aria-label="Status: activate to sort column ascending"
+                                    translate="Status">
                                 </th>
                                 <th class="sorting" role="columnheader" tabindex="0"
                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                     aria-label="Date registered: activate to sort column ascending"
-                                    style="width: 189px;">Date registered
+                                    translate="Date registered">
+                                </th>
+                                <th class="sorting" role="columnheader" tabindex="0"
+                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                    aria-label="Added By: activate to sort column ascending" translate="Added By">
                                 </th>
                             </tr>
                             </thead>
 
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
-                            <tr ng-repeat="user in users">
+                            <tr ng-repeat="user in users | filter:searchedUser">
                                 <td><input type="checkbox" ng-model="user.toRemove"></td>
                                 <td class=" sorting_1">{{ user.username }}</td>
-                                <td class="center ">{{ user.role }}</td>
-                                <td class="center ">{{ user.email }}</td>
+                                <td class="center ">{{ user.admin }}</td>
                                 <td class="center ">
                                     <span class="label label-success">Active</span>
                                 </td>
                                 <td class="center ">{{ user.dateAdded }}</td>
+                                <td class="center ">{{ user.addedBy.username }}</td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 10 of 32
+                                <div class="dataTables_info" id="DataTables_Table_0_info">Showing <span
+                                        ng-bind="pagination.start"></span> to <span ng-bind="pagination.end"></span>
+                                    of <span ng-bind="pagination.total"></span>
                                     entries
                                 </div>
                             </div>
                             <div class="col-md-12 center-block">
-                                <div class="dataTables_paginate paging_bootstrap pagination">
-                                    <ul class="pagination">
-                                        <li class="prev disabled"><a href="#">← </a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li class="next"><a href="#"> → </a></li>
-                                    </ul>
-                                </div>
+                                <uib-pagination total-items="pagination.total"
+                                                items-per-page="pagination.paginate_by"
+                                                ng-model="pagination.page"
+                                                max-size="pagination.maxPageSize"
+                                                class="pagination-sm" boundary-links="true"
+                                                force-ellipses="true" ng-change="pageChanged(pagination.page)">
+                                </uib-pagination>
                             </div>
                         </div>
                     </div>

@@ -1,12 +1,16 @@
 adminApp = angular.module('app', [
     'ui.router',
     'pascalprecht.translate',
+    'ui.bootstrap.pagination',
     'overviewCtrls',
     'threatsCtrls',
     'investigateCtrls',
     'computerCtrls',
     'settingsCtrls',
 ])
+    .constant('sys', {
+        'API': 'http://localhost:9090/api'
+    })
     .run(['$rootScope', function ($rootScope) {
         $rootScope.comStatStyle = {
             'on': 'success',
@@ -17,13 +21,15 @@ adminApp = angular.module('app', [
         };
     }])
 
-    .config(['$stateProvider', '$locationProvider', '$translateProvider',
-        function ($stateProvider, $locationProvider, $translateProvider) {
+    .config(['$stateProvider', '$locationProvider', '$resourceProvider', '$translateProvider',
+        function ($stateProvider, $locationProvider, $resourceProvider, $translateProvider) {
             $locationProvider.html5Mode({
                 enabled: true,
                 requireBase: false,
                 rewriteLinks: false,
             });
+
+            $resourceProvider.defaults.stripTrailingSlashes = false;
 
             $translateProvider.preferredLanguage('cn');
             $translateProvider.useStaticFilesLoader({

@@ -18,5 +18,6 @@ class RestResource(BaseResource):
 api = RestAPI(app, default_auth=LoginUserAuthentication())
 
 import user
+import config
 
 api.setup()

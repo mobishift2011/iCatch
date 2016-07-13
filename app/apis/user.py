@@ -1,11 +1,12 @@
 #-*- encoding: utf-8 -*-
-from app.apis import api, RestResource
+from app.apis import api
 from app.models import User
-from flask import g
+from base import BaseResource
+from flask import g, request
 
 import peewee
 
-class UserResource(RestResource):
+class UserResource(BaseResource):
     exclude = ('password',)
 
     def get_urls(self):
@@ -34,7 +35,7 @@ class UserResource(RestResource):
         self.save_related_objects(obj, data)
 
         try:
-            self.save_object(obj, data)
+            obj.save()
         except peewee.IntegrityError:
             return self.operationresponse('User Exists', False)
 
