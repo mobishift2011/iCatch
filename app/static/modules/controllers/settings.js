@@ -13,27 +13,42 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
         $state.go('settings_basic');
     }])
 
-    .controller('settings_basic', ['$scope',
-        function ($scope) {
+    .controller('settings_basic', ['$scope', '$filter', 'Config', 'Profile',
+        function ($scope, $filter, Config, Profile) {
             $scope.configs = {
-                timeZone: 'America/Los Angelos',
-                profile: 'test profile1',
-                fileHash: 'md5'
+                timezone: {},
+                profile: {},
+                fileHash: {},
+                quarantineMessage: {},
+                quarantineWhitelist: {}
             }
+
+            var configTitles = Object.keys($scope.configs);
+            for (var i in configTitles) {
+                var title = configTitles[i];
+                (function(title) {
+                    Config.get(title, function (data) {
+                        if (data) {
+                            $scope.configs[title] = data;
+                        }
+                    });
+                })(title);
+
+            };
+
             $scope.tzs = [
                 'America/Los Angelos',
                 'Chinese/Beijing',
-            ]
-            $scope.profiles = [
-                'test profile',
-                'test profile1',
-                'test profile2'
+            ];
 
-            ]
+            Profile.get(function(data){
+                $scope.profiles = data.objects || [];
+            });
+
             $scope.fileHashs = [
                 {title: 'MD5', value: 'md5'},
-                {title: 'SHA256 & MD5', value: 'SHA256_and_MD5'},
-            ]
+                {title: 'SHA256 & MD5', value: 'sha256_and_md5'},
+            ];
 
             var tzBtnText = 'Change Timezone'
             var profileBtnText = 'Change Profile'
@@ -42,35 +57,48 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
             $scope.tzBtnText = tzBtnText;
             $scope.profileBtnText = profileBtnText;
 
-            $scope.selectedTimeZone = $scope.configs.timeZone;
             $scope.clickChangeZone = function () {
                 if ($scope.isChangeZone) {
-                    // if($scope.selectedTimeZone !== $scope.configs.timeZone){
-                    //     alert($scope.configs.timeZone);
-                    //     //todo
-                    //     $scope.configs.timeZone = $scope.selectedTimeZone;
-                    // }
-
+                    Config.add($scope.configs.timezone, function (data) {
+                        $scope.configs.timezone = data;
+                        ht.noty($filter('translate')('Update successfully') + ' !');
+                    });
                 }
                 $scope.tzBtnText = ($scope.tzBtnText === tzBtnText) ? confirmBtnText : tzBtnText;
                 $scope.isChangeZone = !$scope.isChangeZone;
-            }
+            };
 
-            $scope.selectedProfile = $scope.configs.profile;
             $scope.clickChangeProfile = function () {
                 if ($scope.isChangeProfile) {
-                    if ($scope.selectedProfile !== $scope.configs.profile) {
-                        alert($scope.configs.profile);
-                        //todo
-                        $scope.configs.profile = $scope.selecedProfile;
-                    }
+                    Config.add($scope.configs.profile, function (data) {
+                        $scope.configs.profile = data;
+                        ht.noty($filter('translate')('Update successfully') + ' !')
+                    });
                 }
                 $scope.profileBtnText = ($scope.profileBtnText === profileBtnText) ? confirmBtnText : profileBtnText;
                 $scope.isChangeProfile = !$scope.isChangeProfile;
-            }
+            };
+
             $scope.changeAlgorithm = function () {
-                console.log($scope.configs.fileHash);
-            }
+                Config.add($scope.configs.fileHash, function (data) {
+                    $scope.configs.fileHash = data;
+                    ht.noty($filter('translate')('Update successfully') + ' !')
+                });
+            };
+
+            $scope.saveQuarantineMessage = function () {
+                Config.add($scope.configs.quarantineMessage, function (data) {
+                    $scope.configs.quarantineMessage = data;
+                    ht.noty($filter('translate')('Update successfully') + ' !')
+                });
+            };
+
+            $scope.saveQuarantineWhitelist = function () {
+                Config.add($scope.configs.quarantineWhitelist, function (data) {
+                    $scope.configs.quarantineWhitelist = data;
+                    ht.noty($filter('translate')('Update successfully') + ' !')
+                });
+            };
         }
     ])
 
@@ -99,9 +127,9 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 User.add(userData, function (result) {
                     if (result.status) {
                         $scope.users.unshift(result.data);
-                        alert('Add user ' + result.data.username + ' successfully' + '!')
+                        ht.noty('Add user ' + result.data.username + ' successfully' + '!')
                     } else {
-                        alert(result.message);
+                        ht.noty(result.message);
                     }
                 });
             };
@@ -142,10 +170,10 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 Profile.add($scope.profileFormData, function (result) {
                     console.log(result);
                     if (result.status) {
-                        alert($filter('translate')('Save Successfully') + '!');
+                        ht.noty($filter('translate')('Save Successfully') + '!');
                         Profile.list({page: $scope.pagination.page}, getProfileList);
                     } else {
-                        alert($filter('translate')(result.message));
+                        ht.noty($filter('translate')(result.message));
                     }
 
                 });
@@ -162,14 +190,14 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 var delete_ids = [];
                 var tip = $filter('translate')('Are you sure to delete') + ' ?';
 
-                $scope.profiles.map(function(e){
+                $scope.profiles.map(function (e) {
                     if (e.toRemove) {
                         delete_ids.push(e.id);
                     }
                 });
 
                 if (delete_ids.length && confirm(tip)) {
-                    Profile.delete({ids: delete_ids.join(',')}, function(data){
+                    Profile.delete({ids: delete_ids.join(',')}, function (data) {
                         Profile.list({page: $scope.pagination.page}, getProfileList);
                     });
                 }
@@ -229,12 +257,12 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 $scope.emailFormData = JSON.parse($scope.emailConfigs.value);
             }
 
-            Config.get({title: 'email'}, function (data) {
+            Config.get('email', function (data) {
                 $scope.emailConfigs = {};
                 $scope.emailFormData = {smtp_port: 25, smtp_ssl: false, email_notify: true};
 
-                if (data.objects && data.objects.length) {
-                    setEmailConfigs(data.objects[0]);
+                if (data) {
+                    setEmailConfigs(data);
                 }
             });
 
@@ -252,7 +280,7 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
 
                 Config.add(config, function (data) {
                     setEmailConfigs(data);
-                    alert($filter('translate')('Save Successfully') + '!');
+                    ht.noty($filter('translate')('Save Successfully') + '!');
                 });
             };
 
@@ -260,7 +288,7 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 Config.testMail($scope.emailFormData, function (data) {
                     status = data.status;
                     message = {true: 'successfully', false: 'fail'}[status];
-                    alert($filter('translate')('Send mail ' + message) + '!');
+                    ht.noty($filter('translate')('Send mail ' + message) + '!');
                 });
             };
         }

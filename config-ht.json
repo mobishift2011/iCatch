@@ -11,5 +11,13 @@
     "threadlocals": true
   },
   "CLIENTKEY": "37bdbea9-92f2-49f6-a4c6-dff88a0d24a5",
-  "DEBUG": true
+  "DEBUG": true,
+  "REDIS": {
+    "host": "127.0.0.1",
+    "port": 6379
+  },
+  "DATAENGINE": {
+    "host": "127.0.0.1",
+    "port": 3309
+  }
 }

@@ -1,11 +1,15 @@
-angular.module('computerCtrls', [])
-    .controller('computers', ['$scope',
-        function ($scope) {
+angular.module('computerCtrls', ['profileServices', 'computerServices'])
+    .controller('computers', ['$scope', 'Profile', 'Computer',
+        function ($scope, Profile, Computer) {
             $scope.comTabs = [
                 {title: 'Protected', state: 'computers_protected'},
                 {title: 'Isolated', state: 'computers_isolated'}
             ];
-            $scope.coms = test_coms1;
+
+            getProfiles($scope, Profile);
+            getSensors($scope, Computer);
+            getComputers($scope, Computer);
+
             $scope.query = {};
             $scope.activateQuery = function (title) {
                 $scope.queryTitle = title;
@@ -16,9 +20,9 @@ angular.module('computerCtrls', [])
             }
         }])
 
-    .controller('protectedComs', ['$scope',
-        function ($scope) {
-            $scope.coms = test_coms1;
+    .controller('protectedComs', ['$scope', 'Profile',
+        function ($scope, Profile) {
+            getComputers($scope, Computer);
         }])
 
 
@@ -26,10 +30,10 @@ angular.module('computerCtrls', [])
         function ($scope) {
             $scope.queryTitle = '';
             $scope.tableCheckHide = true;
-            $scope.coms = test_coms2;
+            getComputers($scope, Computer);
         }])
-    
-    
+
+
     .controller('computerDetail', ['$scope', '$stateParams',
         function ($scope, $stateParams) {
             id = $stateParams.id;
@@ -38,15 +42,29 @@ angular.module('computerCtrls', [])
         }])
 ;
 
+function getProfiles($scope, Profile) {
+    Profile.get(function (data) {
+        $scope.profiles = data.objects || [];
+    });
+}
 
-var test_com = {
-    name: 'Ehtan"s computer',
-    domain: 'www.baidu.com',
-    ip: '192.168.0.1',
-    profile: 'profile api',
-    groups: ['Group1', 'group2', 'group3'],
-    status: 'resume',
-    version: '1.2.1',
-    sensorID: '123',
-    quarantine: true,
+function getSensors($scope, Computer) {
+    Computer.sensorList(function(data){
+        $scope.sensors = data || [];
+        alert($scope.sensors);
+    });
+}
+
+function getComputers($scope, Computer) {
+    var _comCallback = function (data) {
+        $scope.pagination = data.meta || {};
+        $scope.coms = data.objects || [];
+    };
+
+    $scope.pageChanged = function (page) {
+        Computer.get({page: page}, _comCallback);
+    };
+    
+    Computer.get(_comCallback);
+
 }

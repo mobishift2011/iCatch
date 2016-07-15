@@ -33,27 +33,36 @@
         <tr ng-repeat="item in data">
             <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check()">
             </td>
-            <td><a class="text-info" ng-bind="item.name" ui-sref="computer_detail({id: item.id})"></a></td>
+            <td><a class="text-info" ng-bind="item.sensorID" ui-sref="computer_detail({id: item.id})"></a></td>
             <td>
                 <span ng-bind="item.status" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
             </td>
             <td ng-bind="item.ip"></td>
             <td ng-bind="item.os"></td>
-            <td ng-bind="item.lastCommunicated"></td>
-            <td ng-bind="item.addedTime"></td>
+            <td ng-bind="item.last_communicated_timestamp"></td>
+            <td ng-bind="item.start_timestamp"></td>
             <td ng-bind="item.profile" ng-if="queryTitle === 'comProfile'"></td>
             <td ng-bind="item.group" ng-if="queryTitle === 'comGroup'"></td>
-            <td ng-bind="item.sensor" ng-if="queryTitle === 'comSensor'"></td>
+            <td ng-bind="item.sensorVersion" ng-if="queryTitle === 'comSensor'"></td>
         </tr>
         </tbody>
     </table>
+    <div class="col-md-12 center-block">
+        <uib-pagination total-items="pagination.total"
+                        items-per-page="pagination.paginate_by"
+                        ng-model="pagination.page"
+                        max-size="pagination.maxPageSize"
+                        class="pagination-sm" boundary-links="true"
+                        force-ellipses="true" ng-change="pageChanged(pagination.page)">
+        </uib-pagination>
+    </div>
 
     <modal id="addProfileModal" title="{{'Profiles'|translate}}">
         <table class="table table-hover">
             <tr ng-repeat="item in profiles">
                 <td style="padding: auto; border-top: 0;" ng-click="addProfile(item)">
                     <span class="glyphicon glyphicon-file text-info"></span>&nbsp;
-                    <span ng-bind="item.name"></span>
+                    <span ng-bind="item.title"></span>
                 </td>
             </tr>
         </table>

@@ -17,21 +17,23 @@
                     <label translate="Profile"></label>
                     <select name="comProfile" class="form-control" ng-model='query.comProfile'
                             ng-readonly="queryTitle != 'comProfile'" ng-mousedown="activateQuery('comProfile')">
-                        <option value="">All</option>
+                        <option>All</option>
+                        <option ng-repeat="p in profiles" ng-bind="p.title" ng-value="p.id"></option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
                     <label translate="Group"></label>
                     <select name="comGroup" class="form-control" ng-model='query.comGroup'
                             ng-readonly="queryTitle != 'comGroup'" ng-mousedown="activateQuery('comGroup')">
-                        <option value="">All</option>
+                        <option>All</option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
                     <label translate="Sensor Version"></label>
                     <select name="comSensor" class="form-control" ng-model='query.comSensor'
                             ng-readonly="queryTitle != 'comSensor'" ng-mousedown="activateQuery('comSensor')">
-                        <option value="">All</option>
+                        <option>All</option>
+                        <option ng-repeat="s in sensors" ng-bind="s" ng-value="s"></option>
                     </select>
                 </div>
                 <div class="col-md-4">

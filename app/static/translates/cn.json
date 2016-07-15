@@ -129,9 +129,17 @@
   "Character Max": "最多字符数",
   "File": "文件",
   "Save Successfully": "保存成功",
+  "Update successfully": "修改成功",
   "Send mail successfully": "发送邮件成功",
   "Send mail fail": "发送邮件失败",
   "Alreay Exists": "已经存在",
-  "Are you sure to delete": "确定删除吗"
-
+  "Are you sure to delete": "确定删除吗",
+  "Endpoint Quarantine": "计算机隔离",
+  "Alert endpoint user when Quarantine is activated": "提醒用户计算机被隔离",
+  "Configure quarantine whitelist": "设置隔离的白名单",
+  "Warning": "警告",
+  "IP Address (comma separated)": "IP地址(用逗号隔开)",
+  "Display alert Message on the endpoint": "当计算机被隔离时，显示下面的信息",
+  "Characters Left": "已写字符数",
+  "Character Max": "最多字符数"
 }

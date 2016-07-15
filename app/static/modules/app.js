@@ -303,20 +303,6 @@ adminApp = angular.module('app', [
                     }
                 }
 
-                $scope.profiles = [
-                    {name: 'profile1'},
-                    {name: 'profile3'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                    {name: 'profile2'},
-                ];
-
                 $scope.sensor = $scope.profiles;
 
                 $scope.addProfile = function (item) {

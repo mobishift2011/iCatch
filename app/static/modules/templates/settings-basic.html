@@ -1,12 +1,12 @@
 <div class="settings_basic" ng-controller="settings_basic">
     <div class="row">
         <div class="col-md-12">
-            <div class="page-header page-header-first"><h4 translate="Timezone"></h4></div>
+            <div class="page-header page-header-first"><h4 translate="timezone"></h4></div>
         </div>
         <div class="col-md-4">
-            <span ng-if="!isChangeZone" ng-bind="configs.timeZone"></span>
-            <select ng-if="isChangeZone" ng-model="configs.timeZone">
-                <option ng-repeat="tz in tzs" ng-value="tz" ng-selected="tz === configs.timeZone">
+            <span ng-if="!isChangeZone" ng-bind="configs.timezone.value"></span>
+            <select ng-if="isChangeZone" ng-model="configs.timezone.value">
+                <option ng-repeat="tz in tzs" ng-value="tz" ng-selected="tz === configs.timezone.value">
                     {{tz}}
                 </option>
             </select>
@@ -21,10 +21,10 @@
             <div class="page-header"><h4 translate="Default Analysis Profile"></h4></div>
         </div>
         <div class="col-md-4">
-            <span ng-if="!isChangeProfile" ng-bind="configs.profile"></span>
-            <select ng-if="isChangeProfile" ng-model="configs.profile">
-                <option ng-repeat="p in profiles" ng-value="p" ng-selected="p === configs.profile">
-                    {{p}}
+            <span ng-if="!isChangeProfile" ng-bind="configs.profile.value"></span>
+            <select ng-if="isChangeProfile" ng-model="configs.profile.value">
+                <option ng-repeat="p in profiles" ng-value="p.title" ng-selected="p.title === configs.profile.value">
+                    {{p.title}}
                 </option>
             </select>
         </div>
@@ -43,8 +43,8 @@
         <div class="col-md-8">
             <span ng-repeat="fh in fileHashs">
                 <label class="radio-inline">
-                    <input type="radio" ng-value="fh.value" ng-model="configs.fileHash"
-                           ng-checked="configs.fileHash === fh.value" ng-change="changeAlgorithm()">
+                    <input type="radio" ng-value="fh.value" ng-model="configs.fileHash.value"
+                           ng-change="changeAlgorithm()">
                     <span ng-bind="fh.title"></span> &nbsp;
                 </label>
             </span>
@@ -53,30 +53,32 @@
 
     <div class="row">
         <div class="col-md-12 quarantine-setting">
-            <div class="page-header"><h4>Endpoint Quarantine</h4></div>
-            <div><p>Alert endpoint user when Quarantine is activated</p></div>
+            <div class="page-header"><h4 translate="Endpoint Quarantine"></h4></div>
+            <div><p translate="Alert endpoint user when Quarantine is activated"></p></div>
             <div class="form-group">
-                <p><input type="checkbox" ng-model="quarantineAlert"> Display alert Message on the endpoint (Characters
-                    Left: {{quarantineAlertText.length || 0}} / Character
-                    Max:255)</p>
-                <textarea class="form-control" rows="3" maxlength="255" ng-model="quarantineAlertText"
-                          ng-show="quarantineAlert"></textarea>
+                <p><input type="checkbox" ng-checked="configs.quarantineMessage.value" ng-model="quarantineMessageShow">
+                    {{'Display alert Message on the endpoint'|translate}}
+                    ({{'Characters Left'|translate}}:
+                    {{quarantineAlertText.length || 0}} / {{'Character Max' | translate}}:255)</p>
+                <textarea class="form-control" rows="3" maxlength="255" ng-model="configs.quarantineMessage.value"
+                          ng-show="quarantineMessageShow || configs.quarantineMessage.value"
+                          placeholder="本计算机由于安全原因被隔离，如有问题，请联系系统管理员。"></textarea>
             </div>
             <div>
-                <button class="btn btn-primary btn-sm" translate="Save"></button>
+                <button class="btn btn-primary btn-sm" translate="Save" ng-click="saveQuarantineMessage()"></button>
             </div>
             <hr>
-            <h5>Configure quarantine whitelist</h5>
+            <h5 translate="Configure quarantine whitelist"></h5>
             <div class="alert alert-warning alert-dismissible fade in quarantine-warning" role="alert">
-                <strong>Warning: </strong>
+                <strong><span translate="Warning"></span>: </strong>
                 计算机被隔离后，该计算机只能和下面IP列表中的设备通讯，请确保设置的IP地址中包含了所有需要的设备的IP地址，比如和您指定的计算机完成通讯需要的VPN、代理、DHCP以及DNS的IP地址等。
             </div>
             <div class="form-group">
-                <label>IP Address (comma separated)</label>
-                <input type="text" class="form-control" ng-model="quarantineWhitelist">
+                <label translate="IP Address (comma separated)"></label>
+                <input type="text" class="form-control" ng-model="configs.quarantineWhitelist.value">
             </div>
             <div>
-                <button class="btn btn-primary btn-sm" translate="Save"></button>
+                <button class="btn btn-primary btn-sm" translate="Save" ng-click="saveQuarantineWhitelist()"></button>
             </div>
         </div>
     </div>

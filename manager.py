@@ -43,5 +43,41 @@ def init_admin():
     _init_admin()
 
 
+@manager.command
+def prepare_test_data():
+    if not app.debug:
+        return
+
+    _computer_test_data()
+
+def _computer_test_data():
+    from app.models import *
+    import datetime
+    import random
+    import time
+    import uuid
+
+    oses = ['windows 7', 'windows 10', 'linux', 'ubuntu', 'Mac OS']
+    statuses = ['on', 'off', 'resume', 'pause', 'uninstall']
+    ips = ['192.168.20.1', '192.168.20.2', '192.168.20.3', '192.168.20.4']
+    days = [1, 2, 3, 4, 5, 6, 7, 8]
+    now = datetime.datetime.utcnow()
+    profiles = Profile.select()
+    versions = ['1.0', '2.0', '2.2', '3.0', '4.0', '5.0', '5.1', '6.0']
+
+    for i in xrange(16108):
+        Computer.create(
+            sensorID = str(uuid.uuid4()),
+            sensorVersion = random.choice(versions),
+            os = random.choice(oses),
+            status = random.choice(statuses),
+            ip = random.choice(ips),
+            last_communicated_timestamp = time.mktime(now.timetuple()),
+            start_timestamp = time.mktime((now - datetime.timedelta(days=random.choice(days))).timetuple()),
+            profile = random.choice(profiles),
+            is_quarantine = random.choice([True, False])
+        )
+
+
 if __name__ == '__main__':
     manager.run()

@@ -1,6 +1,6 @@
 angular.module('configServices', ['ngResource'])
     .factory('Config', ['$resource', 'sys',
-        function($resource, sys){
+        function ($resource, sys) {
             var url = sys.API + '/config/:configId/';
             var resource = $resource(url, {configId: '@id'}, {
                 'testMail': {
@@ -9,8 +9,18 @@ angular.module('configServices', ['ngResource'])
                 }
             });
 
+            var get = function (key, fn) {
+                resource.get({title: key}, function (data) {
+                    if (data.objects && data.objects.length) {
+                        fn(data.objects[0]);
+                    }else {
+                        fn(null);
+                    }
+                });
+            }
+
             return {
-                get: resource.get,
+                get: get,
                 add: resource.save,
                 testMail: resource.testMail,
             }
