@@ -14,7 +14,7 @@ Huating Admin Panel
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
             <a href="javascript:void(0)" class="navbar-brand nav-title">
-                <img alt="Logo" src="{%% url_for('.static', filename='img/logo.jpg') %%}"/>
+                <img alt="Logo" src="{%% url_for('.static', filename='img/logo.png') %%}"/>
                 <span>Admin2.1</span>
             </a>
             <!--<button class="navbar-toggle" data-toggle="collpase" data-target=".nav-menu">-->
@@ -90,3 +90,9 @@ Huating Admin Panel
     </div>
 </div>
 {% endblock content %}
+
+{% block footer %}
+<p class="text-center">
+    <small>&copy; COPYRIGHT 2016 ALIENVAULT, INC. | LEGAL</small>
+</p>
+{% endblock footer %}

@@ -1,0 +1,8 @@
+* * * * * /opt/web/gllue cron sync_errorlog >> /opt/log/cron/sync_errorlog.log 2>&1
+* * * * * /opt/web/gllue cron reminder >> /opt/log/cron/reminder.log 2>&1
+0,30 * * * * /opt/web/gllue cron receive_mail_all >> /opt/log/cron/mail.log 2>&1
+0 0 * * * /opt/web/gllue cron backup_mysql >> /opt/log/cron/backup_mysql.log 2>&1
+1 0 * * * /opt/web/gllue cron backup_upload >> /opt/log/cron/backup_upload.log 2>&1
+0 3 * * * /opt/web/gllue cron update_queryfilter_count >> /dev/null 2>&1
+0 8 * * * /opt/web/gllue cron operation_log_alert >> /dev/null 2>&1
+0 8 * * * /opt/web/gllue cron loginlog_alert >> /dev/null 2>&1

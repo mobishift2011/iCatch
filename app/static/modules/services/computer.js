@@ -3,9 +3,10 @@ angular.module('computerServices', ['ngResource'])
         function($resource, sys){
             var url = sys.API + '/computer/:computerId/';
             var resource = $resource(url, {computerId: '@id'}, {
-                'sensorList': {
+                sensorList: {
                     method: 'GET',
-                    params: {computerId: 'sensor'}
+                    params: {computerId: 'sensor'},
+                    isArray: true
                 }
             });
 

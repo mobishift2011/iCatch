@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from . import db
 from peewee import *
+from peewee_patch import *
 from flask import g
 from flask_peewee.auth import BaseUser
 

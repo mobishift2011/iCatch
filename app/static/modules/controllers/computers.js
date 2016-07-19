@@ -8,7 +8,7 @@ angular.module('computerCtrls', ['profileServices', 'computerServices'])
 
             getProfiles($scope, Profile);
             getSensors($scope, Computer);
-            getComputers($scope, Computer);
+            getComputers($scope, Computer, {is_quarantine: false});
 
             $scope.query = {};
             $scope.activateQuery = function (title) {
@@ -20,25 +20,25 @@ angular.module('computerCtrls', ['profileServices', 'computerServices'])
             }
         }])
 
-    .controller('protectedComs', ['$scope', 'Profile',
-        function ($scope, Profile) {
-            getComputers($scope, Computer);
+    .controller('protectedComs', ['$scope', 'Profile', 'Computer',
+        function ($scope, Profile, Computer) {
+            getComputers($scope, Computer, {is_quarantine: false});
         }])
 
 
-    .controller('isolatedComs', ['$scope',
-        function ($scope) {
+    .controller('isolatedComs', ['$scope', 'Computer',
+        function ($scope, Computer) {
             $scope.queryTitle = '';
             $scope.tableCheckHide = true;
-            getComputers($scope, Computer);
+            getComputers($scope, Computer, {is_quarantine: true});
         }])
 
 
     .controller('computerDetail', ['$scope', '$stateParams',
         function ($scope, $stateParams) {
             id = $stateParams.id;
-            $scope.computer = test_com;
-            test_com.id = id;
+            // $scope.computer = test_com;
+            // test_com.id = id;
         }])
 ;
 
@@ -51,20 +51,23 @@ function getProfiles($scope, Profile) {
 function getSensors($scope, Computer) {
     Computer.sensorList(function(data){
         $scope.sensors = data || [];
-        alert($scope.sensors);
     });
 }
 
-function getComputers($scope, Computer) {
+function getComputers($scope, Computer, params) {
+    params = params || {};
+
     var _comCallback = function (data) {
         $scope.pagination = data.meta || {};
         $scope.coms = data.objects || [];
     };
 
     $scope.pageChanged = function (page) {
-        Computer.get({page: page}, _comCallback);
+        params.page = page;
+        Computer.get(params, _comCallback);
     };
-    
-    Computer.get(_comCallback);
+
+    console.log(params);
+    Computer.get(params, _comCallback);
 
 }
