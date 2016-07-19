@@ -15,14 +15,24 @@ angular.module('computerCtrls', ['profileServices', 'computerServices'])
                 $scope.queryTitle = title;
             };
             $scope.search = function () {
-                var query = $scope.queryTitle + '=' + $scope.query[$scope.queryTitle];
-                alert(query);
-            }
+                var query = {is_quarantine: false};
+                var queryTitle = $scope.queryTitle
+                var queryValue = $scope.query[queryTitle];
+
+                if (queryValue || queryValue === 0) {
+                    if (queryTitle.endsWith('__like')) {
+                        queryValue = '%' + queryValue + '%'
+                    }
+                    query[$scope.queryTitle] = queryValue;
+                }
+
+                getComputers($scope, Computer, query);
+            };
         }])
 
     .controller('protectedComs', ['$scope', 'Profile', 'Computer',
         function ($scope, Profile, Computer) {
-            getComputers($scope, Computer, {is_quarantine: false});
+            
         }])
 
 
@@ -49,7 +59,7 @@ function getProfiles($scope, Profile) {
 }
 
 function getSensors($scope, Computer) {
-    Computer.sensorList(function(data){
+    Computer.sensorList(function (data) {
         $scope.sensors = data || [];
     });
 }
@@ -67,7 +77,6 @@ function getComputers($scope, Computer, params) {
         Computer.get(params, _comCallback);
     };
 
-    console.log(params);
     Computer.get(params, _comCallback);
 
 }

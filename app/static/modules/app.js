@@ -7,6 +7,8 @@ adminApp = angular.module('app', [
     'investigateCtrls',
     'computerCtrls',
     'settingsCtrls',
+
+    'computerServices',
 ])
     .constant('sys', {
         'API': 'http://localhost:9090/api'
@@ -268,70 +270,78 @@ adminApp = angular.module('app', [
             }
         }
     })
-    .directive('computerTable', function () {
-        return {
-            restrict: 'C',
-            replace: true,
-            transclude: true,
-            templateUrl: '/static/modules/templates/directives/computer-table.html',
-            link: function ($scope, $element, $attrs) {
-                $scope.$watch($attrs.datasource, function (newValue, oldValue, scope) {
-                    $scope.data = newValue;
-                });
+    .directive('computerTable', ['Computer',
+        function (Computer) {
+            return {
+                restrict: 'C',
+                replace: true,
+                transclude: true,
+                templateUrl: '/static/modules/templates/directives/computer-table.html',
+                link: function ($scope, $element, $attrs) {
+                    $scope.$watch($attrs.datasource, function (newValue, oldValue, scope) {
+                        $scope.data = newValue;
+                    });
 
-                $scope.checkAll = function (checked) {
-                    $scope.data.map(function (e) {
-                        e.checked = checked;
-                    })
-                };
-                $scope.check = function () {
-                    $scope.selectAll = true;
-                    for (var i in $scope.data) {
-                        checked = $scope.data[i].checked;
-                        if (!checked) {
-                            $scope.selectAll = false;
-                            break;
+                    $scope.checkAll = function (checked) {
+                        $scope.data.map(function (e) {
+                            e.checked = checked;
+                        })
+                    };
+                    $scope.check = function () {
+                        $scope.selectAll = true;
+                        for (var i in $scope.data) {
+                            checked = $scope.data[i].checked;
+                            if (!checked) {
+                                $scope.selectAll = false;
+                                break;
+                            }
                         }
-                    }
-                };
-                $scope.uninstallSensor = function () {
-                    if (confirm('Are you sure to uninstall sensor ?')) {
-                        $scope.data.map(function (e) {
-                            if (e.checked) {
-                                e.status = 'uninstall';
-                            }
-                        })
-                    }
+                    };
+
+                    $scope.clickCom = function (item) {
+                        $scope.computer = item;
+                    };
+
+                    $scope.uninstallSensor = function () {
+                        if (confirm('Are you sure to uninstall sensor ?')) {
+                            $scope.data.map(function (e) {
+                                if (e.checked) {
+                                    e.status = 'uninstall';
+                                }
+                            })
+                        }
+                    };
+
+                    Computer.sensorList(function (data) {
+                        $scope.sensors = data;
+                    });
+
+                    $scope.addProfile = function (item) {
+                        $('#addProfileModal').modal('hide');
+                        if (confirm('Are you sure to change profile ?')) {
+                            console.log(item);
+                            $scope.data.map(function (e) {
+                                if (e.checked) {
+                                    alert(e.name);
+                                }
+                            })
+                        }
+                    };
+
+                    $scope.upgradeSensor = function (item) {
+                        $('#upgradeSensorModal').modal('hide');
+                        if (confirm('Are you sure to upgrade sensor ?')) {
+                            alert(item.name);
+                            $scope.data.map(function (e) {
+                                if (e.checked) {
+                                    alert(e.name);
+                                }
+                            })
+                        }
+                    };
                 }
-
-                $scope.sensor = $scope.profiles;
-
-                $scope.addProfile = function (item) {
-                    $('#addProfileModal').modal('hide');
-                    if (confirm('Are you sure to change profile ?')) {
-                        alert(item.name);
-                        $scope.data.map(function (e) {
-                            if (e.checked) {
-                                alert(e.name);
-                            }
-                        })
-                    }
-                };
-
-                $scope.upgradeSensor = function (item) {
-                    $('#upgradeSensorModal').modal('hide');
-                    if (confirm('Are you sure to upgrade sensor ?')) {
-                        alert(item.name);
-                        $scope.data.map(function (e) {
-                            if (e.checked) {
-                                alert(e.name);
-                            }
-                        })
-                    }
-                };
             }
-        }
-    })
+        }])
     .directive('navbtn', function () {
         return {
             restrict: 'C',
@@ -349,6 +359,37 @@ adminApp = angular.module('app', [
             }
         }
     })
+    .directive('comModal', ['$timeout', '$filter', 'Computer',
+        function ($timeout, $filter, Computer) {
+            return {
+                restrict: 'C',
+                replace: true,
+                templateUrl: '/static/modules/templates/directives/computer-modal.html',
+                link: function ($scope, $element, $attrs) {
+                    $scope.computer = $scope[$attrs.datasource];
+                    $timeout(function () {
+                        $('.iphone-toggle').iphoneStyle();
+                    }, 2000)
+
+                    var _statusOps = [
+                        {text: 'Resume', value: 'on'},
+                        {text: 'Pause', value: 'pause'}
+                    ];
+
+                    $scope.statusOps = {
+                        'on': _statusOps,
+                        'pause': _statusOps
+                    };
+
+                    $scope.changeStatus = function (status, id) {
+                        Computer.add({id: id, status: status}, function (data) {
+                            $scope.computer.status = data.status;
+                            ht.noty($filter('translate')('Update status successfully '));
+                        });
+                    };
+                }
+            }
+        }])
     .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
         $scope.navs = [
             {'title': 'Overview', 'url': '/overview/', 'icon': 'glyphicon glyphicon-stats'},

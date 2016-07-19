@@ -1,6 +1,6 @@
 #-*- encoding: utf-8 -*-
 from app.apis import api
-from app.models import Computer
+from app.models import Computer, Profile
 from base import BaseResource
 from peewee import fn
 
@@ -13,6 +13,15 @@ class ComputerResource(BaseResource):
         )
 
         return urls
+
+    def serialize_query(self, query):
+        results = super(ComputerResource, self).serialize_query(query)
+        patchs = {
+            Profile: ['id', 'title'],
+        }
+
+        self.serialize_patch_foreignkey(results, patchs)
+        return results
 
     def sensor_list(self):
         query = Computer.select(Computer.sensorVersion).distinct().order_by('sensorVersion')

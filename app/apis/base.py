@@ -1,6 +1,7 @@
 #-*- encoding: utf-8 -*-
 from app.apis import RestResource
 from flask import request
+from peewee import ForeignKeyField
 
 class BaseResource(RestResource):
     def get_request_metadata(self, paginated_query):
@@ -34,3 +35,49 @@ class BaseResource(RestResource):
             'maxPageSize': 5 #The max page num shown on the screen.
         })
         return meta
+
+    def serialize_rawquery_simple(self, query, fields=None):
+        s = self.get_serializer()
+        if fields is None:
+            if isinstance(query, list):
+                if query:
+                    fields = {query[0]._meta.model_class: query[0]._meta.get_field_names()}
+            else:
+                fields = {query.model: query.model._meta.get_field_names()}
+
+        return [
+            self.prepare_data(obj, s.serialize_object(obj, fields, self._exclude)) \
+            for obj in query
+        ]
+
+    def serialize_patch_foreignkey(self, result, patch_fields, model=None):
+        if not result:
+            return
+
+        fk_map = {}
+        model = model or self.model
+        for field in model._meta.fields.values():
+            if isinstance(field, ForeignKeyField):
+                if field.rel_model in patch_fields:
+                    fk_map[field.name] = [field.rel_model, []]
+
+        for item in result:
+            for key in fk_map.keys():
+                if key in item:
+                    value = item[key]
+                    if value is not None:
+                        fk_map[key][1].append(value)
+
+        for value in fk_map.values():
+            klass = value[0]
+            serialize_fields = patch_fields.get(klass)
+            serialize_result = self.serialize_rawquery_simple(klass.select().where(klass.id << value[1]), {value[0]: serialize_fields})
+            for item in serialize_result:
+                item['fk_type'] = 'fk'
+            value[1] = {item['id']: item for item in serialize_result}
+
+        for item in result:
+            for key, value in fk_map.iteritems():
+                if key in item:
+                    if type(item[key]) == type(0):
+                        item[key] = value[1].get(item[key])

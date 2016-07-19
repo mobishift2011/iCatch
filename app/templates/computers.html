@@ -10,29 +10,29 @@
             <form method="get" name="protectedComForm">
                 <div class="col-md-2 form-group">
                     <label translate="Computer Name"></label>
-                    <input type="text" class="form-control" name="comName" placeholder="*"
-                           ng-model="query.comName" ng-readonly="queryTitle != 'comName'" ng-mousedown="activateQuery('comName')">
+                    <input type="text" class="form-control" name="sensorID__like" placeholder="*"
+                           ng-model="query.sensorID__like" ng-readonly="queryTitle != 'sensorID__like'" ng-mousedown="activateQuery('sensorID__like')">
                 </div>
                 <div class="col-md-2 form-group">
                     <label translate="Profile"></label>
-                    <select name="comProfile" class="form-control" ng-model='query.comProfile'
-                            ng-readonly="queryTitle != 'comProfile'" ng-mousedown="activateQuery('comProfile')">
-                        <option value="">All</option>
+                    <select name="profile" class="form-control" ng-model='query.profile'
+                            ng-readonly="queryTitle != 'profile'" ng-mousedown="activateQuery('profile')">
+                        <option value="" translate="All"></option>
                         <option ng-repeat="p in profiles" ng-bind="p.title" ng-value="p.id"></option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
                     <label translate="Group"></label>
-                    <select name="comGroup" class="form-control" ng-model='query.comGroup'
-                            ng-readonly="queryTitle != 'comGroup'" ng-mousedown="activateQuery('comGroup')">
-                        <option value="">All</option>
+                    <select name="group" class="form-control" ng-model='query.group'
+                            ng-readonly="queryTitle != 'group'" ng-mousedown="activateQuery('group')">
+                        <option value="" translate="All"></option>
                     </select>
                 </div>
                 <div class="col-md-2 form-group">
                     <label translate="Sensor Version"></label>
-                    <select name="comSensor" class="form-control" ng-model='query.comSensor'
-                            ng-readonly="queryTitle != 'comSensor'" ng-mousedown="activateQuery('comSensor')">
-                        <option value="">All</option>
+                    <select name="sensorVersion" class="form-control" ng-model='query.sensorVersion'
+                            ng-readonly="queryTitle != 'sensorVersion'" ng-mousedown="activateQuery('sensorVersion')">
+                        <option value="" translate="All"></option>
                         <option ng-repeat="s in sensors" ng-bind="s" ng-value="s"></option>
                     </select>
                 </div>

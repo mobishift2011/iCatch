@@ -22,6 +22,17 @@ a:visited {
     text-decoration: none;
 }
 
+a:hover{
+    cursor: pointer;
+}
+
+/*disabled invalid for tag a, no idea*/
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
 .bg-grey {
     background-color: #f5f5f5
 }

@@ -1,0 +1,81 @@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document" style="width: 60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="comModalLabel">
+                    <span class="iconfont icon-computer"></span>
+                    <span ng-bind="computer.sensorID"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="computer-detail" ng-controller="computerDetail">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="OS"></label></div>
+                                <div class="col-md-9" ng-bind="computer.os"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Domain"></label></div>
+                                <div class="col-md-9" ng-bind="computer.domain"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="IP Address"></label></div>
+                                <div class="col-md-9" ng-bind="computer.ip"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Profile"></label></div>
+                                <div class="col-md-9" ng-bind="computer.profile.title"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Groups"></label></div>
+                                <div class="col-md-9" ng-bind="computer.group"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Status"></label></div>
+                                <div class="col-md-9">
+                                    <div class="btn-group">
+                                        <a data-target="#" href="#" data-toggle="dropdown" role="button"
+                                           aria-haspopup="true" aria-expanded="false"
+                                           class="dropdown-toggle label label-{{ comStatStyle[computer.status.toLowerCase()] }}">
+                                            <span ng-bind="computer.status.toUpperCase()"></span>
+                                            <span class="caret"
+                                                  ng-show="statusOps.hasOwnProperty(computer.status)"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" ng-show="statusOps.hasOwnProperty(computer.status)">
+                                            <li ng-repeat="item in statusOps[computer.status]">
+                                                <a ng-click="changeStatus(item.value, computer.id)" ng-bind="item.text"
+                                                   ng-class="{disabled: item.value===computer.status}"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Quarantine"></label></div>
+                                <div class="col-md-9">
+                                    <input id='quarantine_toggle' data-no-uniform="true" type="checkbox"
+                                           class="iphone-toggle"
+                                           ng-model="computer.is_quarantine">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Sensor Version"></label></div>
+                                <div class="col-md-9" ng-bind="computer.sensorVersion"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3"><label translate="Sensor ID"></label></div>
+                                <div class="col-md-9" ng-bind="computer.sensorID"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
