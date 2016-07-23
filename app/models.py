@@ -137,7 +137,7 @@ class Event(db.Model):
     tarRelationObj = ForeignKeyField(EventObject, null=True, related_name='tarRelationObj')
 
 
-class LoginLog(db.Model):
+class SensorLogin(db.Model):
     username = CharField(max_length=128)
     sid = CharField(max_length=255)
     sensorID = CharField(max_length=255)
@@ -146,5 +146,72 @@ class LoginLog(db.Model):
     timestamp = IntegerField()
 
 
-class Log(db.Model):
-    pass
+class LoginLog(db.Model):
+    user = ForeignKeyField(User, null=True)
+    email = CharField(max_length=50)
+    ip = CharField(max_length=20, null=True)
+    ua = CharField(null=True)
+    data = CharField(max_length=1000)
+    success = BooleanField()
+    dateAdded = DateTimeField()
+
+    class Meta:
+        indexes = (
+            (('email', 'dateAdded'), False),
+        )
+
+
+class UpdateLog(db.Model):
+    user = ForeignKeyField(User)
+    table = CharField(max_length=20)
+    external_id = IntegerField()
+    log = TextField(null=True)
+    dateAdded = DateTimeField()
+
+    class Meta:
+        indexes = (
+            (('table', 'external_id'), False),
+        )
+
+
+class ErrorLog(db.Model):
+    appname = CharField(null=True)
+    level = CharField(null=True)
+    context = CharField(max_length=1000, null=True)
+    message = CharField(max_length=1000, null=True)
+    exc_text = TextField(null=True)
+    module = CharField(null=True)
+    function = CharField(null=True)
+    sync = BooleanField()
+
+    dateAdded = DateTimeField()
+
+    class Meta:
+        indexes = (
+            (('sync',), False),
+        )
+
+
+# class OperationType:
+#     CandidateList = 'CandidateList'
+#     CandidateView = 'CandidateView'
+#     CandidateContactInfo = 'CandidateContactInfo'
+#     CandidateAttachmentView = 'CandidateAttachmentView'
+#     CandidateAttachmentDownload = 'CandidateAttachmentDownload'
+#     DocumentAttachmentDownload = 'DocumentAttachmentDownload'
+#     ClientView = 'ClientView'
+#     JobOrderView = 'JobOrderView'
+#
+#     __LIST__ = [CandidateList, CandidateView, CandidateContactInfo, CandidateAttachmentView, CandidateAttachmentDownload, DocumentAttachmentDownload]
+
+class OperationLog(db.Model):
+    user = ForeignKeyField(User, null=True)
+    table = CharField(max_length=20)
+    type = CharField(max_length=50)
+    external_id = CharField(null=True)
+    dateAdded = DateTimeField()
+
+    class Meta:
+        indexes = (
+            (('table', 'external_id'), False),
+        )

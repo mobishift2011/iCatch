@@ -12,10 +12,7 @@
   },
   "CLIENTKEY": "37bdbea9-92f2-49f6-a4c6-dff88a0d24a5",
   "DEBUG": true,
-  "REDIS": {
-    "host": "127.0.0.1",
-    "port": 6379
-  },
+  "REDIS_URL": "redis://localhost:6379/0",
   "DATAENGINE": {
     "host": "127.0.0.1",
     "port": 3309

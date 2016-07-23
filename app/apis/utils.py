@@ -1,8 +1,9 @@
-#-*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 from app import app
-from app.models import ConfigValue
+from app.models import *
 from flask_mail import Mail
 import json
+
 
 class Config():
     def get(self, title, default_value=None, value_type=None):
@@ -17,6 +18,7 @@ class Config():
             value = json.loads(value)
 
         return value
+
 
 config = Config()
 
@@ -50,9 +52,9 @@ def test_mail(emails=[], mail=None):
         body = 'This is a test.'
 
         mail.send_message(
-            subject=subject,
-            body=body,
-            recipients=emails
+                subject=subject,
+                body=body,
+                recipients=emails
         )
 
         assert len(outbox) == 1

@@ -5,6 +5,7 @@ from flask_peewee.db import Database
 import errno
 import json
 import os
+import redis
 
 def config_from_jsonfile (app, silent=False):
     filename = os.environ.get('HT_CONFIG') or '/opt/web/config-ht.json'
@@ -25,6 +26,9 @@ config_from_jsonfile(app)
 app.debug = app.config.get('DEBUG', False)
 app.config['SECRET_KEY'] = app.config['CLIENTKEY']
 db = Database(app)
+
+redis_url = os.environ.get('REDIS_URL') or app.config.get('REDIS_URL')
+redis_client = redis.StrictRedis.from_url(redis_url)
 
 from auth import auth
 import models
