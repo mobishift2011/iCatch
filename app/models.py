@@ -69,14 +69,11 @@ class Notification(db.Model):
     is_read = BooleanField(default=False)
 
 
-class Command(db.Model):
-    type = CharField(max_length=32)
-    length = IntegerField(default=0)
-    sensorID = CharField(max_length=255, null=True)
-    uuid = UUIDField()
-    content = TextField(null=True)
-    timestamp = IntegerField()
-
+class ComputerStatus:
+    on = 'on'
+    off = 'off'
+    pause = 'pause'
+    uninstall = 'uninstall'
 
 class Computer(db.Model):
     sensorID = CharField(max_length=255)
@@ -86,7 +83,7 @@ class Computer(db.Model):
     ip = CharField(max_length=128)
     last_communicated_timestamp = IntegerField()
     start_timestamp = IntegerField()
-    profile = ForeignKeyField(Profile)
+    profile = ForeignKeyField(Profile, null=True)
     is_quarantine = BooleanField(default=False)
 
 
@@ -102,27 +99,58 @@ class ComputerGroup(db.Model):
     group = ForeignKeyField(Group)
 
 
-class Alert(db.Model):
-    alertID = CharField(max_length=255)
-    sensorID = CharField(max_length=255)
-    computer = ForeignKeyField(Computer)
-    point = SmallIntegerField(null=True)
-    type = SmallIntegerField()
+class Command(db.Model):
+    type = CharField(max_length=32)
+    length = IntegerField(default=0)
+    sensorID = CharField(max_length=255, null=True)
+    uuid = UUIDField()
+    content = TextField(null=True)
     timestamp = IntegerField()
 
 
-class AlertException(db.Model):
-    alert = ForeignKeyField(Alert)
-    description = CharField(max_length=255)
+class AlarmStatus:
+    new = 'new'
+    unsolved = 'unsolved'
+    solved = 'solved'
+    whitelist = 'whitelist'
+    exception = 'exception'
+
+class AlarmType:
+    file = 'File'
+    action = 'Action'
+
+
+class Alarm(db.Model):
+    alarmID = CharField(max_length=255)
+    sensorID = CharField(max_length=255)
+    computer = ForeignKeyField(Computer)
+    status = CharField(max_length=32)
     type = CharField(max_length=32)
+    point = SmallIntegerField(null=True)
+    path = CharField(null=True)
+    md5 = CharField(null=True)
+    sha256 = CharField(null=True)
+    timestamp = IntegerField()
+    has_solutions = BooleanField(default=False)
+
+
+class ExceptionItem(db.Model):
+    alarm = ForeignKeyField(Alarm)
+    code = IntegerField()
+    point = IntegerField()
+    description = CharField(max_length=255)
+    timestamp = IntegerField()
 
 
 class EventObject(db.Model):
     type = CharField()
     content = TextField()
+    relationType = CharField(max_length=32, null=True)
+    relationObj = ForeignKeyField('self', null=True)
 
 
 class Event(db.Model):
+    alarm = ForeignKeyField(Alarm)
     eventID = CharField(max_length=255)
     sid = CharField(max_length=255)
     description = CharField(max_length=255)

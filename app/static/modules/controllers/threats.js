@@ -1,5 +1,4 @@
 angular.module('threatsCtrls', [])
-
     .controller('threatsChartCtrl', ['$scope',
         function ($scope) {
             Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
@@ -66,21 +65,24 @@ angular.module('threatsCtrls', [])
             $('#threatsRealChartTemp').highcharts(option);
         }])
 
-    .controller('threatsAlerts', ['$scope', '$timeout',
-        function ($scope, $timeout) {
-            $scope.alerts = test_data;
+    .controller('threatsAlerts', ['$scope', '$timeout', 'Alarm',
+        function ($scope, $timeout, Alarm) {
+            getAlarms($scope, Alarm, {has_solutions: false, status: 'new'});
         }]
     )
-    .controller('historyAlerts', ['$scope', '$timeout',
-        function ($scope, $timeout) {
-            $scope.historyAlerts = test_data1;
+    
+    .controller('historyAlerts', ['$scope', '$timeout', 'Alarm',
+        function ($scope, $timeout, Alarm) {
+            getAlarms($scope, Alarm, {has_solutions: false, status: 'solved'});
         }]
     )
-    .controller('currSlnAlerts', ['$scope', '$timeout',
-        function ($scope, $timeout) {
-            $scope.currSlnAlerts = test_data2;
+
+    .controller('currSlnAlerts', ['$scope', '$timeout', 'Alarm',
+        function ($scope, $timeout, Alarm) {
+            getAlarms($scope, Alarm, {has_solutions: true});
         }]
     )
+
     .controller('threatsFile', ['$scope', '$stateParams',
         function ($scope, $stateParams) {
             $scope.file = test_file;
@@ -259,6 +261,23 @@ angular.module('threatsCtrls', [])
 
         }])
 ;
+
+function getAlarms($scope, Alarm, params) {
+    function getList() {
+        Alarm.get(params, function (data) {
+            $scope.pagination = data.meta || {};
+            $scope.alerts = data.objects || [];
+        });
+    }
+
+    $scope.pageChanged = function (page) {
+        params.page = page;
+        getList()
+    };
+
+    getList();
+
+}
 
 var test_coms2 = [
     {
@@ -463,281 +482,6 @@ var test_coms2 = [
 ];
 
 
-var test_coms1 = [
-    {
-        id: 111,
-        'name': 'Lunar11',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar88',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-];
-
 var test_file = {
     name: '234234-asdfasf-asf.exe'
-}
-
-var test_data = [
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF1'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new',
-        fileId: 235,
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF2'},
-        'type': 'Action',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new'
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF3'},
-        'type': 'Action',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new'
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF4'},
-        'type': 'Action',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new'
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF5'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 100,
-        'status': 'new'
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF6'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new',
-        fileId: 234,
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 100,
-        'status': 'new',
-        fileId: 234,
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-assadfDFASDF-ASDFASDF'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 100,
-        'status': 'new',
-        fileId: 234,
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDF-ASDFASDF-ASDFASDF'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'test',
-        fileId: 234,
-    },
-    {
-        'sensor': {name: 'AASDFASDF-ASDFASDFasdf-ASDFASDF-ASDFASDF'},
-        'type': 'File',
-        'timestamp': 123123123123,
-        'level': 10,
-        'status': 'new',
-        fileId: 234,
-    },
-];
-
-var test_data1 = test_data.slice(0, 3);
-var test_data2 = test_data.slice(3, 6);
+};

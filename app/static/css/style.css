@@ -115,6 +115,12 @@ footer {
     margin-top: 0;
 }
 
+/*login*/
+.login-box .input-prepend {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
 /*.overview .page-header:first-child{*/
 /*margin-top: 21px;*/
 /*}*/

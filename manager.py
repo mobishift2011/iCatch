@@ -1,12 +1,19 @@
 #-*- encoding: utf-8 -*-
+from app import *
+from app.auth import auth
+from app.models import *
+from flask_script import Manager
+from hashlib import md5
+from livereload import Server
+
+import datetime
+import random
+import time
+import traceback
+import uuid
 import os, os.path as op
 current_path = op.abspath(op.dirname(__file__))
 os.environ.setdefault('PYTHONPATH', '{};{}'.format(current_path, op.join(current_path, 'app')))
-
-from app import *
-from app.auth import auth
-from flask_script import Manager
-from livereload import Server
 
 manager = Manager(app)
 
@@ -17,6 +24,16 @@ def runserver():
     return
     server = Server(app.wsgi_app)
     server.serve(port=port)
+
+
+@manager.command
+def init():
+    if not app.debug:
+        return
+
+    init_db()
+    init_admin()
+    prepare_test_data()
 
 
 @manager.command
@@ -48,24 +65,33 @@ def prepare_test_data():
     if not app.debug:
         return
 
+    _profile_test_data()
     _computer_test_data()
+    _alarm_test_data()
+
+def _profile_test_data():
+    for i in xrange(16):
+        Profile.create(
+            title = 'Profile{}'.format(i),
+            description = 'Profile Desc {}'.format(i),
+            addedBy_id=1
+        )
 
 def _computer_test_data():
-    from app.models import *
-    import datetime
-    import random
-    import time
-    import uuid
-
     oses = ['windows 7', 'windows 10', 'linux', 'ubuntu', 'Mac OS']
     statuses = ['on', 'off', 'resume', 'pause', 'uninstall']
     ips = ['192.168.20.1', '192.168.20.2', '192.168.20.3', '192.168.20.4']
     days = [1, 2, 3, 4, 5, 6, 7, 8]
     now = datetime.datetime.utcnow()
-    profiles = Profile.select()
     versions = ['1.0', '2.0', '2.2', '3.0', '4.0', '5.0', '5.1', '6.0']
 
-    for i in xrange(16108):
+    try:
+        profile = random.choice(Profile.select())
+    except:
+        profile = None
+
+    print 'init computers ...'
+    for i in xrange(108):
         Computer.create(
             sensorID = str(uuid.uuid4()),
             sensorVersion = random.choice(versions),
@@ -74,8 +100,110 @@ def _computer_test_data():
             ip = random.choice(ips),
             last_communicated_timestamp = time.mktime(now.timetuple()),
             start_timestamp = time.mktime((now - datetime.timedelta(days=random.choice(days))).timetuple()),
-            profile = random.choice(profiles),
+            profile = profile,
             is_quarantine = random.choice([True, False])
+        )
+
+def _alarm_test_data():
+    now = datetime.datetime.utcnow()
+    coms = Computer.select()
+
+    print 'init alarms ...'
+    for i in xrange(2048):
+        com = random.choice(coms)
+        type = random.choice([AlarmType.file, AlarmType.action])
+        path = os.path.abspath(os.path.dirname(__file__)) if type == 'file' else None
+        filemd5 = md5(com.sensorID).hexdigest() if type == 'file' else None
+
+        Alarm.create(
+            alarmID = str(uuid.uuid4()),
+            sensorID = com.sensorID,
+            computer_id = com.id,
+            point = random.randint(0, 100),
+            type = type,
+            status = random.choice(filter(lambda x: not x.startswith('__'), dir(AlarmStatus))),
+            path = path,
+            md5 = filemd5,
+            has_solutions = random.choice([True, False]),
+            timestamp = time.mktime((now - datetime.timedelta(
+                days=random.randint(0, 100),
+                hours=random.randint(0, 24),
+                minutes=random.randint(0, 60),
+            )).timetuple())
+        )
+
+    alarms = Alarm.select()
+
+    print 'init alarm exceptions ...'
+    for i in xrange(65535):
+        alarm = random.choice(alarms)
+        code = random.randint(-1, 10)
+        point = random.randint(0, 100)
+
+        ExceptionItem.create(
+            alarm = alarm.id,
+            code = code,
+            point = point,
+            description = 'This is exception, code:{}, point:{}'.format(code, point),
+            timestamp = alarm.timestamp
+        )
+
+    print 'init event objs ...'
+    for i in xrange(1024):
+        type = random.choice(['file', 'process'])
+        if type == 'file':
+            content = {
+                'IsPE':	random.randint(0, 1),
+                'FilePath':	op.abspath(op.dirname(__file__)),
+                'MD5': md5(op.abspath(op.dirname(__file__))).hexdigest(),
+                'SHA256': '',
+            }
+        else:
+            content = {
+                'ProcessName': 'process{}'.format(random.randint(0,65565)),
+                'ImagePath': '',
+                'CommandLine': random.choice(['python', 'ls', 'cp', 'mv', 'node', 'cd', 'mkdir']),
+                'ParentName': 'parent name',
+                'Signer': str(uuid.uuid4()),
+                'PID': random.randint(0,65565),
+                'ParentPID': random.randint(0,65565)
+            }
+
+        try:
+            EventObject.create(
+                type = type,
+                content = json.dumps(content)
+            )
+        except:
+            traceback.print_exc()
+            from pprint import pprint;import ipdb;ipdb.set_trace();
+            pass
+
+    eventOjbs = EventObject.select()
+
+    print 'init event list ...'
+    for i in xrange(65536):
+        alarm = random.choice(alarms)
+        event_id = str(uuid.uuid4())
+        sourceObj = random.choice(eventOjbs)
+        targetObj = None
+
+        while True:
+            eventObj = random.choice(eventOjbs)
+            if eventObj is not sourceObj:
+                targetObj = eventObj
+                break
+
+        Event.create(
+            alarm = alarm,
+            eventID = event_id,
+            sid = str(uuid.uuid4()),
+            description = 'This is test event: {}'.format(event_id),
+            timestamp = alarm.timestamp - random.randint(0, 3600 * 24 * 3),
+            point = random.randint(0, 100),
+            action = random.choice(['copy', 'paste', 'process', 'spawn']),
+            sourceObj = random.choice(eventOjbs),
+            targetObj = targetObj
         )
 
 

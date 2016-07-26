@@ -8,6 +8,7 @@ adminApp = angular.module('app', [
     'computerCtrls',
     'settingsCtrls',
 
+    'alarmServices',
     'computerServices',
 ])
     .constant('sys', {

@@ -143,5 +143,7 @@
   "Display alert Message on the endpoint": "当计算机被隔离时，显示下面的信息",
   "Characters Left": "已写字符数",
   "Character Max": "最多字符数",
-  "All": "所有"
+  "All": "所有",
+  "Remember me": "记住我",
+  "Login": "登录"
 }

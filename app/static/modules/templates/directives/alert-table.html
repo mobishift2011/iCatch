@@ -1,36 +1,37 @@
-<table class="table table-striped table-hover bootstrap-datatable datatable responsive">
-    <thead>
-    <tr>
-        <th translate="Computer"></th>
-        <th translate="Alert Event"></th>
-        <th translate="Alert Time"></th>
-        <th translate="Level"></th>
-        <th style="min-width: 90px" translate="Status"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="alert in alerts" ui-sref="threats{{alert.type}}({id: alert.{{alert.type.toLowerCase()}}Id})">
-        <td>
-            <span class="iconfont icon-computer"></span>
-            <span ng-bind="alert.sensor.name"></span>
-        </td>
-        <td>
-            <a href="#" class="text-info" translate="Suspect {{alert.type}}"></a>
-        </td>
-        <td ng-bind="alert.timestamp"></td>
-        <td>
-            <a href="#" title="Level {{alert.level}}" data-toggle="tooltip"
-               ng-show="alert.level === 100">
-                <img src="/static/img/star-on.png"/>
-            </a>
-        </td>
-        <td ng-click="$event.stopPropagation()">
+<div>
+    <table class="table table-striped table-hover bootstrap-datatable datatable responsive">
+        <thead>
+        <tr>
+            <th translate="Computer"></th>
+            <th translate="Alert Event"></th>
+            <th translate="Alert Time"></th>
+            <th translate="Level"></th>
+            <th style="min-width: 90px" translate="Status"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="alert in alerts" ui-sref="threats{{alert.type}}({id: alert.{{alert.type.toLowerCase()}}Id})">
+            <td>
+                <span class="iconfont icon-computer"></span>
+                <span ng-bind="alert.sensorID"></span>
+            </td>
+            <td>
+                <a href="#" class="text-info" translate="Suspect {{alert.type}}"></a>
+            </td>
+            <td ng-bind="alert.timestamp"></td>
+            <td>
+                <a href="#" title="Level {{alert.point}}" data-toggle="tooltip"
+                   ng-show="alert.level === 100">
+                    <img src="/static/img/star-on.png"/>
+                </a>
+            </td>
+            <td ng-click="$event.stopPropagation()">
             <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
                   ng-click="changeAlertStatus(alert)">
                 <span translate="{{alert.status}}"></span>
                 <span class="caret" ng-if="alert.status == 'new' || alert.status == 'unsolved'"></span>
             </span>
-            &nbsp;
+                &nbsp;
             <span class="label label-success"
                   ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'file'"
                   ng-click="">
@@ -40,7 +41,17 @@
                   ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'action'"
                   ng-click="exceptAlert(alert)" translate="except">
             </span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="col-md-12 center-block">
+        <uib-pagination total-items="pagination.total"
+                        items-per-page="pagination.paginate_by"
+                        ng-model="pagination.page"
+                        max-size="pagination.maxPageSize"
+                        class="pagination-sm" boundary-links="true"
+                        force-ellipses="true" ng-change="pageChanged(pagination.page)">
+        </uib-pagination>
+    </div>
+</div>

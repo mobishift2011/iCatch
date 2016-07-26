@@ -18,6 +18,7 @@ class RestResource(BaseResource):
 api = RestAPI(app, default_auth=LoginUserAuthentication())
 
 import user
+import alarm
 import computer
 import config
 import profile

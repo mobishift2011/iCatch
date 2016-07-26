@@ -6,7 +6,7 @@
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-inner">
         <a class="navbar-brand" href="javascript:void(0)">
-            <img alt="Logo" src="{%% url_for('.static', filename='img/logo.jpg') %%}" class="hidden-xs"/>
+            <img alt="Logo" src="{%% url_for('.static', filename='img/logo.png') %%}" class="hidden-xs"/>
             <span>Huating</span>
         </a>
     </div>
@@ -48,16 +48,16 @@
                         <div class="clearfix"></div>
 
                         <div class="input-prepend">
-                            <label class="remember" for="remember"><input type="checkbox" id="remember"> Remember
-                                me</label>
+                            <label class="remember" for="remember"><input type="checkbox" id="remember">
+                                <span translate="Remember me"></span></label>
                         </div>
                         <div class="clearfix"></div>
 
                         <div><input type="hidden" name="next" value="{%% next %%}"></div>
                         <p class="center col-md-5">
                             <button type="submit" class="btn btn-primary"
-                                    ng-disabled="login_form.username.$error.required || login_form.password.$error.required">
-                                Login
+                                    ng-disabled="login_form.username.$error.required || login_form.password.$error.required"
+                                    translate="Login">
                             </button>
                         </p>
                     </fieldset>

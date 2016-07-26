@@ -2,7 +2,6 @@
 from app.apis import api
 from app.models import Computer, Profile
 from base import BaseResource
-from peewee import fn
 
 class ComputerResource(BaseResource):
     def get_urls(self):
