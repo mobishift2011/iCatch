@@ -22,5 +22,6 @@ import alarm
 import computer
 import config
 import profile
+import data
 
 api.setup()

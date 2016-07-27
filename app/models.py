@@ -133,6 +133,13 @@ class Alarm(db.Model):
     timestamp = IntegerField()
     has_solutions = BooleanField(default=False)
 
+    class Meta:
+        indexes = (
+            (('status',), False),
+            (('md5', 'sha256'), False)
+        )
+        order_by = ('-timestamp',)
+
 
 class ExceptionItem(db.Model):
     alarm = ForeignKeyField(Alarm)

@@ -226,7 +226,7 @@ adminApp = angular.module('app', [
                 $scope.alertStyle = {
                     'new': 'warning',
                     'unsolved': 'danger',
-                    'solved': 'success',
+                    'solved': 'default',
                     'except': 'primary',
                     'exception': 'primary',
                     'whitelist': 'success'
@@ -409,20 +409,16 @@ adminApp = angular.module('app', [
             }
         })();
 
-        $scope.isNotified = true;
+        $scope.isNotified = false;
     }])
     .controller('notificationCtrl', ['$scope', function ($scope, $stateParams) {
         $scope.notifications = [
-            {'title': 'this is just a test', 'date': '1987-7-15 12:23:45', 'is_read': true},
-            {'title': 'hahahaha', 'date': '1987-7-15 12:23:45', 'is_read': false},
-            {'title': 'Cras justo odio', 'date': '1987-7-15 12:23:45'},
-            {'title': 'Dapibus ac facilisis in', 'date': '1987-7-15 12:23:45'},
-            {'title': 'Morbi leo risus', 'date': '1987-7-15 12:23:45'},
-            {'title': 'Porta ac consectetur ac', 'date': '1987-7-15 12:23:45'},
-            {'title': 'Vestibulum at eros', 'date': '1987-7-15 12:23:45'},
+            // {'title': 'this is just a test', 'date': '1987-7-15 12:23:45', 'is_read': true},
         ];
 
-        $scope.isNotified = true;
+        if($scope.notifications.length) {
+            $scope.isNotified = true;
+        }
 
         $scope.readNotification = function (item) {
             item.is_read = true;

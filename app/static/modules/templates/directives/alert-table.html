@@ -3,8 +3,8 @@
         <thead>
         <tr>
             <th translate="Computer"></th>
-            <th translate="Alert Event"></th>
-            <th translate="Alert Time"></th>
+            <th translate="Alarm Event"></th>
+            <th translate="Alarm Time"></th>
             <th translate="Level"></th>
             <th style="min-width: 90px" translate="Status"></th>
         </tr>
@@ -26,21 +26,28 @@
                 </a>
             </td>
             <td ng-click="$event.stopPropagation()">
-            <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
-                  ng-click="changeAlertStatus(alert)">
-                <span translate="{{alert.status}}"></span>
-                <span class="caret" ng-if="alert.status == 'new' || alert.status == 'unsolved'"></span>
-            </span>
-                &nbsp;
-            <span class="label label-success"
-                  ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'file'"
-                  ng-click="">
-                <span translate="Add to Whitelist"></span>
-            </span>
-            <span class="label label-primary"
-                  ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'action'"
-                  ng-click="exceptAlert(alert)" translate="except">
-            </span>
+                <div ng-switch on="alert.has_solutions">
+                    <div ng-switch-when="true">
+                        <span class="label label-default" translate="solved"></span>
+                    </div>
+                    <div ng-switch-default>
+                        <span class="label label-default label-{{ alertStyle[alert.status] || default }}"
+                              ng-click="changeAlertStatus(alert)">
+                            <span translate="{{alert.status}}"></span>
+                            <span class="caret" ng-if="alert.status == 'new' || alert.status == 'unsolved'"></span>
+                        </span>
+                            &nbsp;
+                        <span class="label label-success"
+                              ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'file'"
+                              ng-click="">
+                            <span translate="Add to Whitelist"></span>
+                        </span>
+                        <span class="label label-primary"
+                              ng-if="alert.status === 'unsolved' && alert.type.toLowerCase() === 'action'"
+                              ng-click="exceptAlert(alert)" translate="except">
+                        </span>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>

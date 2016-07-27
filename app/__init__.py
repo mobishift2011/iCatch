@@ -1,10 +1,12 @@
 #-*- encoding: utf-8 -*-
+import os, sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from flask import Flask
 from flask_peewee.db import Database
 
 import errno
 import json
-import os
 import redis
 
 def config_from_jsonfile (app, silent=False):

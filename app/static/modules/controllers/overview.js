@@ -1,13 +1,37 @@
-angular.module('overviewCtrls', [])
-    .controller('overview', ['$scope', function ($scope) {
-        chartSusComTwoWeeks(test_datad1);
-        chartSusComThreeMonths(test_datad2);
-        chartSusFileTwoWeeks(test_datad1);
-        chartSusFileThreeMonths(test_datad2);
-        chartStatsByOs(test_data3);
-        chartStatsByGroup(test_data4);
-    }])
+angular.module('overviewCtrls', ['ngResource'])
+    .controller('overview', ['$scope', '$resource', '$filter', 'sys',
+        function ($scope, $resource, $filter, sys) {
+            translate = $filter('translate');
+
+            var Data = (function () {
+                var url = sys.API + '/data/:action';
+                var resource = $resource(url, {}, {
+                    'stats': {
+                        'method': "GET",
+                        'params': {action: 'stats'},
+                    }
+                });
+
+                return {
+                    'stats': resource.stats,
+                }
+            })();
+
+
+            Data.stats(function (data) {
+                chartSusComThreeMonths(data.most_alarmed_coms);
+                chartSusComTwoWeeks(test_datad1);
+
+                chartSusFileThreeMonths(data.most_alarmed_files);
+                chartSusFileTwoWeeks(test_datad1);
+
+                chartStatsByOs(data.os_alarmed_stats);
+                chartStatsByGroup(test_data4);
+            });
+        }])
 ;
+
+var translate = null;
 
 function chartSusComTwoWeeks(data) {
     //”可疑计算机数量“，统计显示过去两周内有告警的计算机的数量。
@@ -19,17 +43,17 @@ function chartSusComTwoWeeks(data) {
             type: 'spline'
         },
         title: {
-            text: 'The alerted computers daily'
+            text: translate('The alarmed computers daily')
         },
         subtitle: {
-            text: 'In the latest 2 weeks'
+            text: translate('In the latest 2 weeks')
         },
         xAxis: {
             categories: categories
         },
         yAxis: {
             title: {
-                text: 'Number of Computers'
+                text: translate('The amount of computers')
             },
             labels: {
                 formatter: function () {
@@ -54,7 +78,7 @@ function chartSusComTwoWeeks(data) {
             enabled: false
         },
         series: [{
-            name: 'Alert Computers',
+            name: translate('Date Series'),
             marker: {
                 symbol: 'diamond'
             },
@@ -65,18 +89,28 @@ function chartSusComTwoWeeks(data) {
     });
 }
 
-function chartSusComThreeMonths(data) {
+function chartSusComThreeMonths(arrayData) {
     //”可疑行为/被感染次数最多的计算机“，横坐标为计算机名，纵坐标为次数
     // 统计时间维度为过去90天内被发现有可疑行为或者被感染的次数最多的计算机
+    // var test_data = {
+    //     'com1': num1,
+    //     'com2': num2,
+    // };
+    var data = {};
+    for(var i in arrayData){
+        var item = arrayData[i];
+        data[item[0]] = item[1];
+    }
+
     var colors = Highcharts.getOptions().colors,
         categories = Object.keys(data);
-    name = 'Computer Names',
-        data = categories.map(function (e, i) {
-            return {
-                y: data[e],
-                color: colors[i],
-            }
-        });
+    name = translate('Computer Names');
+    data = categories.map(function (e, i) {
+        return {
+            y: data[e],
+            color: colors[i],
+        }
+    });
 
     function setChart(name, categories, data, color) {
         chart.xAxis[0].setCategories(categories, false);
@@ -94,17 +128,17 @@ function chartSusComThreeMonths(data) {
             type: 'column'
         },
         title: {
-            text: 'The most alerted computers'
+            text: translate('The most alarmed computers')
         },
         subtitle: {
-            text: 'In the latest 3 months'
+            text: translate('In the latest 3 months')
         },
         xAxis: {
             categories: categories
         },
         yAxis: {
             title: {
-                text: 'Numbers of Alerts'
+                text: translate('The amount of alarms')
             }
         },
         plotOptions: {
@@ -152,10 +186,10 @@ function chartSusFileTwoWeeks(data) {
             type: 'spline'
         },
         title: {
-            text: 'The suspect files daily in the latest 2 weeks'
+            text: translate('The threat files daily')
         },
         subtitle: {
-            text: 'The same file on different computers will be considered as once every day'
+            text: translate('In the latest 2 weeks') + '(' + translate('The same file on different computers will be considered as once every day') + ')'
         },
         xAxis: {
             categories: categories,
@@ -167,7 +201,7 @@ function chartSusFileTwoWeeks(data) {
         },
         yAxis: {
             title: {
-                text: 'Numbers of files'
+                text: translate('The amount of files')
             },
             labels: {
                 formatter: function () {
@@ -197,7 +231,7 @@ function chartSusFileTwoWeeks(data) {
             enabled: false
         },
         series: [{
-            name: 'Suspect Files',
+            name: translate('Date Series'),
             data: categories.map(function (x) {
                 return data[x];
             })
@@ -205,18 +239,29 @@ function chartSusFileTwoWeeks(data) {
     });
 }
 
-function chartSusFileThreeMonths(data) {
+function chartSusFileThreeMonths(arrayData) {
     //”最常见的恶意文件“，统计也是统计过去三个月（从当天数过去90天）内的最常见恶意文件
     // 横坐标为恶意文件名，纵坐标为统计数量
+    //    var test_data = {
+    //        'file1': num1,
+    //        'file2': num2,
+    //    };
+
+    var data = {};
+    for(var i in arrayData){
+        var item = arrayData[i];
+        data[item[0]] = item[2];
+    }
+
     var colors = Highcharts.getOptions().colors,
         categories = Object.keys(data);
-    name = 'Threat File Names',
-        data = categories.map(function (e, i) {
-            return {
-                y: data[e],
-                color: colors[i],
-            }
-        });
+    name = translate('Threat File Names'),
+    data = categories.map(function (e, i) {
+        return {
+            y: data[e],
+            color: colors[i],
+        }
+    });
 
     function setChart(name, categories, data, color) {
         chart.xAxis[0].setCategories(categories, false);
@@ -234,17 +279,17 @@ function chartSusFileThreeMonths(data) {
             type: 'column'
         },
         title: {
-            text: 'The most common threat files'
+            text: translate('The most common threat files')
         },
         subtitle: {
-            text: 'In the latest 3 months'
+            text: translate('In the latest 3 months')
         },
         xAxis: {
             categories: categories
         },
         yAxis: {
             title: {
-                text: 'Numbers of Computers'
+                text: translate('The amount of alarms')
             }
         },
         plotOptions: {
@@ -282,8 +327,9 @@ function chartSusFileThreeMonths(data) {
     }).highcharts(); // return chart
 }
 
-function chartStatsByOs(data) {
-    chartStats($('#statsByOsChart'), data);
+function chartStatsByOs(arrayData) {
+
+    chartStats($('#statsByOsChart'), arrayData);
 }
 
 function chartStatsByGroup(data) {
@@ -291,6 +337,22 @@ function chartStatsByGroup(data) {
 }
 
 function chartStats(chartObj, data) {
+    //    var test_data = {
+    //        'windows7': 40,
+    //        'Linux': 39,
+    //        'java': 33,
+    //        'Mac os': 22,
+    //        'python': 21
+    //    };
+    var keys = Object.keys(data);
+    var with_alarms = keys.map(function(e){
+        return data[e].alarmed;
+    });
+    var without_alarms = keys.map(function(e){
+        return data[e].without_alarmed;
+    });
+
+
     var categories = Object.keys(data);
     colors = ['#f7a35c', '#90ed7d', '#e4d354', '#f15c80', '#7cb5ec', '#434348',
         '#8085e9', '#2b908f', '#f45b5b', '#91e8e1'];
@@ -299,7 +361,7 @@ function chartStats(chartObj, data) {
             type: 'bar'
         },
         title: {
-            text: 'In the latest 3 months'
+            text: translate('In the latest 3 months')
         },
         xAxis: {
             categories: categories,
@@ -309,7 +371,7 @@ function chartStats(chartObj, data) {
         yAxis: {
             min: 0,
             title: {
-                text: 'Total Number'
+                text: translate('Total Amount')
             },
             gridLineWidth: 0,
         },
@@ -329,12 +391,12 @@ function chartStats(chartObj, data) {
         },
         series: [
             {
-                name: 'Alerts',
-                data: [2, 2, 3, 2, 1]
+                name: translate('With Alarm'),
+                data: with_alarms
             },
             {
-                name: 'Without Alerts',
-                data: [5, 3, 4, 7, 2]
+                name: translate('Without Alarm'),
+                data: without_alarms
             }
         ]
     });
@@ -355,19 +417,6 @@ var test_datad1 = {
     '2016-6-26': 98,
     '2016-6-27': 101,
     '2016-6-28': 42,
-};
-
-var test_datad2 = {
-    'adfasdf-dsfa-adf1': 40,
-    'adfasdf-dsfa-adf2': 39,
-    'adfasdf-dsfa-adf3': 33,
-    'adfasdf-dsfa-adf4': 22,
-    'adfasdf-dsfa-adf5': 21,
-    'adfasdf-dsfa-adf6': 14,
-    'adfasdf-dsfa-adf7': 13,
-    'adfasdf-dsfa-adf8': 11,
-    'adfasdf-dsfa-adf9': 9,
-    'adfasdf-dsfa-adf10': 7,
 };
 
 var test_data3 = {

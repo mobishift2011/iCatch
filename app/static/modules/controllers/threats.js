@@ -1,6 +1,8 @@
 angular.module('threatsCtrls', [])
-    .controller('threatsChartCtrl', ['$scope',
-        function ($scope) {
+    .controller('threatsChartCtrl', ['$scope', '$timeout', '$filter', 'Alarm',
+        function ($scope, $timeout, $filter, Alarm) {
+            var translate = $filter('translate');
+
             Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
                 return {
                     radialGradient: {cx: 0.5, cy: 0.3, r: 0.7},
@@ -18,14 +20,14 @@ angular.module('threatsCtrls', [])
                     plotShadow: false
                 },
                 title: {
-                    text: 'The real-time Condition of computers with and without alerts',
+                    text: '',
                     style: {
                         color: '#3E576F',
                         fontSize: '16px'
                     }
                 },
                 tooltip: {
-                    pointFormat: '{series.name} Ratio: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: '{series.name} : <b>{point.percentage:.1f}%</b>'
                 },
                 plotOptions: {
                     pie: {
@@ -36,7 +38,7 @@ angular.module('threatsCtrls', [])
                             color: '#317eac',
                             connectorColor: '#317eac',
                             formatter: function () {
-                                return '<b>' + this.series.name + ' ' + this.point.name + '</b>: ' + this.y;
+                                return this.point.name + '</b>: ' + this.y;
                             }
                         },
                         showInLegend: true
@@ -48,38 +50,114 @@ angular.module('threatsCtrls', [])
                 colors: ['#ED561B', '#64E572'],
                 series: [{
                     type: 'pie',
-                    name: 'Computers',
-                    data: [
-                        ['With ALert', 11],
-                        {
-                            name: 'Without ALert',
-                            y: 89,
-                            sliced: true,
-                            selected: true
-                        }
-                    ]
+                    name: '',
+                    data: []
                 }]
             };
 
-            $('#threatsRealChart').highcharts(option);
-            $('#threatsRealChartTemp').highcharts(option);
+            var comData = {
+                with_alarm: 0,
+                without_alarm: 0
+            };
+            var comStats = function () {
+                Alarm.getStats({object: 'computer'}, function (data) {
+                    var refresh = false;
+                    var keys = Object.keys(comData);
+
+                    for (var i in keys) {
+                        var item = keys[i];
+                        if(comData[item] != data[item]) {
+                            refresh = true;
+                        }
+                        comData[item] = data[item];
+                    }
+
+
+                    if (refresh) {
+                        var series = option.series[0];
+                        series.name = translate('Computer');
+                        series.data = [
+                            [translate('With Alarm'), data.with_alarm],
+                            {
+                                name: translate('Without Alarm'),
+                                y: data.without_alarm,
+                                sliced: true,
+                                selected: true
+                            }
+                        ];
+
+                        option.title.text = translate('The real-time condition of computers with and without alarms');
+                        $('#threatsRealChart').highcharts(option);
+                    }
+
+                    $timeout(comStats, 5000);
+                });
+            };
+
+            var typeData = {
+                Action: 0,
+                File: 0
+            };
+            var typeStats = function () {
+                Alarm.getStats({object: 'type'}, function (data) {
+                    var refresh = false;
+                    var keys = Object.keys(typeData);
+
+                    for (var i in keys) {
+                        var item = keys[i];
+                        if(typeData[item] != data[item]) {
+                            refresh = true;
+                        }
+                        typeData[item] = data[item];
+                    }
+
+                    if (refresh) {
+                        var series = option.series[0];
+                        series.name = translate('Type');
+                        series.data = [
+                            [translate('Suspect Action'), data.Action],
+                            {
+                                name: translate('Suspect File'),
+                                y: data.File,
+                                sliced: true,
+                                selected: true
+                            }
+                        ];
+
+                        option.title.text = translate("The real-time condition of unsolved alarms' type");
+                        $('#threatsRealChartTemp').highcharts(option);
+                    }
+
+                    $timeout(typeStats, 5000);
+                });
+            };
+
+            comStats();
+            typeStats();
+
         }])
 
     .controller('threatsAlerts', ['$scope', '$timeout', 'Alarm',
         function ($scope, $timeout, Alarm) {
-            getAlarms($scope, Alarm, {has_solutions: false, status: 'new'});
+            getAlarms($scope, Alarm, {has_solutions: false, status__in: 'new,unsolved'}, $timeout);
         }]
     )
-    
+
     .controller('historyAlerts', ['$scope', '$timeout', 'Alarm',
         function ($scope, $timeout, Alarm) {
-            getAlarms($scope, Alarm, {has_solutions: false, status: 'solved'});
+            var timestamp = parseInt(new Date().getTime() / 1000) - 3600 * 24 * 90;
+            getAlarms($scope, Alarm, {
+                has_solutions: false,
+                status__nin: 'new,unsolved',
+                timestamp__gt: timestamp
+            });
         }]
     )
 
     .controller('currSlnAlerts', ['$scope', '$timeout', 'Alarm',
         function ($scope, $timeout, Alarm) {
-            getAlarms($scope, Alarm, {has_solutions: true});
+            var timestamp = parseInt(new Date().getTime() / 1000) - 3600 * 24 * 90;
+            getAlarms($scope, Alarm, {has_solutions: true, timestamp__gt: timestamp});
         }]
     )
 
@@ -262,11 +340,15 @@ angular.module('threatsCtrls', [])
         }])
 ;
 
-function getAlarms($scope, Alarm, params) {
+function getAlarms($scope, Alarm, params, $timeout) {
     function getList() {
         Alarm.get(params, function (data) {
             $scope.pagination = data.meta || {};
             $scope.alerts = data.objects || [];
+
+            if($timeout) {
+                $timeout(getList, 5000);
+            }
         });
     }
 

@@ -112,8 +112,8 @@ def _alarm_test_data():
     for i in xrange(2048):
         com = random.choice(coms)
         type = random.choice([AlarmType.file, AlarmType.action])
-        path = os.path.abspath(os.path.dirname(__file__)) if type == 'file' else None
-        filemd5 = md5(com.sensorID).hexdigest() if type == 'file' else None
+        path = os.path.abspath(os.path.dirname(__file__)+str(random.randint(0, 20))) if type.lower() == 'file' else None
+        filemd5 = md5(path).hexdigest() if type.lower() == 'file' else None
 
         Alarm.create(
             alarmID = str(uuid.uuid4()),

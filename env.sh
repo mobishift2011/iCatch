@@ -1,2 +1,2 @@
-export PYTHONPATH=`pwd`'/app'
+export PYTHONPATH=`pwd`
 export HT_CONFIG=`pwd`'/config-ht.json'
