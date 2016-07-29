@@ -20,13 +20,26 @@ angular.module('overviewCtrls', ['ngResource'])
 
             Data.stats(function (data) {
                 chartSusComThreeMonths(data.most_alarmed_coms);
-                chartSusComTwoWeeks(test_datad1);
-
                 chartSusFileThreeMonths(data.most_alarmed_files);
-                chartSusFileTwoWeeks(test_datad1);
-
                 chartStatsByOs(data.os_alarmed_stats);
                 chartStatsByGroup(test_data4);
+
+                var daily_alarmed_coms_dict= {};
+                for(var i in data.daily_alarmed_coms){
+                    var item = data.daily_alarmed_coms[i];
+                    daily_alarmed_coms_dict[item[0]] = item[1];
+                }
+
+                chartSusComTwoWeeks(daily_alarmed_coms_dict);
+
+                var daily_alarmed_files_dict= {};
+                for(var i in data.daily_alarmed_files){
+                    var item = data.daily_alarmed_files[i];
+                    daily_alarmed_files_dict[item[0]] = item[1];
+                }
+
+                chartSusFileTwoWeeks(daily_alarmed_files_dict);
+
             });
         }])
 ;
@@ -401,23 +414,6 @@ function chartStats(chartObj, data) {
         ]
     });
 }
-
-var test_datad1 = {
-    '2016-6-15': 40,
-    '2016-6-16': 32,
-    '2016-6-17': 84,
-    '2016-6-18': 32,
-    '2016-6-19': 98,
-    '2016-6-20': 77,
-    '2016-6-21': 66,
-    '2016-6-22': 54,
-    '2016-6-23': 34,
-    '2016-6-24': 65,
-    '2016-6-25': 89,
-    '2016-6-26': 98,
-    '2016-6-27': 101,
-    '2016-6-28': 42,
-};
 
 var test_data3 = {
     'windows7': 40,

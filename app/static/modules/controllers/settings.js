@@ -37,8 +37,13 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
             };
 
             $scope.tzs = [
-                'America/Los Angelos',
-                'Chinese/Beijing',
+                'Asia/Shanghai',
+                'Asia/Tokyo',
+                'GMT',
+                'US/Central',
+                'US/Eastern',
+                'US/Pacific',
+                'UTC',
             ];
 
             Profile.get(function(data){
@@ -117,7 +122,7 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 $scope.users = data.objects;
             }
 
-            $scope.users = User.list({}, getUserList);
+            $scope.users = User.list(getUserList);
             $scope.pageChanged = function (page) {
                 User.list({page: page}, getUserList);
             };

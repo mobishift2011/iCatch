@@ -150,14 +150,14 @@ angular.module('threatsCtrls', [])
                 has_solutions: false,
                 status__nin: 'new,unsolved',
                 timestamp__gt: timestamp
-            });
+            }, $timeout);
         }]
     )
 
     .controller('currSlnAlerts', ['$scope', '$timeout', 'Alarm',
         function ($scope, $timeout, Alarm) {
             var timestamp = parseInt(new Date().getTime() / 1000) - 3600 * 24 * 90;
-            getAlarms($scope, Alarm, {has_solutions: true, timestamp__gt: timestamp});
+            getAlarms($scope, Alarm, {has_solutions: true, timestamp__gt: timestamp}, $timeout);
         }]
     )
 
@@ -344,10 +344,16 @@ function getAlarms($scope, Alarm, params, $timeout) {
     function getList() {
         Alarm.get(params, function (data) {
             $scope.pagination = data.meta || {};
-            $scope.alerts = data.objects || [];
+            $scope.alarms = data.objects || [];
 
             if($timeout) {
-                $timeout(getList, 5000);
+                $timeout(getList, 7000);
+            }
+        }, function (error){
+            console.log(error);
+
+            if($timeout) {
+                $timeout(getList, 7000);
             }
         });
     }
@@ -355,6 +361,21 @@ function getAlarms($scope, Alarm, params, $timeout) {
     $scope.pageChanged = function (page) {
         params.page = page;
         getList()
+    };
+
+
+    $scope.changeAlarmStatus = function(alarm, status) {
+        Alarm.add({id:alarm.id, status:status}, function(data){
+            alarm.status = data.status;
+        });
+    };
+
+    $scope.removeExcept= function(alarm) {
+        if(alarm.status == 'exception'){
+            Alarm.add({id:alarm.id, status: 'unsolved'}, function(data){
+                alarm.status = data.status;
+            });
+        }
     };
 
     getList();

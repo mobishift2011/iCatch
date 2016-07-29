@@ -27,6 +27,17 @@ class AlarmResource(BaseResource):
 
         return query
 
+    def edit(self, obj):
+        try:
+            data = self.read_request_data()
+        except ValueError:
+            return self.response_bad_request()
+
+        if len(set(data) | set(['id', 'status'])) > 2:
+            return self.response_bad_request()
+
+        return super(AlarmResource, self).edit(obj)
+
     def computer_stats(self):
         all_count = Computer.select().count()
         with_alarm_count = Alarm.select(Alarm.computer).where(

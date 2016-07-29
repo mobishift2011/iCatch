@@ -215,15 +215,15 @@ adminApp = angular.module('app', [
 
         }
     })
-    .directive('alertTable', function () {
+    .directive('alarmTable', function () {
         return {
             restrict: 'C',
             replace: true,
             transclude: true,
-            templateUrl: '/static/modules/templates/directives/alert-table.html',
+            templateUrl: '/static/modules/templates/directives/alarm-table.html',
             link: function ($scope, $element, $attrs) {
-                $scope.alerts = $scope[$attrs.datasource];
-                $scope.alertStyle = {
+                $scope.alarms = $scope[$attrs.datasource];
+                $scope.alarmStyle = {
                     'new': 'warning',
                     'unsolved': 'danger',
                     'solved': 'default',
@@ -231,43 +231,6 @@ adminApp = angular.module('app', [
                     'exception': 'primary',
                     'whitelist': 'success'
                 };
-
-                $scope.changeAlertStatus = changeAlertStatus;
-                $scope.exceptAlert = exceptAlert;
-
-                function changeAlertStatus(alert) {
-                    if (alert.status === 'exception') {
-                        removeExcept(alert);
-                        return
-                    }
-
-                    process = ['new', 'unsolved', 'solved'];
-
-                    for (var i = 0; i <= (process.length - 1); i++) {
-                        if (alert.status === process[i] && i < (process.length - 1)) {
-                            var nextStatus = process[i + 1];
-                            alert.status = nextStatus;
-
-                            // if (nextStatus === 'solved') {
-                            //     $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-                            // }
-
-                            break
-                        }
-                    }
-                }
-
-                function exceptAlert(alert) {
-                    if (alert.type.toLowerCase() === 'action') {
-                        alert.status = 'exception';
-                        // $scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-                    }
-                }
-
-                function removeExcept(alert) {
-                    alert.status = 'unsolved';
-                    // $scope.historyAlerts.splice($scope.historyAlerts.indexOf(alert), 1);
-                }
             }
         }
     })

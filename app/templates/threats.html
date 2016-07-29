@@ -1,8 +1,5 @@
 {% extends 'layout.html' %}
 
-{% macro alertTable(dataModel='') %}
-{% endmacro %}
-
 {% block content %}
 <link rel="stylesheet" href="{%% url_for('.static', filename='img/star-on.png') %%}">
 <div class="threats margintopbar">
@@ -34,7 +31,7 @@
             {%% panel_box('
             <div class="row">
                 <div class="col-md-12" ng-controller="threatsAlerts">
-                    <div class="alertTable" datasource="alerts"></div>
+                    <div class="alarmTable" datasource="alerts"></div>
                 </div>
             </div>
             ',
@@ -62,14 +59,14 @@
                         <div role="tabpanel" class="tab-pane active" id="historyAlerts">
                             <div class="row">
                                 <div class="col-md-12" ng-controller="historyAlerts">
-                                    <div class="alertTable" datasource="historyAlerts"></div>
+                                    <div class="alarmTable" datasource="historyAlerts"></div>
                                 </div>
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="currslnALerts">
                             <div class="row">
                                 <div class="col-md-12" ng-controller="currSlnAlerts">
-                                    <div class="alertTable" datasource="currSlnAlerts"></div>
+                                    <div class="alarmTable" datasource="currSlnAlerts"></div>
                                 </div>
                             </div>
                         </div>

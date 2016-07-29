@@ -1,7 +1,12 @@
 #-*- encoding: utf-8 -*-
 from app.apis import RestResource
+from flask_peewee.serializer import Serializer
 from flask import request
 from peewee import ForeignKeyField
+
+import datetime
+import pytz
+
 
 class BaseResource(RestResource):
     def get_request_metadata(self, paginated_query):
@@ -81,3 +86,37 @@ class BaseResource(RestResource):
                 if key in item:
                     if type(item[key]) == type(0):
                         item[key] = value[1].get(item[key])
+
+
+    def get_serializer(self):
+        return BaseSerializer()
+
+
+class BaseSerializer(Serializer):
+    def process_timestamp(self, value, tz=None):
+        raw_datetime = datetime.datetime.fromtimestamp(value)
+        utc_datetime = pytz.utc.localize(raw_datetime)
+
+        if tz is None:
+            return utc_datetime
+
+        dest_datetime = utc_datetime.astimezone(pytz.timezone(tz))
+        return dest_datetime
+
+    def clean_data(self, data):
+        tz = None
+
+        for key, value in data.items():
+            if isinstance(value, dict):
+                self.clean_data(value)
+            elif isinstance(value, (list, tuple)):
+                data[key] = map(self.clean_data, value)
+            elif key == 'timestamp':
+                if not tz:
+                    from app.models import ConfigValue
+                    tz = ConfigValue.get(title='timezone').value
+                if value:
+                    data[key] = self.process_timestamp(value, tz = tz).strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                data[key] = self.convert_value(value)
+        return data

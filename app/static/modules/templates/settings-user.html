@@ -86,17 +86,17 @@
                                 <button class="btn btn-sm btn-danger" ng-click="removeUsers()"
                                         translate="Remove"></button>
                             </div>
-                            <div class="col-md-6">
-                                <div class="col-md-6 col-md-offset-6">
-                                    <div class="dataTables_filter" id="DataTables_Table_0_filter">
-                                        <label>
-                                            <span translate="Search"></span>:
-                                            <input type="text" aria-controls="DataTables_Table_0"
-                                                   ng-model="searchedUser">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="col-md-6">-->
+                                <!--<div class="col-md-6 col-md-offset-6">-->
+                                    <!--<div class="dataTables_filter" id="DataTables_Table_0_filter">-->
+                                        <!--<label>-->
+                                            <!--<span translate="Search"></span>:-->
+                                            <!--<input type="text" aria-controls="DataTables_Table_0"-->
+                                                   <!--ng-model="searchedUser">-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                         </div>
                         <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable"
                                id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
@@ -146,13 +146,6 @@
                             </tbody>
                         </table>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="dataTables_info" id="DataTables_Table_0_info">Showing <span
-                                        ng-bind="pagination.start"></span> to <span ng-bind="pagination.end"></span>
-                                    of <span ng-bind="pagination.total"></span>
-                                    entries
-                                </div>
-                            </div>
                             <div class="col-md-12 center-block">
                                 <uib-pagination total-items="pagination.total"
                                                 items-per-page="pagination.paginate_by"
