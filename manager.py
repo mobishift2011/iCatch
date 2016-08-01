@@ -19,7 +19,7 @@ manager = Manager(app)
 
 @manager.command
 def runserver():
-    port = 9090
+    port = 9090 if app.debug else 9091
     app.run(port=port)
     return
     server = Server(app.wsgi_app)
