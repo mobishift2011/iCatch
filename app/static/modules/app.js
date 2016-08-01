@@ -12,7 +12,7 @@ adminApp = angular.module('app', [
     'computerServices',
 ])
     .constant('sys', {
-        'API': 'http://localhost:9090/api'
+        'API': 'http://localhost:9091/api'
     })
     .run(['$rootScope', function ($rootScope) {
         $rootScope.comStatStyle = {
