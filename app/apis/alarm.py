@@ -27,6 +27,9 @@ class AlarmResource(BaseResource):
 
         return query
 
+    def object_detail(self, obj):
+        return self.response(self.serialize_object(obj))
+
     def edit(self, obj):
         try:
             data = self.read_request_data()

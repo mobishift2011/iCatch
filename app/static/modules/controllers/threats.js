@@ -161,10 +161,11 @@ angular.module('threatsCtrls', [])
         }]
     )
 
-    .controller('threatsFile', ['$scope', '$stateParams',
-        function ($scope, $stateParams) {
-            $scope.file = test_file;
-            test_file.id = $stateParams.id;
+    .controller('threatsFile', ['$scope', '$stateParams', 'Alarm',
+        function ($scope, $stateParams, Alarm) {
+            Alarm.get({alarmId: $stateParams.id}, function(data){
+                $scope.file = data;
+            });
 
             $scope.affectTabs = [
                 {title: 'Affected Path', state: 'file_affected_path'},
@@ -183,7 +184,7 @@ angular.module('threatsCtrls', [])
             }
 
             $scope.currAffectedComs = test_coms2;
-            $scope.histAffectedComs = test_coms1;
+            $scope.histAffectedComs = test_coms2;
 
             // $scope.sideDetailShow = true;
 

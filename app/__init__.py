@@ -33,6 +33,7 @@ redis_url = os.environ.get('REDIS_URL') or app.config.get('REDIS_URL')
 redis_client = redis.StrictRedis.from_url(redis_url)
 
 from auth import auth
+from common import log
 import models
 import views
 import apis

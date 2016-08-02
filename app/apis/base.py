@@ -116,7 +116,7 @@ class BaseSerializer(Serializer):
                     from app.models import ConfigValue
                     tz = ConfigValue.get(title='timezone').value
                 if value:
-                    data[key] = self.process_timestamp(value, tz = tz).strftime('%Y-%m-%d %H:%M:%S')
+                    data['_dateAdded'] = self.process_timestamp(value, tz = tz).strftime('%Y-%m-%d %H:%M:%S')
             else:
                 data[key] = self.convert_value(value)
         return data

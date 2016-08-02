@@ -11,7 +11,7 @@
     </div>
     <div class="page-header">
         <h3 class="padding-top10">
-            <span ng-bind="file.name"></span>
+            <span ng-bind="file.alarmID"></span>
         </h3>
     </div>
     <div class="row file-detail">
@@ -21,9 +21,9 @@
                     <div class="col-md-1 text-danger"><span class="glyphicon glyphicon-file"></span></div>
                     <div class="col-md-11">
                         <div><label class="media-heading" translate="File Name"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Hash"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Path"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Size"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="Hash"></label>: <span ng-bind="file.md5 || file.sha256"></span></div>
+                        <div><label class="media-heading" translate="Path"></label>: <span ng-bind="file.path"></span></div>
+                        <div><label class="media-heading" translate="Size"></label>: <span ng-bind="file.size"></span></div>
                     </div>
                 </div>
                 <div class="row padding-bottom10 padding-left15">
@@ -31,11 +31,11 @@
                     <div class="col-md-11">
                         <div>
                             <label class="media-heading" translate="Computer"></label>
-                            <a class="text-info" data-toggle="modal" data-target="#comModal">: asdfasf</a>
+                            <a class="text-info" data-toggle="modal" data-target="#comModal">: <span ng-bind="file.sensorID"></a>
                         </div>
-                        <div><label class="media-heading" translate="IP Address"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Domain"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Group"></label>: asdfasf</div>
+                        <div><label class="media-heading" translate="IP Address"></label>: <span ng-bind="file.computer.ip"></div>
+                        <div><label class="media-heading" translate="Domain"></label>: <span ng-bind="file.computer.domain"></span></div>
+                        <div><label class="media-heading" translate="Group"></label>: <span ng-bind="file.groups"></span></div>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
         </div>
         <div class="col-xs-4 sep-right section">
-            <div><label translate="Create Time"></label>: <span></span></div>
+            <div><label translate="Create Time"></label>: <span ng-bind="file._dateAdded"></span></div>
             <div><label translate="Signature"></label>: <span></span></div>
             <div><label translate="Signature Publish"></label>: <span></span></div>
             <div><label translate="Network"></label>: <span></span></div>
