@@ -87,11 +87,23 @@ class Computer(db.Model):
     is_quarantine = BooleanField(default=False)
 
 
+class GroupAddOption:
+    manual = 0
+    rule = 1
+
+
 class Group(db.Model, InheritanceMixin):
     title = CharField(max_length=64)
     parent = ForeignKeyField('self', null=True)
-    rule = CharField(max_length=255)
+    addOpt = IntegerField()
     order = IntegerField(default=0)
+
+
+class GroupRule(db.Model):
+    group = ForeignKeyField(Group)
+    key = CharField(max_length=64)
+    op = CharField(max_length=64)
+    value = CharField(max_length=255)
 
 
 class ComputerGroup(db.Model):

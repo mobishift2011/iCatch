@@ -214,8 +214,8 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
         function ($scope) {
             $scope.selectedGroup = {};
             $scope.groupRules = [
-                {'title': 'Added Manually', 'value': 'manually'},
-                {'title': 'Added by Rules', 'value': 'rule'}
+                {'title': 'Added Manually', 'value': 0},
+                {'title': 'Added by Rules', 'value': 1}
             ];
             options = {
                 data: test_group_data,

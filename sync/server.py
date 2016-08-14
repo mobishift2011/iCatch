@@ -2,20 +2,22 @@
 from app import app
 from sync.base import *
 from SocketServer import StreamRequestHandler, ThreadingTCPServer
+import pprint
 
 
 class SyncRequestHandler(StreamRequestHandler):
     def _handler(self):
-        print 'Connected from %s', self.client_address
+        print 'Connected from ', self.client_address
         request = self.rfile.read()
-        response = CmdProcessor(request).process()
+        pprint.pprint(request)
+        response = request#CmdProcessor(request).process()
         self.wfile.write(response)
 
     def handle(self):
         try:
             self._handler()
         except Exception, e:
-            app.logger.error('sync error, server')
+            app.logger.error('sync error')
 
 
 def serve():

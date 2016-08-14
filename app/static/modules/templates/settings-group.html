@@ -48,7 +48,7 @@
             </div>
             <div class="row" ng-if="selectedGroup.rule === 'rule'">
                 <div class="col-md-12 form-group">
-                    <label>Rules </label>
+                    <label translate="Rules"> </label>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -79,22 +79,22 @@
             </div>
         </form>
 
-    <modal id="groupModal" title="Create/Edit Group" save="saveGroup">
+    <modal id="groupModal" title="{{'Create/Edit Group' | translate}}" save="saveGroup">
         <form name="groupForm">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Group Name</label>
+                        <label translate="Group Name"></label>
                         <input type="text" class="form-control" ng-model="selectedGroup.text">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>How will group members be added?</label>
+                        <label translate="How will group members be added"></label>?
                         <select class="form-control" ng-model="selectedGroup.rule">
                             <option value="">-- Please Choose --</option>
                             <option ng-value="item.value" ng-repeat="item in groupRules"
-                                    ng-selected="item.value === selectedGroup.rule">{{item.title}}
+                                    ng-selected="item.value === selectedGroup.rule">{{item.title | translate}}
                             </option>
                         </select>
                     </div>
@@ -113,8 +113,8 @@
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Computer Name</a></li>
-                            <li><a href="#">Operation System</a></li>
+                            <li><a href="#" translate="Computer Name"></a></li>
+                            <li><a href="#" translate="Operation System"></a></li>
                         </ul>
                     </div>
                 </div>
