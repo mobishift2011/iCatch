@@ -117,7 +117,16 @@ class Command(db.Model):
     sensorID = CharField(max_length=255, null=True)
     uuid = UUIDField()
     content = TextField(null=True)
+    raw = TextField()
+    user = ForeignKeyField(User, null=True)
     timestamp = IntegerField()
+    unknown = BooleanField(default=False)
+
+    class Meta:
+        indexes = (
+            (('uuid',), False),
+        )
+        order_by = ('-timestamp',)
 
 
 class AlarmStatus:
@@ -135,8 +144,8 @@ class AlarmType:
 class Alarm(db.Model):
     alarmID = CharField(max_length=255)
     sensorID = CharField(max_length=255)
-    computer = ForeignKeyField(Computer)
-    status = CharField(max_length=32)
+    computer = ForeignKeyField(Computer, null=True)
+    status = CharField(max_length=32, default='new')
     type = CharField(max_length=32)
     point = SmallIntegerField(null=True)
     path = CharField(null=True)
