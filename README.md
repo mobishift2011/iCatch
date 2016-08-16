@@ -1,5 +1,6 @@
-# htAdmin
+# iCatch
 An admin powered by angularjs + bootstrap + flask.
+&copy; HOOHOOLAB
 
 # Environment
 ## For centos6.5+
