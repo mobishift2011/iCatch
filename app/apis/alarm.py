@@ -44,6 +44,7 @@ class AlarmResource(BaseResource):
     def computer_stats(self):
         all_count = Computer.select().count()
         with_alarm_count = Alarm.select(Alarm.computer).where(
+                Alarm.computer.is_null(False),
                 Alarm.status.in_([AlarmStatus.new, AlarmStatus.unsolved])).distinct().count()
 
         result = {

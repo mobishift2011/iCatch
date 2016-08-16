@@ -2,6 +2,7 @@
 from app import app
 from app.models import *
 
+import binascii
 import datetime
 import json
 import os
@@ -12,27 +13,6 @@ import time
 
 BUFFER_SIZE = 1024 * 18 # max 16k
 
-def get_ssl_sock():
-    DATAENGINE = app.config['DATAENGINE']
-    SSL_KEY = DATAENGINE['ssl_key']
-    SSL_CERT = DATAENGINE['ssl_cert']
-
-    if not os.path.exists(SSL_KEY):
-        raise Exception('no key')
-
-    if not os.path.exists(SSL_CERT):
-        raise Exception('no pem')
-
-    host = DATAENGINE['host']
-    port = DATAENGINE['port']
-    address = (host, port)
-
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ssl_sock = ssl.wrap_socket(sock, ca_certs=SSL_CERT, cert_reqs=ssl.CERT_REQUIRED)
-    ssl_sock.connect(address)
-
-    return ssl_sock
-
 
 class CmdProcessor(object):
     def __init__(self, data, type_byte=1, length_byte=4):
@@ -42,12 +22,12 @@ class CmdProcessor(object):
         self.message = data[type_byte+length_byte:]
 
     def sensor_to_admin_handshake(self, sensorID, commandID):
-        fmt = '!BI16s16s'
+        fmt = '=BI16s16s'
         data = struct.pack(fmt, 0x02, struct.calcsize(fmt), sensorID, commandID)
         return data
 
     def engine_to_admin_handshake(self, commandID):
-        fmt = '!BI16s'
+        fmt = '=BI16s'
         data = struct.pack(fmt, 0x20, struct.calcsize(fmt), commandID)
         return data
 
@@ -64,7 +44,7 @@ class CmdProcessor(object):
 
     def process(self):
         if(self.type == 0x00):
-            sensorID, commandID = sensor_login(self.command)
+            sensorID, commandID = sensor_login(self.message)
             return self.sensor_to_admin_handshake(sensorID, commandID)
 
         elif(self.type == 0x22):
@@ -79,7 +59,14 @@ class CmdProcessor(object):
 
 
 def sensor_login(data):
-    pass
+    from pprint import pprint;import ipdb;ipdb.set_trace();
+    data = struct.unpack('=16B1Q16B4H1B', data)
+    sensorID = ','.join(str(i) for i in data[0:16])
+    timestamp = data[17] / 1000
+
+    sensorID, timestamp, commandID, version, os
+
+    return sensorID, commandID
 
 
 def alarm_files(data):
@@ -91,7 +78,7 @@ def alarm_actions(data):
     Alarm.insert(
         alarmID = data['AlarmID'],
         sensorID = data['SnesorID'],
-        type = 'action',
+        type = 'Action',
         point = data['Point'],
         timestamp = int(data['Timestamp']) / 1000
     ).execute()

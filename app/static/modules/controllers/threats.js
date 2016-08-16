@@ -123,7 +123,7 @@ angular.module('threatsCtrls', [])
                                 selected: true
                             }
                         ];
-
+                        option.colors = ['#ED561B', '#f7a35c'],
                         option.title.text = translate("The real-time condition of unsolved alarms' type");
                         $('#threatsRealChartTemp').highcharts(option);
                     }

@@ -80,6 +80,17 @@ footer {
     margin-bottom: 0;
 }
 
+.navbar-brand {
+    width: auto
+}
+
+
+.navbar-brand img {
+    height: 40px;
+    width: 52px;
+    margin-top: -12px;
+}
+
 .media-body,
 .media-left,
 .media-right {

@@ -30,7 +30,10 @@ def serve():
 
 
 def test():
-    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+    context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+    context.options |= ssl.OP_NO_SSLv2
+    context.options |= ssl.OP_NO_SSLv3
+
     context.load_cert_chain(
         certfile=os.path.expanduser('~/Desktop/server/server-cert.pem'),
         keyfile=os.path.expanduser('~/Desktop/server/server-key.pem')
