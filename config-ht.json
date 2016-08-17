@@ -1,22 +1,22 @@
 {
-  "NAME": "HOOLAB",
+  "NAME": "iCatch",
   "VERSION": 2.1,
   "DATABASE": {
-    "name": "htAdmin",
+    "name": "icatch",
     "engine": "peewee.MySQLDatabase",
     "host": "localhost",
     "port": 3306,
     "user": "root",
-    "passwd": "tempfavbuy",
+    "passwd": "hoohoolab",
     "threadlocals": true
   },
   "CLIENTKEY": "37bdbea9-92f2-49f6-a4c6-dff88a0d24a5",
   "DEBUG": true,
   "REDIS_URL": "redis://localhost:6379/0",
   "DATAENGINE": {
-    "host": "60.205.110.134",
+    "host": "127.0.0.1",
     "port": 9999,
-    "ssl_cert": "/Users/ethan/Desktop/server/server-cert.pem",
-    "ssl_key": "/Users/ethan/Desktop/server/server-key.pem"
+    "ssl_cert": "/opt/pems/cert.pem",
+    "ssl_key": "/opt/pems/key.pem"
   }
 }
