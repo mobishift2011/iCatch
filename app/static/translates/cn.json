@@ -5,6 +5,7 @@
   "Overview": "总览",
   "Threats": "威胁",
   "Security Investigates": "安全调查",
+  "Investigates": "调查",
   "Computer": "计算机",
   "Computer List": "计算机列表",
   "Computer Name": "计算机名",
@@ -172,5 +173,8 @@
   "Character Max": "最多字符数",
   "All": "所有",
   "Remember me": "记住我",
-  "Login": "登录"
+  "Login": "登录",
+  "Time Range": "时间范围",
+  "Download": "下载",
+  "Upload": "上传"
 }
