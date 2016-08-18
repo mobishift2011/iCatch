@@ -21,10 +21,10 @@
             <div class="page-header"><h4 translate="Default Analysis Profile"></h4></div>
         </div>
         <div class="col-md-4">
-            <span ng-if="!isChangeProfile" ng-bind="configs.profile.value"></span>
+            <span ng-if="!isChangeProfile" translate="{{configs.profile.value}}"></span>
             <select ng-if="isChangeProfile" ng-model="configs.profile.value">
                 <option ng-repeat="p in profiles" ng-value="p.title" ng-selected="p.title === configs.profile.value">
-                    {{p.title}}
+                    {{p.title|translate}}
                 </option>
             </select>
         </div>

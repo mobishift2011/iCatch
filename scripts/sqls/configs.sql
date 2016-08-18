@@ -1,6 +1,6 @@
 insert into `configvalue` (`title`, `type`, `value`) values
 ('timezone', 'timezone', 'UTC'),
-('profile', 'profile', 'default'),
+('profile', 'profile', 'Default'),
 ('fileHash', 'fileHash', 'md5'),
 ('quarantineMessage', 'quarantine', ''),
 ('quarantineWhitelist', 'quarantine', '');

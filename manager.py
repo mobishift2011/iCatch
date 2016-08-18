@@ -8,6 +8,7 @@ from livereload import Server
 
 import datetime
 import random
+import subprocess
 import time
 import traceback
 import uuid
@@ -36,11 +37,41 @@ def init():
     prepare_test_data()
 
 
+def _change_db(name):
+    db.database.database = name
+    db.database.connect()
+
 @manager.command
 def init_db():
-    # db_name = app.config['DATABASE']['name']
-    # db.database.execute('CREATE SCHEMA `{}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;'.format(db_name))
+    db_name = app.config['DATABASE']['name']
+    _change_db('mysql')
+    db.database.execute_sql('CREATE SCHEMA `{}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;'.format(db_name))
+    _change_db(db_name)
     db.database.create_tables(db.Model.__subclasses__(), safe=True)
+
+
+@manager.command
+def drop_db():
+    sql = 'drop database `%s`' % app.config['DATABASE']['name']
+    db.database.execute_sql(sql)
+
+
+def _exec_sql_file(filename, force=False, config={}):
+    dbconfig = config or app.config.get('DATABASE')
+    dbconfig['name'] = dbconfig.get('name') or dbconfig.get('db')
+    sql = 'mysql -h{host} -u{user} -p{passwd} --default-character-set=utf8 {name} < {filename}'
+    cmd = sql.format(filename=filename, **dbconfig)
+    if force:
+        cmd = cmd.replace('mysql -h', 'mysql -f -h')
+
+    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+
+
+@manager.command
+def init_sqls():
+    fp = op.join(current_path, 'scripts/sqls')
+    for f in os.listdir(fp):
+        _exec_sql_file(op.join(fp, f))
 
 
 def _init_admin():

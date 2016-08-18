@@ -91,6 +91,10 @@ footer {
     margin-top: -12px;
 }
 
+.navbar-nav.navbar-right:last-child {
+    margin-right: 0px;
+}
+
 .media-body,
 .media-left,
 .media-right {

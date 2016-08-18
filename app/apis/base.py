@@ -76,7 +76,7 @@ class BaseResource(RestResource):
         for value in fk_map.values():
             klass = value[0]
             serialize_fields = patch_fields.get(klass)
-            serialize_result = self.serialize_rawquery_simple(klass.select().where(klass.id << value[1]), {value[0]: serialize_fields})
+            serialize_result = self.serialize_rawquery_simple(klass.select().where(klass.id << (value[1] or [0])), {value[0]: serialize_fields})
             for item in serialize_result:
                 item['fk_type'] = 'fk'
             value[1] = {item['id']: item for item in serialize_result}
@@ -111,12 +111,12 @@ class BaseSerializer(Serializer):
                 self.clean_data(value)
             elif isinstance(value, (list, tuple)):
                 data[key] = map(self.clean_data, value)
-            elif key == 'timestamp':
+            elif key and key.endswith('timestamp'):
                 if not tz:
                     from app.models import ConfigValue
                     tz = ConfigValue.get(title='timezone').value
                 if value:
-                    data['_dateAdded'] = self.process_timestamp(value, tz = tz).strftime('%Y-%m-%d %H:%M:%S')
+                    data[key.replace('timestamp', 'time')] = self.process_timestamp(value, tz = tz).strftime('%Y-%m-%d %H:%M:%S')
             else:
                 data[key] = self.convert_value(value)
         return data

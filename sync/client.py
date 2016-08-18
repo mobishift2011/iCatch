@@ -1,9 +1,13 @@
 #-*- encoding: utf-8 -*-
 from base import *
-import pprint
-import time
 import traceback
 
+from gevent import monkey; monkey.patch_all()
+from gevent.lock import BoundedSemaphore
+import gevent
+
+g_ssl_sock = None
+sem = BoundedSemaphore(1)
 
 def get_ssl_sock():
     DATAENGINE = app.config['DATAENGINE']
@@ -31,14 +35,18 @@ def get_ssl_sock():
 
 
 def ssl_connect():
-    ssl_sock = get_ssl_sock()
-    return ssl_sock
+    global g_ssl_sock
+    with sem:
+        if not g_ssl_sock:
+            g_ssl_sock = get_ssl_sock()
 
 
-def ssl_close(ssl_sock):
-    if ssl_sock:
-        ssl_sock.close()
-        ssl_sock = None
+def ssl_close():
+    global g_ssl_sock
+    with sem:
+        if g_ssl_sock:
+            g_ssl_sock.close()
+            g_ssl_sock = None
 
 
 def login_engine(ssl_sock):
@@ -46,30 +54,59 @@ def login_engine(ssl_sock):
     data = struct.pack(fmt, 0x56, struct.calcsize(fmt), '')
     return ssl_sock.sendall(data)
 
-
 def run():
-    ssl_sock = None
+    def from_engine():
+        global g_ssl_sock
 
-    while True:
-        try:
-            if ssl_sock is None:
-                ssl_sock = ssl_connect()
+        while True:
+            try:
+                print '================from engine:================'
+                ssl_connect()
+                data = g_ssl_sock.recv(BUFFER_SIZE)
 
-            print '================================'
-            data = ssl_sock.recv(BUFFER_SIZE)
-            pprint.pprint(data)
+                if not data:
+                    ssl_close()
+                    gevent.sleep(5)
+                else:
+                    response = CmdProcessor(data).process()
+                    if response is not None:
+                        g_ssl_sock.sendall(response)
+            except:
+                traceback.print_exc()
+                ssl_close()
+                gevent.sleep(5)
+                print '================================'
 
-            if not data:
-                ssl_sock = ssl_close(ssl_sock)
-                time.sleep(5)
-            else:
-                response = CmdProcessor(data).process()
-                ssl_sock.sendall(response)
-        except:
-            traceback.print_exc()
-            ssl_sock = ssl_close(ssl_sock)
-            time.sleep(5)
-            print '================================'
+
+    def to_engine():
+        while True:
+            try:
+                print '================to engine:================'
+                ssl_connect()
+                g_ssl_sock.sendall(test_sensor_cmd())
+                gevent.sleep(10)
+            except:
+                traceback.print_exc()
+                ssl_close()
+                gevent.sleep(5)
+                print '================================'
+
+    gevent.joinall([
+        gevent.spawn(from_engine),
+        gevent.spawn(to_engine)
+    ])
+
+
+def test_sensor_cmd():
+    import binascii, uuid
+    computer = Computer.get()
+    sensorID = computer.sensorID
+    commandID = str(uuid.uuid4())
+    sensorID = binascii.unhexlify(sensorID.replace('-',''))
+    commandID = binascii.unhexlify(commandID.replace('-', ''))
+    cmd = CmdProcessor().sensor_pause(sensorID=sensorID, commandID=commandID)
+    #cmd = CmdProcessor().sensor_update(sensorID=sensorID, commandID=commandID)
+    return cmd
 
 
 if __name__ == '__main__':
@@ -81,5 +118,6 @@ if __name__ == '__main__':
             data = f.readline()
             response = CmdProcessor(data).process()
 
-    #test()
     run()
+    #test()
+    #test_sensor_uninstall()

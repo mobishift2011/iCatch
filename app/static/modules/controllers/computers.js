@@ -1,6 +1,6 @@
 angular.module('computerCtrls', ['profileServices', 'computerServices'])
-    .controller('computers', ['$scope', 'Profile', 'Computer',
-        function ($scope, Profile, Computer) {
+    .controller('computers', ['$scope', '$timeout', 'Profile', 'Computer',
+        function ($scope, $timeout, Profile, Computer) {
             $scope.comTabs = [
                 {title: 'Protected', state: 'computers_protected'},
                 {title: 'Isolated', state: 'computers_isolated'}
@@ -8,26 +8,7 @@ angular.module('computerCtrls', ['profileServices', 'computerServices'])
 
             getProfiles($scope, Profile);
             getSensors($scope, Computer);
-            getComputers($scope, Computer, {is_quarantine: false});
-
-            $scope.query = {};
-            $scope.activateQuery = function (title) {
-                $scope.queryTitle = title;
-            };
-            $scope.search = function () {
-                var query = {is_quarantine: false};
-                var queryTitle = $scope.queryTitle
-                var queryValue = $scope.query[queryTitle];
-
-                if (queryValue || queryValue === 0) {
-                    if (queryTitle.endsWith('__like')) {
-                        queryValue = '%' + queryValue + '%'
-                    }
-                    query[$scope.queryTitle] = queryValue;
-                }
-
-                getComputers($scope, Computer, query);
-            };
+            getComputers($scope, Computer, {is_quarantine: false}, $timeout);
         }])
 
     .controller('protectedComs', ['$scope', 'Profile', 'Computer',
@@ -64,19 +45,54 @@ function getSensors($scope, Computer) {
     });
 }
 
-function getComputers($scope, Computer, params) {
+function getComputers($scope, Computer, params, $timeout) {
     params = params || {};
+    var intervals = 7000;
 
-    var _comCallback = function (data) {
-        $scope.pagination = data.meta || {};
-        $scope.coms = data.objects || [];
+    var getList = function() {
+        Computer.get(params,
+            function (data) {
+                $scope.pagination = data.meta || {};
+                $scope.coms = data.objects || [];
+
+                if($timeout) {
+                    $timeout(getList, intervals);
+                }
+            },
+            function(error){
+                console.log(error);
+
+                if($timeout) {
+                    $timeout(getList, intervals);
+                }
+            }
+        );
     };
 
     $scope.pageChanged = function (page) {
         params.page = page;
-        Computer.get(params, _comCallback);
+        getList();
     };
 
-    Computer.get(params, _comCallback);
+    $scope.query = {};
+    $scope.activateQuery = function (title) {
+        $scope.queryTitle = title;
+    };
+    $scope.search = function () {
+        var query = {is_quarantine: false};
+        var queryTitle = $scope.queryTitle
+        var queryValue = $scope.query[queryTitle];
 
+        if (queryValue || queryValue === 0) {
+            if (queryTitle.endsWith('__like')) {
+                queryValue = '%' + queryValue + '%'
+            }
+            query[$scope.queryTitle] = queryValue;
+        }
+
+        params = query;
+        getList();
+    };
+
+    getList();
 }

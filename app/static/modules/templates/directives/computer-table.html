@@ -34,15 +34,15 @@
             <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check()">
             </td>
             <td>
-                <a class="text-info" data-toggle="modal" data-target="#comModal" ng-bind="item.sensorID" ng-click="clickCom(item)"></a>
+                <a class="text-info" data-toggle="modal" data-target="#comModal" ng-bind="item.name" ng-click="clickCom(item)"></a>
             </td>
             <td>
                 <span ng-bind="item.status.toUpperCase()" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
             </td>
             <td ng-bind="item.ip"></td>
             <td ng-bind="item.os"></td>
-            <td ng-bind="item.last_communicated_timestamp"></td>
-            <td ng-bind="item.start_timestamp"></td>
+            <td ng-bind="item.last_communicated_time"></td>
+            <td ng-bind="item.start_time"></td>
             <td ng-bind="item.profile.title" ng-if="queryTitle === 'profile'"></td>
             <td ng-bind="item.group" ng-if="queryTitle === 'group'"></td>
             <td ng-bind="item.sensorVersion" ng-if="queryTitle === 'sensorVersion'"></td>

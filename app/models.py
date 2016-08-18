@@ -78,7 +78,8 @@ class ComputerStatus:
 class Computer(db.Model):
     sensorID = CharField(max_length=255)
     sensorVersion = CharField(max_length=64)
-    os = CharField(max_length=64)
+    name = CharField(max_length=128)
+    os = CharField(max_length=128)
     status = CharField(max_length=32)
     ip = CharField(max_length=128)
     last_communicated_timestamp = IntegerField()
