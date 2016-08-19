@@ -7,6 +7,7 @@ import sys
 import time
 import traceback
 
+
 def try_format_value(v, length):
     flag = False
     i = 0

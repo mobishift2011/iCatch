@@ -267,12 +267,24 @@ adminApp = angular.module('app', [
                     };
 
                     $scope.uninstallSensor = function () {
+                        var computer_ids = [];
                         if (confirm('Are you sure to uninstall sensor ?')) {
                             $scope.data.map(function (e) {
                                 if (e.checked) {
-                                    e.status = 'uninstall';
+                                    computer_ids.push(e.id)
+                                    //e.status = 'uninstall';
                                 }
-                            })
+                            });
+
+                            if(computer_ids.length) {
+                                Computer.uninstall({ids: computer_ids.join(',')}, function(data) {
+                                    if(data.status == true){
+                                        ht.noty('Sensor is uninstalling');
+                                    }else{
+                                        ht.noty('Sensor uninstall failed');
+                                    }
+                                });
+                            }
                         }
                     };
 

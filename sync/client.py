@@ -1,5 +1,7 @@
 #-*- encoding: utf-8 -*-
+from app.models import Command
 from base import *
+import binascii
 import traceback
 
 from gevent import monkey; monkey.patch_all()
@@ -83,7 +85,15 @@ def run():
             try:
                 print '================to engine:================'
                 ssl_connect()
-                # g_ssl_sock.sendall(test_sensor_cmd())
+
+                for item in Command.select().where(Command.status.is_null(True)):
+                    try:
+                        if item.raw:
+                            print binascii.unhexlify(item.raw)
+                            g_ssl_sock.sendall(binascii.unhexlify(item.raw))
+                    except:
+                        continue
+
                 gevent.sleep(10)
             except:
                 traceback.print_exc()

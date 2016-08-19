@@ -119,6 +119,7 @@ class Command(db.Model):
     uuid = UUIDField()
     content = TextField(null=True)
     raw = TextField()
+    status = SmallIntegerField(null=True)
     user = ForeignKeyField(User, null=True)
     timestamp = IntegerField()
     unknown = BooleanField(default=False)

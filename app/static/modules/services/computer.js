@@ -7,13 +7,18 @@ angular.module('computerServices', ['ngResource'])
                     method: 'GET',
                     params: {computerId: 'sensor'},
                     isArray: true
-                }
+                },
+                uninstall: {
+                    method: 'GET',
+                    params: {computerId: 'uninstall'},
+                },
             });
 
             return {
                 get: resource.get,
                 add: resource.save,
-                sensorList: resource.sensorList
+                sensorList: resource.sensorList,
+                uninstall: resource.uninstall
             }
         }
     ])

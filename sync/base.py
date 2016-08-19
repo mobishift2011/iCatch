@@ -15,6 +15,61 @@ import uuid
 BUFFER_SIZE = 1024 * 18  # max 16k
 
 
+def raw_uuid(data):
+    if data:
+        return binascii.unhexlify(data.replace('-',''))
+
+
+class CmdMaker(object):
+    def __init__(self):
+        self.commandID = str(uuid.uuid4())
+        self.timestamp = int(time.mktime(datetime.datetime.utcnow().utctimetuple()))
+        self.user = g.user
+
+    def make_cmd(self, type, sensorID, commandID):
+        self.sensorID = sensorID
+        raw_sensorID = raw_uuid(self.sensorID)
+        raw_commandID = raw_uuid(self.commandID)
+
+        fmt = '=BI16s16s'
+        cmd_length = struct.calcsize(fmt)
+        data = struct.pack(fmt, type, cmd_length, raw_sensorID, raw_commandID)
+
+        return Command.insert(
+            type = type,
+            length = cmd_length,
+            sensorID = self.sensorID,
+            uuid = self.commandID,
+            raw = binascii.hexlify(data),
+            user = g.user,
+            timestamp = self.timestamp
+        ).execute()
+
+    # type = CharField(max_length=32)
+    # length = IntegerField(default=0)
+    # sensorID = CharField(max_length=255, null=True)
+    # uuid = UUIDField()
+    # content = TextField(null=True)
+    # raw = TextField()
+    # status = SmallIntegerField(null=True)
+    # user = ForeignKeyField(User, null=True)
+    # timestamp = IntegerField()
+    # unknown = BooleanField(default=False)
+
+    def sensor_uninstall(self, sensorID):
+        self.type = 0x42
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
+
+# class Command(db.Model):
+
+#     uuid = UUIDField()
+#     content = TextField(null=True)
+#     raw = TextField()
+#     user = ForeignKeyField(User, null=True)
+#     timestamp = IntegerField()
+#     unknown = BooleanField(default=False)
+
 class CmdProcessor(object):
     def __init__(self, data=None, type_byte=1, length_byte=4, sensor_byte=16, command_byte=16):
         if not data:
