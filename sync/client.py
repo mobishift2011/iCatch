@@ -83,7 +83,7 @@ def run():
             try:
                 print '================to engine:================'
                 ssl_connect()
-                g_ssl_sock.sendall(test_sensor_cmd())
+                # g_ssl_sock.sendall(test_sensor_cmd())
                 gevent.sleep(10)
             except:
                 traceback.print_exc()
