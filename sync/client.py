@@ -86,7 +86,7 @@ def run():
                 print '================to engine:================'
                 ssl_connect()
 
-                for item in Command.select().where(Command.status.is_null(True)):
+                for item in Command.select().where(Command.status.is_null(True)).order_by('timestamp').limit(10):
                     try:
                         if item.raw:
                             print binascii.unhexlify(item.raw)
