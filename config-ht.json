@@ -14,7 +14,7 @@
   "DEBUG": true,
   "REDIS_URL": "redis://localhost:6379/0",
   "DATAENGINE": {
-    "host": "127.0.0.1",
+    "host": "60.205.110.134",
     "port": 9999,
     "ssl_cert": "/opt/pems/cert.pem",
     "ssl_key": "/opt/pems/key.pem"
