@@ -20,20 +20,32 @@ def raw_uuid(data):
         return binascii.unhexlify(data.replace('-',''))
 
 
+def _prettify_uuid(raw_uuid):
+    return str(uuid.UUID(binascii.hexlify(raw_uuid)))
+
+
 class CmdMaker(object):
     def __init__(self):
         self.commandID = str(uuid.uuid4())
         self.timestamp = int(time.mktime(datetime.datetime.utcnow().utctimetuple()))
         self.user = g.user
 
-    def make_cmd(self, type, sensorID, commandID):
+    def make_cmd(self, type, sensorID, commandID, content=None, extra=None):
         self.sensorID = sensorID
         raw_sensorID = raw_uuid(self.sensorID)
         raw_commandID = raw_uuid(self.commandID)
-
         fmt = '=BI16s16s'
+
+        if content:
+            fmt = fmt + '{}s'.format(len(content))
+
         cmd_length = struct.calcsize(fmt)
-        data = struct.pack(fmt, type, cmd_length, raw_sensorID, raw_commandID)
+
+        if content:
+            data = struct.pack(fmt, type, cmd_length, raw_sensorID, raw_commandID, content)
+        else:
+            data = struct.pack(fmt, type, cmd_length, raw_sensorID, raw_commandID)
+
 
         return Command.insert(
             type = type,
@@ -41,34 +53,56 @@ class CmdMaker(object):
             sensorID = self.sensorID,
             uuid = self.commandID,
             raw = binascii.hexlify(data),
+            content = extra,
             user = g.user,
-            timestamp = self.timestamp
+            timestamp = self.timestamp,
+            sender = True
         ).execute()
 
-    # type = CharField(max_length=32)
-    # length = IntegerField(default=0)
-    # sensorID = CharField(max_length=255, null=True)
-    # uuid = UUIDField()
-    # content = TextField(null=True)
-    # raw = TextField()
-    # status = SmallIntegerField(null=True)
-    # user = ForeignKeyField(User, null=True)
-    # timestamp = IntegerField()
-    # unknown = BooleanField(default=False)
+    def sensor_update(self, sensorID):
+        self.type = 0x41
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
 
     def sensor_uninstall(self, sensorID):
         self.type = 0x42
         cmd = self.make_cmd(self.type, sensorID, self.commandID)
         return cmd
 
-# class Command(db.Model):
+    def sensor_quarantine(self, sensorID):
+        self.type = 0x43
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
 
-#     uuid = UUIDField()
-#     content = TextField(null=True)
-#     raw = TextField()
-#     user = ForeignKeyField(User, null=True)
-#     timestamp = IntegerField()
-#     unknown = BooleanField(default=False)
+    def sensor_cancel_quarantine(self, sensorID):
+        self.type = 0x44
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
+
+    def sensor_update_profile(self, sensorID, profile_id):
+        self.type = 0x45
+        profile_path = Profile.get(Profile.id==profile_id).originpath
+        content = open(profile_path, 'rb').read()
+        extra = json.dumps({'profile_id': profile_id})
+        cmd = self.make_cmd(self.type, sensorID, self.commandID, content, extra=extra)
+        return cmd
+
+    def sensor_pause(self, sensorID):
+        self.type = 0x46
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
+
+    def sensor_resume(self, sensorID):
+        self.type = 0x47
+        cmd = self.make_cmd(self.type, sensorID, self.commandID)
+        return cmd
+
+    def sensor_upgrade(self, sensorID, sensor_version, sensor_urls_dump):
+        self.type = 0x47
+        extra = json.dumps({'sensor': sensor_version})
+        import pdb;pdb.set_trace()
+        cmd = self.make_cmd(self.type, sensorID, self.commandID, sensor_urls_dump, extra=extra)
+        return cmd
 
 class CmdProcessor(object):
     def __init__(self, data=None, type_byte=1, length_byte=4, sensor_byte=16, command_byte=16):
@@ -103,7 +137,7 @@ class CmdProcessor(object):
         return self.make_response_handshake(0x50)
 
     def receive_handshake(self):
-        print 'handshake from sensor:', self.type, self.sensorID, self.commandID
+        print 'Receive handshake:', Command.update(status=-1).where(Command.uuid==_prettify_uuid(self.commandID)).execute()
 
     def insert_unknown_command(self):
         Command.insert(
@@ -132,12 +166,6 @@ class CmdProcessor(object):
             self.alarm_actions()
             return self.engine_handshake()
 
-        else:
-            pass
-
-    def _prettify_uuid(self, raw_uuid):
-        return str(uuid.UUID(binascii.hexlify(raw_uuid)))
-
     def sensor_login(self):
         data = json.loads(self.message)
         timestamp = int(data['Timestamp']) / 1000
@@ -154,7 +182,7 @@ class CmdProcessor(object):
         }
 
         computer, created = Computer.get_or_create(
-                sensorID=self._prettify_uuid(self.sensorID),
+                sensorID=_prettify_uuid(self.sensorID),
                 defaults=kwargs
         )
 
@@ -166,17 +194,7 @@ class CmdProcessor(object):
             computer.save()
 
     def sensor_off(self):
-        print 'off'
-        print self._prettify_uuid(self.sensorID)
-        Computer.update(status=ComputerStatus.off).where(Computer.sensorID == self._prettify_uuid(self.sensorID)).execute()
-
-    def sensor_uninstall(self, sensorID, commandID):
-        cmd = CmdProcessor().make_cmd(0x42, sensorID, commandID)
-        return cmd
-
-    def sensor_pause(self, sensorID, commandID):
-        cmd = CmdProcessor().make_cmd(0x46, sensorID, commandID)
-        return cmd
+        Computer.update(status=ComputerStatus.off).where(Computer.sensorID == _prettify_uuid(self.sensorID)).execute()
 
     def sensor_process_result(self):
         """
@@ -184,8 +202,26 @@ class CmdProcessor(object):
         # 1: success
         # 2: fail
         """
-        result = struct.unpack('=B', self.message)[0]
-        print result
+        with db.database.transaction():
+            result = bool(struct.unpack('=B', self.message)[0] == 1)
+            Command.update(status=result).where(Command.uuid==_prettify_uuid(self.commandID)).execute()
+
+            if result:
+                cmd = Command.get(Command.uuid==_prettify_uuid(self.commandID))
+                type = int(cmd.type)
+                if type == 0x42:
+                    Computer.update(status=ComputerStatus.uninstall).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
+                elif type == 0x43:
+                    Computer.update(is_quarantine=True).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
+                elif type == 0x44:
+                    Computer.update(is_quarantine=False).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
+                elif type == 0x45:
+                    profile_id = int(json.loads(cmd.content)['profile_id'])
+                    Computer.update(profile=profile_id).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
+                elif type == 0x46:
+                    Computer.update(status=ComputerStatus.pause).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
+                elif type == 0x47:
+                    Computer.update(status=ComputerStatus.on).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
 
     def _get_or_create_alarm(self, type, **kwargs):
         data = {

@@ -55,16 +55,16 @@ function getComputers($scope, Computer, params, $timeout) {
                 $scope.pagination = data.meta || {};
                 $scope.coms = data.objects || [];
 
-                if($timeout) {
-                    $timeout(getList, intervals);
-                }
+//                if($timeout) {
+//                    $timeout(getList, intervals);
+//                }
             },
             function(error){
                 console.log(error);
 
-                if($timeout) {
-                    $timeout(getList, intervals);
-                }
+//                if($timeout) {
+//                    $timeout(getList, intervals);
+//                }
             }
         );
     };

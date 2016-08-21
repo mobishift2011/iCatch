@@ -292,27 +292,47 @@ adminApp = angular.module('app', [
                         $scope.sensors = data;
                     });
 
+                    Computer.sensorList({upgrade: true}, function (data) {
+                        $scope.sensorPackages = data;
+                    });
+
                     $scope.addProfile = function (item) {
                         $('#addProfileModal').modal('hide');
                         if (confirm('Are you sure to change profile ?')) {
-                            console.log(item);
+                            var ids = [];
                             $scope.data.map(function (e) {
                                 if (e.checked) {
-                                    alert(e.name);
+                                    ids.push(e.id)
                                 }
-                            })
+                            });
+
+                            Computer.addProfile({ids: ids, profileId: item.id}, function(data){
+                                if(data.status == true){
+                                    ht.noty('Sensor is updating');
+                                }else{
+                                    ht.noty('Sensor updated failed');
+                                }
+                            });
                         }
                     };
 
                     $scope.upgradeSensor = function (item) {
                         $('#upgradeSensorModal').modal('hide');
                         if (confirm('Are you sure to upgrade sensor ?')) {
-                            alert(item.name);
+                            var ids = [];
                             $scope.data.map(function (e) {
                                 if (e.checked) {
-                                    alert(e.name);
+                                    ids.push(e.id)
                                 }
-                            })
+                            });
+
+                            Computer.upgrade({ids: ids, sensor: item}, function(data){
+                                if(data.status == true){
+                                    ht.noty('Sensor is upgrading');
+                                }else{
+                                    ht.noty('Sensor upgraded failed');
+                                }
+                            });
                         }
                     };
                 }
@@ -358,9 +378,9 @@ adminApp = angular.module('app', [
                     };
 
                     $scope.changeStatus = function (status, id) {
-                        Computer.add({id: id, status: status}, function (data) {
-                            $scope.computer.status = data.status;
-                            ht.noty($filter('translate')('Update status successfully '));
+                        Computer[status]({ids: id}, function(data){
+                            $scope.computer.status = status;
+                            ht.noty($filter('translate')('Updating computer status'));
                         });
                     };
                 }

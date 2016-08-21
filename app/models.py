@@ -122,6 +122,7 @@ class Command(db.Model):
     status = SmallIntegerField(null=True)
     user = ForeignKeyField(User, null=True)
     timestamp = IntegerField()
+    sender = BooleanField(default=False)
     unknown = BooleanField(default=False)
 
     class Meta:
