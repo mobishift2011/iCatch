@@ -98,9 +98,8 @@ class CmdMaker(object):
         return cmd
 
     def sensor_upgrade(self, sensorID, sensor_version, sensor_urls_dump):
-        self.type = 0x47
+        self.type = 0x41
         extra = json.dumps({'sensor': sensor_version})
-        import pdb;pdb.set_trace()
         cmd = self.make_cmd(self.type, sensorID, self.commandID, sensor_urls_dump, extra=extra)
         return cmd
 
