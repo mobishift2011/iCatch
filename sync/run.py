@@ -89,7 +89,7 @@ def run():
                 for item in Command.select().where(Command.status.is_null(True)).order_by('timestamp').limit(10):
                     try:
                         if item.raw:
-                            print binascii.unhexlify(item.raw)
+                            binascii.unhexlify(item.raw)
                             g_ssl_sock.sendall(binascii.unhexlify(item.raw))
                     except:
                         continue

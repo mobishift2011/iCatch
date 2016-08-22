@@ -161,6 +161,10 @@ class CmdProcessor(object):
         elif self.type == 0x03:
             self.sensor_off()
 
+        elif self.type == 0x22:
+            self.alarm_files()
+            return self.engine_handshake()
+
         elif self.type == 0x23:
             self.alarm_actions()
             return self.engine_handshake()
@@ -224,16 +228,28 @@ class CmdProcessor(object):
 
     def _get_or_create_alarm(self, type, **kwargs):
         data = {
-            'sensorID': self.sensorID,
+            'sensorID': _prettify_uuid(self.sensorID),
             'type': type,
-            'point': kwargs['Point'],
+            'point': kwargs.get('Level'),
             'timestamp': int(kwargs['Timestamp']) / 1000
         }
 
-        alarm, created = Alarm.get_or_creat(
-            alarmID = kwargs['AlarmID'],
-            defaults = data
-        )
+        if type == 'File':
+            data.update({
+                'path': kwargs.get('FullPath'),
+                'md5': kwargs.get('MD5'),
+                'sha256': kwargs.get('SHA256')
+            })
+
+        with db.database.transaction():
+            alarm, created = Alarm.get_or_create(
+                alarmID = kwargs['AlarmID'],
+                defaults = data
+            )
+
+            if not alarm.computer:
+                alarm.computer = Computer.get(sensorID=data['sensorID'])
+                alarm.save()
 
         return alarm, created
 
