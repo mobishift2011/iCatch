@@ -88,7 +88,8 @@ class ComputerResource(BaseResource):
         path = app.config['SENSOR_PATH']
         sensor = request.args.get('sensor')
         url_prefix = app.config['SENSOR_URL']
-        urls = [op.join(url_prefix, item)for item in os.listdir(op.join(path, sensor))]
-        return self._sensor_op('upgrade', sensor, json.dumps(urls))
+        items = [{'FileName': item, 'URL': op.join(url_prefix, sensor, item)} for item in os.listdir(op.join(path, sensor))]
+        data = {'Version': sensor, 'FileList': items}
+        return self._sensor_op('upgrade', sensor, json.dumps(data))
 
 api.register(Computer, ComputerResource)
