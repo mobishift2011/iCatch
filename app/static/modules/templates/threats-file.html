@@ -11,7 +11,7 @@
     </div>
     <div class="page-header">
         <h3 class="padding-top10">
-            <span ng-bind="file.alarmID"></span>
+            ID: <span ng-bind="alarm.alarmID"></span>
         </h3>
     </div>
     <div class="row file-detail">
@@ -20,10 +20,10 @@
                 <div class="row padding-left15">
                     <div class="col-md-1 text-danger"><span class="glyphicon glyphicon-file"></span></div>
                     <div class="col-md-11">
-                        <div><label class="media-heading" translate="File Name"></label>: asdfasf</div>
-                        <div><label class="media-heading" translate="Hash"></label>: <span ng-bind="file.md5 || file.sha256"></span></div>
-                        <div><label class="media-heading" translate="Path"></label>: <span ng-bind="file.path"></span></div>
-                        <div><label class="media-heading" translate="Size"></label>: <span ng-bind="file.size"></span></div>
+                        <div><label class="media-heading" translate="File Name"></label>: <span ng-bind="alarm.path"></span></div>
+                        <div><label class="media-heading" translate="Hash"></label>: <span ng-bind="alarm.md5 || alarm.sha256"></span></div>
+                        <div><label class="media-heading" translate="Path"></label>: <span ng-bind="alarm.path"></span></div>
+                        <div><label class="media-heading" translate="Size"></label>: <span ng-bind="alarm.filesize"></span></div>
                     </div>
                 </div>
                 <div class="row padding-bottom10 padding-left15">
@@ -31,22 +31,22 @@
                     <div class="col-md-11">
                         <div>
                             <label class="media-heading" translate="Computer"></label>
-                            <a class="text-info" data-toggle="modal" data-target="#comModal">: <span ng-bind="file.sensorID"></a>
+                            <a class="text-info" data-toggle="modal" data-target="#comModal">: <span ng-bind="alarm.computer.name"></a>
                         </div>
-                        <div><label class="media-heading" translate="IP Address"></label>: <span ng-bind="file.computer.ip"></div>
-                        <div><label class="media-heading" translate="Domain"></label>: <span ng-bind="file.computer.domain"></span></div>
-                        <div><label class="media-heading" translate="Group"></label>: <span ng-bind="file.groups"></span></div>
+                        <div><label class="media-heading" translate="IP Address"></label>: <span ng-bind="alarm.computer.ip"></div>
+                        <div><label class="media-heading" translate="Domain"></label>: <span ng-bind="alarm.computer.domain"></span></div>
+                        <div><label class="media-heading" translate="Group"></label>: <span ng-bind="alarm.groups"></span></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 padding-top15">
-                <div><label translate="First Found In the Latest Year"> </label>: <span translate=""></span></div>
-                <div><label translate="Last Found"></label>: <span translate=""></span></div>
+                <div><label translate="First Found In the Latest Year"> </label>: <span ng-bind="alarm.earliest_found"></span></div>
+                <div><label translate="Last Found"></label>: <span ng-bind="alarm.latest_found"></span></div>
             </div>
 
         </div>
         <div class="col-xs-4 sep-right section">
-            <div><label translate="Create Time"></label>: <span ng-bind="file._dateAdded"></span></div>
+            <div><label translate="Create Time"></label>: <span ng-bind="alarm.time"></span></div>
             <div><label translate="Signature"></label>: <span></span></div>
             <div><label translate="Signature Publish"></label>: <span></span></div>
             <div><label translate="Network"></label>: <span></span></div>
@@ -103,10 +103,71 @@
                     </panel>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="currCom">
-                    <div class="computerTable" datasource="currAffectedComs"></div>
+
+    <table class="table table-striped table-hover table-bordered bootstrap-datatable responsive">
+        <thead>
+        <tr class="bg-grey">
+            <td ng-if="!tableCheckHide">
+            </td>
+            <th translate="Computer Name"></th>
+            <th translate="Status"></th>
+            <th translate="IP Address"></th>
+            <th translate="OS"></th>
+            <th translate="Last Communicated"></th>
+            <th translate="Protected Time Started"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in currAffectedComs">
+            <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check()">
+            </td>
+            <td>
+                <a class="text-info" data-toggle="modal" data-target="#comModal" ng-bind="item.name" ng-click="clickCom(item)"></a>
+            </td>
+            <td>
+                <span ng-bind="item.status.toUpperCase()" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
+            </td>
+            <td ng-bind="item.ip"></td>
+            <td ng-bind="item.os"></td>
+            <td ng-bind="item.last_communicated_time"></td>
+            <td ng-bind="item.start_time"></td>
+        </tbody>
+    </table>
+
+
                 </div>
                 <div role="tabpanel" class="tab-pane" id="histCom">
-                    <div class="computerTable" datasource="histAffectedComs"></div>
+
+
+    <table class="table table-striped table-hover table-bordered bootstrap-datatable responsive">
+        <thead>
+        <tr class="bg-grey">
+            <td ng-if="!tableCheckHide">
+            </td>
+            <th translate="Computer Name"></th>
+            <th translate="Status"></th>
+            <th translate="IP Address"></th>
+            <th translate="OS"></th>
+            <th translate="Last Communicated"></th>
+            <th translate="Protected Time Started"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in histAffectedComs">
+            <td ng-if="!tableCheckHide"><input type="checkbox" ng-model="item.checked" ng-click="check()">
+            </td>
+            <td>
+                <a class="text-info" data-toggle="modal" data-target="#comModal" ng-bind="item.name" ng-click="clickCom(item)"></a>
+            </td>
+            <td>
+                <span ng-bind="item.status.toUpperCase()" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
+            </td>
+            <td ng-bind="item.ip"></td>
+            <td ng-bind="item.os"></td>
+            <td ng-bind="item.last_communicated_time"></td>
+            <td ng-bind="item.start_time"></td>
+        </tbody>
+    </table>
                 </div>
             </div>
         </div>

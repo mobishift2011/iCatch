@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from app.apis import api
-from app.models import Alarm, AlarmStatus, Computer
+from app.apis.base import BaseSerializer
+from app.models import *
 from base import BaseResource
 from flask import request
 from peewee import fn
@@ -15,6 +16,15 @@ class AlarmResource(BaseResource):
             ('/type/stats', self.type_stats)
         )
 
+    def serialize_query(self, query):
+        results = super(AlarmResource, self).serialize_query(query)
+        patchs = {
+            Computer: ['id', 'name'],
+        }
+
+        self.serialize_patch_foreignkey(results, patchs)
+        return results
+
     def process_query(self, query):
         query = super(AlarmResource, self).process_query(query)
         status = request.args.get('status__in')
@@ -28,7 +38,23 @@ class AlarmResource(BaseResource):
         return query
 
     def object_detail(self, obj):
-        return self.response(self.serialize_object(obj))
+        results = [self.serialize_object(obj)]
+        patchs = {
+            Computer: ['id', 'name', 'ip'],
+        }
+        self.serialize_patch_foreignkey(results, patchs)
+        result = results[0]
+
+        tz = ConfigValue.get(title='timezone').value
+        process_timestamp = lambda x: BaseSerializer.process_timestamp(x, tz=tz).strftime('%Y-%m-%d %H:%M:%S')
+        time_stat_q = Alarm.select(fn.Min(Alarm.timestamp).alias('earliest_found'), fn.Max(Alarm.timestamp).alias('latest_found')).where(Alarm.alarmID == obj.alarmID).get()
+        time_stat = {
+            'earliest_found': process_timestamp(time_stat_q.earliest_found),
+            'latest_found': process_timestamp(time_stat_q.latest_found)
+        }
+        result.update(time_stat)
+
+        return self.response(result)
 
     def edit(self, obj):
         try:

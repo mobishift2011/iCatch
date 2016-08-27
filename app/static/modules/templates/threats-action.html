@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="padding-left15">
                 <div class="page-header">
-                    <h3>test.exe</h3>
+                    <h3>ID: <span ng-bind="alarm.alarmID"></span></h3>
                 </div>
                 <div class="padding-left15 computer-info">
                     <div class="text-danger" style="display: table-cell"><span
@@ -21,19 +21,19 @@
                     <div class="padding-left15" style="display: table-cell;">
                         <div>
                             <label class="media-heading"><span translate="Computer"></span>: </label>&nbsp;
-                            <a class="text-info" data-toggle="modal" data-target="#comModal">asdfasf</a>
+                            <a class="text-info" data-toggle="modal" data-target="#comModal" ng-bind="alarm.computer.name"></a>
                         </div>
                         <div>
                             <label class="media-heading"><span translate="IP Address"></span>: </label>&nbsp;
-                            asdfasf
+                            <span ng-bind="alarm.computer.ip"></span>
                         </div>
                         <div>
                             <label class="media-heading"><span translate="Domain"></span>: </label>&nbsp;
-                            asdfasf
+                            <span ng-bind="alarm.computer.domain"></span>
                         </div>
                         <div>
                             <label class="media-heading"><span translate="Detect Time"></span>: </label>&nbsp;
-                            asdfasf
+                            <span ng-bind="alarm.time"></span>
                         </div>
                     </div>
                 </div>

@@ -77,10 +77,10 @@ angular.module('threatsCtrls', [])
                         var series = option.series[0];
                         series.name = translate('Computer');
                         series.data = [
-                            [translate('With Alarm'), data.with_alarm],
+                            [translate('With Alarm'), data.with_alarm || 0],
                             {
                                 name: translate('Without Alarm'),
-                                y: data.without_alarm,
+                                y: data.without_alarm || 0,
                                 sliced: true,
                                 selected: true
                             }
@@ -115,10 +115,10 @@ angular.module('threatsCtrls', [])
                         var series = option.series[0];
                         series.name = translate('Type');
                         series.data = [
-                            [translate('Suspect Action'), data.Action],
+                            [translate('Suspect Action'), data.Action || 0],
                             {
                                 name: translate('Suspect File'),
-                                y: data.File,
+                                y: data.File || 0,
                                 sliced: true,
                                 selected: true
                             }
@@ -161,10 +161,14 @@ angular.module('threatsCtrls', [])
         }]
     )
 
-    .controller('threatsFile', ['$scope', '$stateParams', 'Alarm',
-        function ($scope, $stateParams, Alarm) {
-            Alarm.get({alarmId: $stateParams.id}, function(data){
-                $scope.file = data;
+    .controller('threatsFile', ['$scope', '$stateParams', 'Alarm', 'Computer',
+        function ($scope, $stateParams, Alarm, Computer) {
+            var id = $stateParams.id
+            Alarm.get({alarmId: id}, function(data){
+                $scope.alarm = data;
+
+                getComputers($scope, Computer, {alarm_id: data.alarmID, is_current:1});
+                getComputers($scope, Computer, {alarm_id: data.alarmID, is_current:0});
             });
 
             $scope.affectTabs = [
@@ -183,17 +187,42 @@ angular.module('threatsCtrls', [])
                 }
             }
 
-            $scope.currAffectedComs = test_coms2;
-            $scope.histAffectedComs = test_coms2;
+            function getComputers($scope, Computer, params) {
+                params = params || {};
 
-            // $scope.sideDetailShow = true;
+                var getList = function() {
+                    Computer.get(params,
+                        function (data) {
+                            $scope.pagination = data.meta || {};
+                            if(params.is_current){
+                                $scope.currAffectedComs = data.objects || [];
+                            }
+                            else{
+                                $scope.histAffectedComs = data.objects || [];
+                            }
+                        },
+                        function(error){
+                            console.log(error);
+                        }
+                    );
+                };
 
+                $scope.pageChanged = function (page) {
+                    params.page = page;
+                    getList();
+                };
+                getList();
+            }
         }
     ])
 
-    .controller('threatsAction', ['$scope', '$stateParams', '$timeout',
-        function ($scope, $stateParams, $timeout) {
+    .controller('threatsAction', ['$scope', '$stateParams', '$timeout', 'Alarm',
+        function ($scope, $stateParams, $timeout, Alarm) {
             var action_id = $stateParams.id;
+
+            Alarm.get({alarmId: $stateParams.id}, function(data){
+                $scope.alarm = data;
+            });
 
             $scope.closeSideDetail = function (type) {
                 $scope['show' + type + 'ThreatDetail'] = false;
@@ -382,210 +411,3 @@ function getAlarms($scope, Alarm, params, $timeout) {
     getList();
 
 }
-
-var test_coms2 = [
-    {
-        'name': 'Lunar21',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'status': 'on',
-        'profile': 'shide',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1,
-        'os': 'windows',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'shide',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar32',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1,
-        'os': 'windows',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar44',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-    {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunar',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    }, {
-        'name': 'Lunarhaha',
-        'lastCommunicated': '2016-12-1 15:00',
-        'addedTime': '2016-12-1 15:00',
-        'ip': '128.196.3.1',
-        'threatsCount': 16,
-        'status': 'on',
-        'profile': 'adfasdfasdf',
-        'group': 'asdfasdfasfd',
-        'sensor': 0.1
-    },
-];
-
-
-var test_file = {
-    name: '234234-asdfasf-asf.exe'
-};

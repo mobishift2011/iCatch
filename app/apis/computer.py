@@ -1,7 +1,7 @@
 #-*- encoding: utf-8 -*-
 from app import app
 from app.apis import api
-from app.models import db, Computer, Profile
+from app.models import db, Computer, Profile, Alarm, AlarmStatus
 from base import BaseResource
 from flask import request
 from sync.base import CmdMaker
@@ -26,6 +26,23 @@ class ComputerResource(BaseResource):
         )
 
         return urls
+
+    def process_query(self, query):
+        query = super(ComputerResource, self).process_query(query)
+        alarm_id = request.args.get('alarm_id')
+
+        if alarm_id:
+            query = query.join(Alarm).where(Alarm.alarmID==alarm_id)
+            is_current = bool(int(request.args.get('is_current', False)))
+
+            if is_current:
+                query = query.where(Alarm.status.in_([AlarmStatus.new, AlarmStatus.unsolved]))
+            else:
+                query = query.where(Alarm.status.not_in([AlarmStatus.new, AlarmStatus.unsolved]))
+
+            query = query.group_by(Computer.id)
+
+        return query
 
     def serialize_query(self, query):
         results = super(ComputerResource, self).serialize_query(query)

@@ -93,7 +93,8 @@ class BaseResource(RestResource):
 
 
 class BaseSerializer(Serializer):
-    def process_timestamp(self, value, tz=None):
+    @staticmethod
+    def process_timestamp(value, tz=None):
         raw_datetime = datetime.datetime.fromtimestamp(value)
         utc_datetime = pytz.utc.localize(raw_datetime)
 

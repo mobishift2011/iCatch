@@ -13,16 +13,16 @@
         <tr ng-repeat="alert in alarms">
             <td>
                 <span class="iconfont icon-computer"></span>
-                <span ng-bind="alert.sensorID"></span>
+                <span ng-bind="alert.computer.name"></span>
             </td>
             <td>
                 <a href="#" class="text-info" translate="Suspect {{alert.type}}"
                    ui-sref="threats{{alert.type}}({id: alert.id})"></a>
             </td>
-            <td ng-bind="alert.timestamp"></td>
+            <td ng-bind="alert.time"></td>
             <td>
                 <a href="#" title="Level {{alert.point}}" data-toggle="tooltip"
-                   ng-show="alert.level === 100">
+                   ng-show="alert.point === 100">
                     <img src="/static/img/star-on.png"/>
                 </a>
             </td>
