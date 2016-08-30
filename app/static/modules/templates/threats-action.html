@@ -59,21 +59,21 @@
                 <ul class="list-group side-detail">
                     <li class="list-group-item">
                         <i class="glyphicon glyphicon-remove pull-right padding-top10"
-                           ng-click="closeSideDetail('Chart')"></i>
+                           ng-click="closeSideDetail('chart')"></i>
                         <h4>
                             <span class="glyphicon glyphicon-cog"></span>
-                            <span ng-bind="selectedChartNode"></span>
+                            <span ng-bind="selectedChartNode_title"></span>
                         </h4>
                     </li>
                     <li class="list-group-item">
-                        <p><span class="glyphicon glyphicon-time"></span> 1927-7-12 11:11:03</p>
-                        <p><label translate="Description"></label>: test test setstadf asdfasdfsafa fsdafa</p>
-                        <p><label translate="Process"></label>: Lunar</p>
-                        <p><label translate="PID"></label>: Lunar</p>
-                        <p><label translate="Computer Name"></label>: Lunar</p>
-                        <p><label translate="IP Address"></label>: Lunar</p>
-                        <p><label translate="User Name"></label>: Lunar</p>
-                        <p><label translate="SID"></label>: Lunar</p>
+                        <p><span class="glyphicon glyphicon-time"></span> {{selectedChartNode.time}}</p>
+                        <p><label translate="Source Object"></label>
+                        <p ng-repeat="k in selectedChartNode_srcObj_keys"><label >{{k}}</label>: <span ng-bind="selectedChartNode_srcObj[k]"></span></p>
+                    </li>
+                    <hr style="margin-top: 0; border: 2px solid white">
+                    <li class="list-group-item">
+                        <p><label translate="Target Object"></label>
+                        <p ng-repeat="k in selectedChartNode_tarObj_keys"><label >{{k}}</label>: <span ng-bind="selectedChartNode_tarObj[k]"></span></p>
                     </li>
                 </ul>
             </div>
@@ -102,58 +102,12 @@
                         <th translate="Computer"></th>
                     </tr>
                     </thead>
-                    <tbody ng-init="events=[{time:'sadf', event: 'dsdfa', 'computer': 'adsf'}]">
-                    <tr ng-repeat="item in events" ng-click="showSideDetail(item, 'Table')">
+                    <tbody>
+                    <tr ng-repeat="item in alarm.events" ng-click="showSideDetail(item, 'Table')">
                         <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
+                        <td translate="{{item.action}}"></td>
+                        <td translate="{{alarm.computer.name}}"></td>
                     </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-                    <tr ng-repeat="item in events">
-                        <td translate="{{item.time}}"></td>
-                        <td translate="{{item.event}}"></td>
-                        <td translate="{{item.computer}}"></td>
-                    </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -164,18 +118,19 @@
                            ng-click="closeSideDetail('Table')"></i>
                         <h4>
                             <span class="glyphicon glyphicon-cog"></span>
-                            <span ng-bind="selectedTableNode"></span>
+                            <span ng-bind="selectedTableNode_title"></span>
                         </h4>
                     </li>
                     <li class="list-group-item">
-                        <p><span class="glyphicon glyphicon-time"></span> 1927-7-12 11:11:03</p>
-                        <p><label translate="Description"></label>: test test setstadf asdfasdfsafa fsdafa</p>
-                        <p><label translate="Process"></label>: Lunar</p>
-                        <p><label translate="PID"></label>: Lunar</p>
-                        <p><label translate="Computer Name"></label>: Lunar</p>
-                        <p><label translate="IP Address"></label>: Lunar</p>
-                        <p><label translate="User Name"></label>: Lunar</p>
-                        <p><label translate="SID"></label>: Lunar</p>
+                        <p><span class="glyphicon glyphicon-time"></span> {{selectedTableNode.time}}</p>
+                        <p><label translate="Source Object"></label>
+                        <p ng-repeat="k in selectedTableNode_srcObj_keys"><label >{{k}}</label>: <span ng-bind="selectedTableNode_srcObj[k]"></span></p>
+                    </li>
+                    <hr style="margin-top: 0; border: 2px solid white">
+                    <li class="list-group-item">
+                        <p><label translate="Target Object"></label>
+                        <p ng-repeat="k in selectedTableNode_tarObj_keys"><label >{{k}}</label>: <span ng-bind="selectedTableNode_tarObj[k]"></span></p>
+
                     </li>
                 </ul>
             </div>

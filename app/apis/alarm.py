@@ -39,11 +39,18 @@ class AlarmResource(BaseResource):
 
     def object_detail(self, obj):
         results = [self.serialize_object(obj)]
+        events = self.serialize_query(obj.event_set)
+        event_patchs = {
+            EventObject: ['id', 'type', 'content']
+        }
+        self.serialize_patch_foreignkey(events, event_patchs, Event)
+
         patchs = {
             Computer: ['id', 'name', 'ip'],
         }
         self.serialize_patch_foreignkey(results, patchs)
         result = results[0]
+        result['events'] = events
 
         tz = ConfigValue.get(title='timezone').value
         process_timestamp = lambda x: BaseSerializer.process_timestamp(x, tz=tz).strftime('%Y-%m-%d %H:%M:%S')

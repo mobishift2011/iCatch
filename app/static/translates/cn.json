@@ -187,5 +187,7 @@
   "Sensor is uninstalling": "Sensor正在卸载",
   "The Earlist Visit": "最早访问",
   "The Lastest Visit": "最近访问",
-  "Detail": "详情"
+  "Detail": "详情",
+  "Source Object": "源对象",
+  "Target Object": "目标对象"
 }

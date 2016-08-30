@@ -170,9 +170,8 @@ class CmdProcessor(object):
             return self.engine_handshake()
 
     def sensor_login(self):
-        data = json.loads(self.message)
+        data = json.loads(self.message.replace('\x00','').strip())
         timestamp = int(data['Timestamp']) / 1000
-        from pprint import pprint;import pdb;pdb.set_trace();
         kwargs = {
             'sensorVersion': data.get('SensorVersion', ''),
             'name': data.get('ComputerName', ''),
@@ -230,8 +229,9 @@ class CmdProcessor(object):
         data = {
             'sensorID': _prettify_uuid(self.sensorID),
             'type': type,
-            'point': kwargs.get('Level'),
-            'timestamp': int(kwargs['Timestamp']) / 1000
+            'point': (kwargs.get('Level') or kwargs.get('Point')),
+            'timestamp': int(kwargs['Timestamp']) / 1000,
+            'has_solutions': bool(int(kwargs.get('IsSolveBy3rd', 0)))
         }
 
         if type == 'File':
@@ -252,6 +252,35 @@ class CmdProcessor(object):
             if not alarm.computer:
                 alarm.computer = Computer.get(sensorID=data['sensorID'])
                 alarm.save()
+
+            #eg.
+            # EventList: {
+            #   u'EventID': 4,
+            #   u'SrcObj': {u'ObjType': u'OBJ_PROCESS', u'ProcessName': u'BCD.exe', u'ImagePath': u'C:\\abc.exe', u'PID': 6789},
+            #   u'Timestamp': 4,
+            #   u'TarObj': {u'ObjType': u'OBJ_PROCESS', u'ProcessName': u'BCD.exe', u'ImagePath': u'C:\\123.exe', u'PID': 4321},
+            #   u'Action': u'CREATE_PROCESS', u'UserSID': u'6BC5AA00-44CD-D011-8CC2-00C04FC295EE'
+            # }
+
+
+            if not created:
+                eventlist = kwargs.get('EventList') or kwargs.get('TraceAlertList')
+                if eventlist:
+                    result = Event.insert_many([{
+                        'alarm': alarm,
+                        'eventID': item['EventID'],
+                        'sid': item.get('UserSID'),
+                        'timestamp': int(item.get('Timestamp') or 0) / 1000,
+                        'action': item.get('Action') or item.get('EventAction'),
+                        'sourceObj': EventObject.create(
+                            type = (item.get('SrcObj') or item.get('SourceObj'))['ObjType'],
+                            content = json.dumps(item.get('SrcObj') or item.get('SourceObj'))
+                        ) if (item.get('SrcObj') or item.get('SourceObj')) else None,
+                        'targetObj': EventObject.create(
+                            type = (item.get('TarObj') or item.get('TargetObj'))['ObjType'],
+                            content = json.dumps(item.get('TarObj') or item.get('TargetObj'))
+                        ) if (item.get('TarObj') or item.get('TargetObj')) else None,
+                    } for item in eventlist]).execute()
 
         return alarm, created
 
