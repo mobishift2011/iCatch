@@ -10,6 +10,8 @@
   "Computer List": "计算机列表",
   "Computer Name": "计算机名",
   "Computer Names": "计算机名",
+  "Computer Count": "计算机数量",
+  "Computer Info": "计算机信息",
   "Settings": "设置",
   "Basic Settings": "基本设置",
   "Users Management": "用户管理",
@@ -175,8 +177,15 @@
   "All": "所有",
   "Remember me": "记住我",
   "Login": "登录",
+  "Login User": "登陆用户",
+  "Login Type": "登陆类型",
+  "Login Count": "登陆次数",
+  "Last Login": "最近一次登陆",
   "Time Range": "时间范围",
   "Download": "下载",
   "Upload": "上传",
-  "Sensor is uninstalling": "Sensor正在卸载"
+  "Sensor is uninstalling": "Sensor正在卸载",
+  "The Earlist Visit": "最早访问",
+  "The Lastest Visit": "最近访问",
+  "Detail": "详情"
 }

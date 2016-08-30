@@ -19,11 +19,6 @@ angular.module('overviewCtrls', ['ngResource'])
 
 
             Data.stats(function (data) {
-                chartSusComThreeMonths(data.most_alarmed_coms);
-                chartSusFileThreeMonths(data.most_alarmed_files);
-                chartStatsByOs(data.os_alarmed_stats);
-                chartStatsByGroup(test_data4);
-
                 var daily_alarmed_coms_dict= {};
                 for(var i in data.daily_alarmed_coms){
                     var item = data.daily_alarmed_coms[i];
@@ -40,6 +35,10 @@ angular.module('overviewCtrls', ['ngResource'])
 
                 chartSusFileTwoWeeks(daily_alarmed_files_dict);
 
+                chartSusComThreeMonths(data.most_alarmed_coms);
+                chartSusFileThreeMonths(data.most_alarmed_files);
+                chartStatsByOs(data.os_alarmed_stats);
+                chartStatsByGroup(test_data4);
             });
         }])
 ;

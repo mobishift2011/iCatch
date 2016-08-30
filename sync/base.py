@@ -172,7 +172,7 @@ class CmdProcessor(object):
     def sensor_login(self):
         data = json.loads(self.message)
         timestamp = int(data['Timestamp']) / 1000
-
+        from pprint import pprint;import pdb;pdb.set_trace();
         kwargs = {
             'sensorVersion': data.get('SensorVersion', ''),
             'name': data.get('ComputerName', ''),
@@ -235,8 +235,10 @@ class CmdProcessor(object):
         }
 
         if type == 'File':
+            fullpath = kwargs.get('FullPath')
             data.update({
-                'path': kwargs.get('FullPath'),
+                'filename': os.path.split(fullpath)[1].split('\\')[-1],
+                'path': fullpath,
                 'md5': kwargs.get('MD5'),
                 'sha256': kwargs.get('SHA256')
             })

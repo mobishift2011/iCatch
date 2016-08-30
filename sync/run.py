@@ -65,6 +65,7 @@ def run():
                 print '================from engine:================'
                 ssl_connect()
                 data = g_ssl_sock.recv(BUFFER_SIZE)
+                print data
 
                 if not data:
                     ssl_close()

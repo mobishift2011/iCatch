@@ -71,6 +71,16 @@ adminApp = angular.module('app', [
                         }
                     }
                 })
+                .state('investigate_file', {
+                    url: '/investigates/file',
+                    views: {
+                        'investigate': {
+                            templateUrl: '/static/modules/templates/investigate-file.html',
+                            controllers: 'investigate_file'
+                        }
+                    }
+                })
+
                 .state('investigate_ip', {
                     url: '/investigates/ip',
                     views: {
@@ -187,18 +197,18 @@ adminApp = angular.module('app', [
             }
         }
     })
-    .directive('panel', function () {
+    .directive('panel', ['$filter', function ($filter) {
         return {
             restrict: 'EA',
             // replace: true,
             transclude: true,
             templateUrl: '/static/modules/templates/directives/panel.html',
             link: function ($scope, $element, $attrs) {
-                $element.find('.panel-title').find('.panelTitle').html($attrs.title);
+                $element.find('.panel-title').find('.panelTitle').html($filter('translate')($attrs.title));
                 $element.find('.panel-title').find('.panelIcon').attr('class', $attrs.icon);
             }
         }
-    })
+    }])
     .directive('modal', function () {
         return {
             restrict: 'EA',

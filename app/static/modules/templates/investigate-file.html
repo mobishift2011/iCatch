@@ -1,12 +1,12 @@
-<div class="investigate-computer">
+<div class="investigate-file">
     <div class="row">
         <form action="" method="get" name="invComForm">
             <div class="col-md-3 form-group">
-                <label>MD5 <span translate="or"></span> SHA256</label>
+                <label translate="File Name"></label>
                 <input type="text" class="form-control" placeholder="*">
             </div>
             <div class="col-md-3 form-group">
-                <label translate="File Name"></label>
+                <label>MD5 <span translate="or"></span> SHA256</label>
                 <input type="text" class="form-control" placeholder="*">
             </div>
             <div class="col-md-3 form-group">
@@ -15,10 +15,6 @@
             </div>
             <div class="col-md-3 form-group">
                 <label translate="Computer Name"></label>
-                <input type="text" class="form-control" placeholder="*">
-            </div>
-            <div class="col-md-3 form-group">
-                <label translate="Username"></label>
                 <input type="text" class="form-control" placeholder="*">
             </div>
             <div class="col-md-3 form-group">
@@ -36,64 +32,27 @@
         </form>
     </div>
 
-
     <div class="result-table">
-        <panel title="Computer Info">
-            <table class="table table-striped table-hover table-bordered bootstrap-datatable responsive">
-                <thead>
-                <tr>
-                    <th translate="Computer Name"></th>
-                    <th translate="Status"></th>
-                    <th translate="IP Address"></th>
-                    <th translate="OS"></th>
-                    <th translate="Domain"></th>
-                    <th translate="Last Communicated"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in data">
-                    <td ng-bind="item.name"></td>
-                    <td>
-                        <span ng-bind="item.status.toUpperCase()" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
-                    </td>
-                    <td ng-bind="item.ip"></td>
-                    <td ng-bind="item.os"></td>
-                    <td ng-bind="item.domain"></td>
-                    <td ng-bind="item.last_communicated_time"></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="col-md-12 center-block">
-                <uib-pagination total-items="pagination.total"
-                                items-per-page="pagination.paginate_by"
-                                ng-model="pagination.page"
-                                max-size="pagination.maxPageSize"
-                                class="pagination-sm" boundary-links="true"
-                                force-ellipses="true" ng-change="pageChanged(pagination.page)">
-                </uib-pagination>
-            </div>
-        </panel>
-        <panel title="Login User">
-            <table class="table table-striped table-hover table-bordered bootstrap-datatable responsive">
+        <panel title="Detail">
+            <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable">
                 <thead>
                 <tr class="bg-grey">
-                    <th translate="User Name"></th>
-                    <th translate="Computer Name"></th>
-                    <th translate="Login Type"></th>
-                    <th translate="Login Count"></th>
-                    <th translate="Last Login"></th>
+                    <th translate="Hash"></th>
+                    <th translate="File Name"></th>
+                    <th translate="Computer Count"></th>
+                    <th translate="The Earlist Visit"></th>
+                    <th translate="The Lastest Visit"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in data">
-                    <td ng-bind="item.name"></td>
-                    <td>
-                        <span ng-bind="item.status.toUpperCase()" class="label label-{{ comStatStyle[item.status.toLowerCase()] }}"></span>
-                    </td>
-                    <td ng-bind="item.ip"></td>
-                    <td ng-bind="item.os"></td>
-                    <td ng-bind="item.domain"></td>
-                    <td ng-bind="item.last_communicated_time"></td>
+                <tr ng-repeat="result in results">
+                    <td ng-bind="result.name"></td>
+                    <td><span ng-bind="result.Status"
+                              class="label label-{{ comStatStyle[result.status.toLowerCase()] }}"></span></td>
+                    <td ng-bind="result.ip"></td>
+                    <td ng-bind="result.os"></td>
+                    <td ng-bind="result.earliestVisit"></td>
+                    <td ng-bind="result.latestVisit"></td>
                 </tr>
                 </tbody>
             </table>
@@ -107,5 +66,57 @@
                 </uib-pagination>
             </div>
         </panel>
-        </div>
+
+
+
+        <panel title="Computer List">
+            <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable">
+                <thead>
+                <tr class="bg-grey">
+                    <th translate="Time"></th>
+                    <th translate="Hash"></th>
+                    <th translate="File Name"></th>
+                    <th translate="Computer Name"></th>
+                    <th translate="IP Address"></th>
+                    <th translate="User"></th>
+                    <th translate="Process"></th>
+                    <th translate="PID"></th>
+                    <th translate="status"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="result in results">
+                    <td ng-bind="result.dateAdded"></td>
+                    <td ng-bind="result.hash"></td>
+                    <td ng-bind="result.name"></td>
+                    <td ng-bind="result.computer.name"></td>
+                    <td ng-bind="result.computer.ip"></td>
+                    <td ng-bind="result.user.username"></td>
+                    <td ng-bind="result.process.name"></td>
+                    <td ng-bind="result.process.pid"></td>
+                    <td >
+                        <a data-target="#" href="#" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+                            <span class="label label-default label-{{ alarmStyle[alert.status] || default }}" ng-switch
+                                  on="alert.status">
+                                <span ng-switch-when="new" translate="new alarm"></span>
+                                <span ng-switch-default translate="{{alert.status}}"></span>
+                            </span>
+                        </a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-md-12 center-block">
+                <uib-pagination total-items="pagination.total"
+                                items-per-page="pagination.paginate_by"
+                                ng-model="pagination.page"
+                                max-size="pagination.maxPageSize"
+                                class="pagination-sm" boundary-links="true"
+                                force-ellipses="true" ng-change="pageChanged(pagination.page)">
+                </uib-pagination>
+            </div>
+        </panel>
+    </div>
 </div>

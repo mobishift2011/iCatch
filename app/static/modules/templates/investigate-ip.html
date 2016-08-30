@@ -24,17 +24,16 @@
         </form>
     </div>
 
-    <div class="row">
-        <panel>
+    <div class="result-table">
             <table class="table table-striped table-hover bootstrap-datatable datatable responsive dataTable">
                 <thead>
-                <tr>
-                    <th>Computer</th>
-                    <th>Status</th>
-                    <th>IP Address</th>
-                    <th>OS</th>
-                    <th>The Earlist Visit</th>
-                    <th>The Lastest Visit</th>
+                <tr class="bg-grey">
+                    <th translate="Computer"></th>
+                    <th translate="Status"></th>
+                    <th translate="IP Address"></th>
+                    <th translate="OS"></th>
+                    <th translate="The Earlist Visit"></th>
+                    <th translate="The Lastest Visit"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,6 +48,14 @@
                 </tr>
                 </tbody>
             </table>
-        </panel>
+            <div class="col-md-12 center-block">
+                <uib-pagination total-items="pagination.total"
+                                items-per-page="pagination.paginate_by"
+                                ng-model="pagination.page"
+                                max-size="pagination.maxPageSize"
+                                class="pagination-sm" boundary-links="true"
+                                force-ellipses="true" ng-change="pageChanged(pagination.page)">
+                </uib-pagination>
+            </div>
     </div>
 </div>

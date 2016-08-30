@@ -19,6 +19,10 @@ angular.module('investigateCtrls', [])
 
     }])
 
+    .controller('investigate_file', ['$scope', function ($scope) {
+        
+    }])
+
     .controller('investigate_ip', ['$scope', function ($scope) {
         $scope.results = testdata;
     }])
