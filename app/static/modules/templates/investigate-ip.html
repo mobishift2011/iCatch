@@ -32,6 +32,7 @@
                     <th translate="Status"></th>
                     <th translate="IP Address"></th>
                     <th translate="OS"></th>
+                    <th translate="Process"></th>
                     <th translate="The Earlist Visit"></th>
                     <th translate="The Lastest Visit"></th>
                 </tr>
@@ -43,6 +44,7 @@
                               class="label label-{{ comStatStyle[result.status.toLowerCase()] }}"></span></td>
                     <td ng-bind="result.ip"></td>
                     <td ng-bind="result.os"></td>
+                    <td ng-bind="result.process"></td>
                     <td ng-bind="result.earliestVisit"></td>
                     <td ng-bind="result.latestVisit"></td>
                 </tr>
