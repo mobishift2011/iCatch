@@ -1,3 +1,5 @@
+#mkdir -p /opt/upload/profiles/
+
 import os
 import sys
 import subprocess

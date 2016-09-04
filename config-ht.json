@@ -19,6 +19,7 @@
     "ssl_cert": "/opt/pems/cert.pem",
     "ssl_key": "/opt/pems/key.pem"
   },
+  "PROFILE_UPLOAD_FOLDER": "/opt/upload/profiles/",
   "SENSOR_PATH": "/opt/sensors/",
   "SENSOR_URL": "http://60.205.110.134:8000/sensors/"
 }

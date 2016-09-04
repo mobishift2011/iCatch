@@ -1,4 +1,4 @@
-angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServices'])
+angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices', 'profileServices'])
     .controller('settings', ['$scope', '$state', function ($scope, $state) {
         $scope.sidebar = {
             title: 'Settings',
@@ -155,8 +155,8 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
         }
     ])
 
-    .controller('settings_profile', ['$scope', '$filter', 'Profile',
-        function ($scope, $filter, Profile) {
+    .controller('settings_profile', ['$scope', '$timeout', '$filter', 'Profile', 'Upload', 'sys',
+        function ($scope, $timeout, $filter, Profile, Upload, sys) {
             $scope.profileFormData = {};
 
             function getProfileList(data) {
@@ -187,19 +187,25 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                 });
             };
 
-
             $scope.uploadFiles = function(file, errFiles) {
                 $scope.f = file;
                 $scope.errFile = errFiles && errFiles[0];
                 if (file) {
                     file.upload = Upload.upload({
-                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                        url: sys.API + '/profile/upload/',
                         data: {file: file}
                     });
 
                     file.upload.then(function (response) {
                         $timeout(function () {
                             file.result = response.data;
+                            
+                            if (file.result.status === 0) {
+                                $scope.profileFormData.originpath = file.result.data.path;
+                            }
+                            else {
+                                $scope.errorMsg = '上传错误: ' + file.result.data;
+                            }
                         });
                     }, function (response) {
                         if (response.status > 0)
