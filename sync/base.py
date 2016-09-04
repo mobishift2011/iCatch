@@ -226,7 +226,6 @@ class CmdProcessor(object):
                     Computer.update(status=ComputerStatus.on).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
 
     def _get_or_create_alarm(self, type, **kwargs):
-        import pdb;pdb.set_trace();
         data = {
             'sensorID': _prettify_uuid(self.sensorID),
             'type': type,
@@ -234,6 +233,11 @@ class CmdProcessor(object):
             'timestamp': int(kwargs['Timestamp']) / 1000,
             'has_solutions': bool(int(kwargs.get('IsSolveBy3rd', 0)))
         }
+
+        hrl = kwargs.get('HitRegulationList')
+
+        if hrl and len(hrl):
+            data['description'] = (hrl[0].get('Description') or '')
 
         if type == 'File':
             fullpath = kwargs.get('FullPath')
