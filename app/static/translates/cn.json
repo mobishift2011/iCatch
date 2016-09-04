@@ -140,6 +140,8 @@
   "Added Manually": "手动添加",
   "Added by Rules": "按规则自动添加",
   "Incorrect username or password": "用户名或密码不正确",
+  "Enter Email": "邮箱用户名",
+  "Enter Password": "密码",
   "You are now logged out": "您现在已退出了",
   "Edit User Permissions": "修改用户权限",
   "All fields are required": "所有项必填",
@@ -189,5 +191,11 @@
   "The Lastest Visit": "最近访问",
   "Detail": "详情",
   "Source Object": "源对象",
-  "Target Object": "目标对象"
+  "Target Object": "目标对象",
+  "Process with network link": "带有网络链接的进程",
+  "CommandLine": "命令",
+  "Local Port": "本地端口",
+  "Remote IP": "远端IP",
+  "Remote Port": "远端端口",
+  "Click on a user's name to edit permissions. You can add or remove users you manage. Hover over each role to view permissions.": ""
 }
