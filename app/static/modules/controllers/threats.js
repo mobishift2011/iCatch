@@ -100,6 +100,9 @@ angular.module('threatsCtrls', [])
             };
             var typeStats = function () {
                 Alarm.getStats({object: 'type'}, function (data) {
+                    if(!data.Action && !data.File) {
+                        return;
+                    }
                     var refresh = false;
                     var keys = Object.keys(typeData);
 

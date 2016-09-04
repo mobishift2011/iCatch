@@ -5,7 +5,10 @@
         </div>
         <div class="col-md-4">
             <span ng-if="!isChangeZone" ng-bind="configs.timezone.value"></span>
-            <select ng-if="isChangeZone" ng-model="configs.timezone.value" ng-options="tz for tz in tzs track by tz">
+            <select ng-if="isChangeZone" ng-model="configs.timezone.value">
+                <option ng-repeat="tz in tzs" ng-value="tz" ng-selected="tz === configs.timezone.value">
+                    {{tz}}
+                </option>
             </select>
         </div>
         <div class="col-md-8">
@@ -18,8 +21,11 @@
             <div class="page-header"><h4 translate="Default Analysis Profile"></h4></div>
         </div>
         <div class="col-md-4">
-            <span ng-if="!isChangeProfile" ng-bind="configs.profile.value"></span>
-            <select ng-if="isChangeProfile" ng-model="configs.profile.value" ng-options="p for p in profiles track by p">
+            <span ng-if="!isChangeProfile" translate="{{configs.profile.value}}"></span>
+            <select ng-if="isChangeProfile" ng-model="configs.profile.value">
+                <option ng-repeat="p in profiles" ng-value="p.title" ng-selected="p.title === configs.profile.value">
+                    {{p.title|translate}}
+                </option>
             </select>
         </div>
         <div class="col-md-8">

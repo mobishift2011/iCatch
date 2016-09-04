@@ -48,6 +48,9 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
 
             Profile.get(function(data){
                 $scope.profiles = data.objects || [];
+                $scope.profiles = $scope.profiles.map(function (e) {
+                    return e.title;
+                });
             });
 
             $scope.fileHashs = [
@@ -182,6 +185,30 @@ angular.module('settingsCtrls', ['userServices', 'configServices', 'profileServi
                     }
 
                 });
+            };
+
+
+            $scope.uploadFiles = function(file, errFiles) {
+                $scope.f = file;
+                $scope.errFile = errFiles && errFiles[0];
+                if (file) {
+                    file.upload = Upload.upload({
+                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                        data: {file: file}
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 *
+                            evt.loaded / evt.total));
+                    });
+                }
             };
 
             $scope.checkAll = function () {
