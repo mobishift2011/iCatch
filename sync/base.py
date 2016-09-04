@@ -226,6 +226,7 @@ class CmdProcessor(object):
                     Computer.update(status=ComputerStatus.on).where(Computer.sensorID==_prettify_uuid(self.sensorID)).execute()
 
     def _get_or_create_alarm(self, type, **kwargs):
+        import pdb;pdb.set_trace();
         data = {
             'sensorID': _prettify_uuid(self.sensorID),
             'type': type,

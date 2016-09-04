@@ -79,7 +79,7 @@ def _init_admin():
     username = admin.get('username', 'admin')
     email = admin.get('email', 'admin@admin')
     admin = auth.User(username=username, email=email, admin=True, active=True)
-    admin.set_password(app.config.get('password', 'hoo123hoo!@#lab'))
+    admin.set_password(app.config.get('password', 'sxKxlsa@!FC8ca7X'))
     admin.save()
 
 

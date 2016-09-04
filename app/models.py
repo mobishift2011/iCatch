@@ -151,6 +151,7 @@ class Alarm(db.Model):
     status = CharField(max_length=32, default='new')
     type = CharField(max_length=32)
     point = SmallIntegerField(null=True)
+    description = CharField(null=True)
     filename = CharField(null=True)
     path = CharField(null=True)
     md5 = CharField(null=True)

@@ -8,9 +8,10 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading" translate="Edit User Permissions"></h4>
-                        <p>Click on a user's name to edit permissions.
-                            You can add or remove users you manage.
-                            Hover over each role to view permissions.
+                        <br>
+                        <p>
+                            点击用户修改权限。你也可以添加或者删除用户。<br>
+                            用户可以拥有以下权限:
                         </p>
                         <ul class="list-inline">
                             <li><b>&middot;</b> <span translate="User"></span></li>
@@ -30,7 +31,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="email" name="username" class="form-control" placeholder="Enter Email"
+                                <input type="email" name="username" class="form-control" placeholder="{{'Enter Email'|translate}}"
                                        ng-model="userFormData.username" required>
                             </div>
                         </div>
@@ -39,7 +40,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="password" name="password" class="form-control" placeholder="Enter Password"
+                                <input type="password" name="password" class="form-control" placeholder="{{'Enter Password'|translate}}"
                                        ng-model="userFormData.password" required>
                             </div>
                         </div>

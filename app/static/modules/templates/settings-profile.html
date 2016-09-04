@@ -1,3 +1,20 @@
+<style>
+    form .progress {
+        line-height: 15px;
+    }
+
+    .progress {
+        display: inline-block;
+        width: 100px;
+        border: 3px groove #CCC;
+    }
+
+    .progress div {
+        font-size: smaller;
+        background: orange;
+        width: 0;
+    }
+</style>
 <div class="settings_profile" ng-controller="settings_profile">
     <div class="row">
         <div class="col-md-6">
@@ -39,11 +56,24 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="file" class="form-control" ng-model="profileFormData.originpath" required>
+                                <!--<input type="file" class="form-control" ng-model="profileFormData.originpath" required>-->
                             </div>
                             <div class="col-md-6">
                                 <button class="btn btn-primary" ng-disabled="profileForm.title.$error.required"
                                         ng-click="addProfile()" translate="Add"></button>
+
+
+                                <button class="btn btn-default" type="file"
+                                        ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-size="1MB">Select File
+                                </button>
+                                File:
+                                <div>
+                                    <small>{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</small>
+                                    <span class="progress" ng-show="f.progress >= 0">
+                                        <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+                                    </span>
+                                </div>
+                                {{errorMsg}}
                             </div>
                         </div>
 
@@ -72,7 +102,7 @@
                         <td><input type="checkbox" ng-model="item.toRemove"></td>
                         <td ng-bind="item.title"></td>
                         <td ng-bind="item.description"></td>
-                        <td><a ng-href="item.url" class="text-info"><span class="glyphicon glyphicon-file"></span></a>
+                        <td><a ng-show="item.url" ng-href="item.url" class="text-info"><span class="glyphicon glyphicon-file"></span></a>
                         </td>
                     </tr>
                     </tbody>

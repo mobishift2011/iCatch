@@ -4,6 +4,7 @@
         <tr>
             <th translate="Computer"></th>
             <th translate="Alarm Event"></th>
+            <th translate="Alarm Description"></th>
             <th translate="Alarm Time"></th>
             <th translate="Level"></th>
             <th style="min-width: 90px" translate="Status"></th>
@@ -19,6 +20,7 @@
                 <a href="#" class="text-info" translate="Suspect {{alert.type}}"
                    ui-sref="threats{{alert.type}}({id: alert.id})"></a>
             </td>
+            <td ng-bind="alert.description || alert.filename"></td>
             <td ng-bind="alert.time"></td>
             <td>
                 <a href="#" title="Level {{alert.point}}" data-toggle="tooltip"
