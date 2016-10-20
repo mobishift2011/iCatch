@@ -56,6 +56,10 @@ python setup.py install --prefix=/usr/local
 python `which pip` install flask
 
 yum install redis
+yum install nginx
+update mysql.user set password = password ('hoohoo123lab') where user = 'root';
+delete from mysql.user where user='';
+flush privileges;
 
 
 【参考资料】

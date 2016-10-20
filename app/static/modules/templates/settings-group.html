@@ -26,58 +26,58 @@
     </div>
 
 
-            <form name="groupForm">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label translate="Group Name"></label>
-                        <input type="text" class="form-control" ng-model="selectedGroup.text">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label translate="How will group members be added"></label>?
-                        <select class="form-control" ng-model="selectedGroup.rule">
-                            <option value="">-- Please Choose --</option>
-                            <option ng-value="item.value" ng-repeat="item in groupRules"
-                                    ng-selected="item.value === selectedGroup.rule">{{item.title}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-if="selectedGroup.rule === 'rule'">
-                <div class="col-md-12 form-group">
-                    <label translate="Rules"> </label>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                            Add Rule <span class="caret"></span>
-                        </button>
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Computer Name</a></li>
-                            <li><a href="#">Operation System</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-12 form-group">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                            operrationnam <span class="caret"></span>
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm dropdown-toggle">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+            <!--<form name="groupForm">-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-6">-->
+                    <!--<div class="form-group">-->
+                        <!--<label translate="Group Name"></label>-->
+                        <!--<input type="text" class="form-control" ng-model="selectedGroup.text">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6">-->
+                    <!--<div class="form-group">-->
+                        <!--<label translate="How will group members be added"></label>?-->
+                        <!--<select class="form-control" ng-model="selectedGroup.rule">-->
+                            <!--<option value="">&#45;&#45; Please Choose &#45;&#45;</option>-->
+                            <!--<option ng-value="item.value" ng-repeat="item in groupRules"-->
+                                    <!--ng-selected="item.value === selectedGroup.rule">{{item.title}}-->
+                            <!--</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row" ng-if="selectedGroup.rule === 'rule'">-->
+                <!--<div class="col-md-12 form-group">-->
+                    <!--<label translate="Rules"> </label>-->
+                    <!--<div class="btn-group">-->
+                        <!--<button type="button" class="btn btn-primary btn-sm" data-toggle="dropdown"-->
+                                <!--aria-haspopup="true"-->
+                                <!--aria-expanded="false">-->
+                            <!--Add Rule <span class="caret"></span>-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-primary btn-sm dropdown-toggle">-->
+                            <!--<span class="glyphicon glyphicon-remove"></span>-->
+                        <!--</button>-->
+                        <!--<ul class="dropdown-menu">-->
+                            <!--<li><a href="#">Computer Name</a></li>-->
+                            <!--<li><a href="#">Operation System</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-12 form-group">-->
+                    <!--<div class="btn-group">-->
+                        <!--<button type="button" class="btn btn-success btn-sm" data-toggle="dropdown"-->
+                                <!--aria-haspopup="true"-->
+                                <!--aria-expanded="false">-->
+                            <!--operrationnam <span class="caret"></span>-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-success btn-sm dropdown-toggle">-->
+                            <!--<span class="glyphicon glyphicon-remove"></span>-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
 
     <modal id="groupModal" title="{{'Create/Edit Group' | translate}}" save="saveGroup">
         <form name="groupForm">
