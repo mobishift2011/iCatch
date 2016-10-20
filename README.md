@@ -54,6 +54,7 @@ cd pip-8.1.2
 python setup.py install --prefix=/usr/local
 
 python `which pip` install flask
+pip uninstall jinja2
 
 yum install redis
 yum install nginx
