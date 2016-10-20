@@ -7,19 +7,19 @@
     "host": "localhost",
     "port": 3306,
     "user": "root",
-    "passwd": "tempfavbuy",
+    "passwd": "hoohoo123lab",
     "threadlocals": true
   },
   "CLIENTKEY": "37bdbea9-92f2-49f6-a4c6-dff88a0d24a5",
   "DEBUG": true,
   "REDIS_URL": "redis://localhost:6379/0",
   "DATAENGINE": {
-    "host": "60.205.110.134",
+    "host": "127.0.0.1",
     "port": 8888,
     "ssl_cert": "/opt/pems/cert.pem",
     "ssl_key": "/opt/pems/key.pem"
   },
   "PROFILE_UPLOAD_FOLDER": "/opt/upload/profiles/",
   "SENSOR_PATH": "/opt/sensors/",
-  "SENSOR_URL": "http://60.205.110.134:8000/sensors/"
+  "SENSOR_URL": "http://127.0.0.1:8000/sensors/"
 }
