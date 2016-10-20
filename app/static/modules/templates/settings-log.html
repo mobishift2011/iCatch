@@ -1,0 +1,35 @@
+<div ng-controller="settings_log">
+    <div class="navbtn padding-bottom15" datasource="tabs" selectedIndex="0"></div>
+    <div ui-view="logList">
+        <table class="table table-striped table-hover table-bordered bootstrap-datatable responsive">
+            <thead>
+            <tr class="bg-grey">
+                <th translate="ID" ng-show="false"></th>
+                <th translate="User Name"></th>
+                <th translate="Time"></th>
+                <th translate="Description"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in logs">
+                    <td ng-bind="item.id" ng-show="false"></td>
+                    <td ng-bind="item.email"></td>
+                    <td ng-bind="item.dateAdded"></td>
+                    <td ng-switch on="item.success">
+                        <span class="text-success" ng-switch-when="true" translate="Success"></span>
+                        <span class="text-danger" ng-switch-when="false" translate="Fail"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12 center-block">
+            <uib-pagination total-items="pagination.total"
+                            items-per-page="pagination.paginate_by"
+                            ng-model="pagination.page"
+                            max-size="pagination.maxPageSize"
+                            class="pagination-sm" boundary-links="true"
+                            force-ellipses="true" ng-change="pageChanged(pagination.page)">
+            </uib-pagination>
+        </div>
+    </div>
+</div>

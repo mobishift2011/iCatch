@@ -115,6 +115,11 @@ footer {
     margin-top: 65px;
 }
 
+
+.menu-container .navbar-nav {
+    margin-left: 3rem;
+}
+
 #threatsChart {
     min-height: 450px;
 }

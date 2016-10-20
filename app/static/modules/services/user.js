@@ -6,10 +6,18 @@ angular.module('userServices', ['ngResource'])
 
         var addUrl = sys.API + '/user/add';
         var addResource = $resource(addUrl);
+
+        var deleteUrl = sys.API + '/user/delete';
+        var deleteResource = $resource(deleteUrl);
+
+        var loginLogUrl = sys.API + '/user/loginlog';
+        var loginLogResource = $resource(loginLogUrl);
         
         return {
             list: listResource.get,
             add: addResource.save,
+            loginlog: loginLogResource.get,
+            delete: deleteResource.save,
         }
     }
 ])

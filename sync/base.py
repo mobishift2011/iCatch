@@ -238,6 +238,7 @@ class CmdProcessor(object):
 
         if hrl and len(hrl):
             data['description'] = (hrl[0].get('Description') or '')
+            print data['description']
 
         if type == 'File':
             fullpath = kwargs.get('FullPath')

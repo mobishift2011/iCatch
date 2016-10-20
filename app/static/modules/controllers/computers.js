@@ -46,7 +46,7 @@ function getSensors($scope, Computer) {
 }
 
 function getComputers($scope, Computer, params, $timeout) {
-    params = params || {};
+    var params = params || {};
     var intervals = 7000;
 
     var getList = function() {

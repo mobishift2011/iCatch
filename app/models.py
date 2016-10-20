@@ -219,7 +219,8 @@ class LoginLog(db.Model):
     class Meta:
         indexes = (
             (('email', 'dateAdded'), False),
-        )
+        ),
+        ordering = (('dateAdded', 'asc'),)
 
 
 class UpdateLog(db.Model):

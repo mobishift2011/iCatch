@@ -156,6 +156,15 @@ adminApp = angular.module('app', [
                         }
                     }
                 })
+                .state('settings_log', {
+                    url: '/settings/log',
+                    views: {
+                        'settings': {
+                            templateUrl: '/static/modules/templates/settings-log.html',
+                            controllers: 'settings_log'
+                        }
+                    }
+                })
                 .state('settings_profile', {
                     url: '/settings/profile',
                     views: {

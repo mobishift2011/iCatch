@@ -5,6 +5,7 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
             items: [
                 {title: 'Basic Settings', state: 'settings_basic', icon: 'glyphicon glyphicon-home'},
                 {title: 'Users Management', state: 'settings_user', icon: 'glyphicon glyphicon-user'},
+                {title: 'Logs', state: 'settings_log', icon: 'glyphicon glyphicon-time'},
                 {title: 'Profiles Management', state: 'settings_profile', icon: 'glyphicon glyphicon-file'},
                 {title: 'Groups Management', state: 'settings_group', icon: 'glyphicon glyphicon-folder-close'},
                 {title: 'Email Notification', state: 'settings_email', icon: 'glyphicon glyphicon-envelope'}
@@ -26,7 +27,7 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
             var configTitles = Object.keys($scope.configs);
             for (var i in configTitles) {
                 var title = configTitles[i];
-                (function(title) {
+                (function (title) {
                     Config.get(title, function (data) {
                         if (data) {
                             $scope.configs[title] = data;
@@ -34,7 +35,8 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
                     });
                 })(title);
 
-            };
+            }
+            ;
 
             $scope.tzs = [
                 'Asia/Shanghai',
@@ -46,7 +48,7 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
                 'UTC',
             ];
 
-            Profile.get(function(data){
+            Profile.get(function (data) {
                 $scope.profiles = data.objects || [];
                 $scope.profiles = $scope.profiles.map(function (e) {
                     return e.title;
@@ -110,8 +112,8 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
         }
     ])
 
-    .controller('settings_user', ['$scope', 'User',
-        function ($scope, User) {
+    .controller('settings_user', ['$scope', '$filter', 'User',
+        function ($scope, $filter, User) {
             $scope.userFormData = {admin: 0};
 
             $scope.checkAll = function () {
@@ -125,18 +127,23 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
                 $scope.users = data.objects;
             }
 
-            $scope.users = User.list(getUserList);
+            User.list(getUserList);
             $scope.pageChanged = function (page) {
                 User.list({page: page}, getUserList);
             };
 
             $scope.addUser = function () {
-                var userData = $scope.userFormData
+                $scope.pwdError = false;
+                var userData = $scope.userFormData;
+
                 User.add(userData, function (result) {
                     if (result.status) {
                         $scope.users.unshift(result.data);
                         ht.noty('Add user ' + result.data.username + ' successfully' + '!')
                     } else {
+                        if (result.message == '密码不符合要求') {
+                            $scope.pwdError = true;
+                        }
                         ht.noty(result.message);
                     }
                 });
@@ -145,13 +152,59 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
             $scope.removeUsers = function () {
                 if (confirm('Are you sure to delete?')) {
                     this.toRemoveAll = false;
+                    var deletedUserIds = [];
                     for (var i = ($scope.users.length - 1); i >= 0; i--) {
                         if ($scope.users[i].toRemove) {
-                            $scope.users.splice(i, 1);
+                            deletedUserIds.push($scope.users[i].id);
+                            //$scope.users.splice(i, 1);
+                            $scope.users[i].active = false;
                         }
+                    }
+                    if (deletedUserIds.length) {
+                        var ids = deletedUserIds.join(',');
+                        User.delete({ids: ids}, function (result) {
+                            if (result.status) {
+                                ht.noty($filter('translate')('Delete successfully') + ' !');
+                            } else {
+                                ht.noty(result.message);
+                            }
+                        });
                     }
                 }
             };
+        }
+    ])
+
+    .controller('settings_log', ['$scope', 'User',
+        function ($scope, User) {
+            $scope.tabs = [
+                {title: 'Login Log', state: 'login_log'},
+                {title: 'Account Log', state: 'account_log'}
+            ];
+
+            var logLoginList = function () {
+                var params = params || {};
+                var getList = function (params) {
+                    User.loginlog(params,
+                        function (data) {
+                            $scope.pagination = data.meta || {};
+                            $scope.logs = data.objects || [];
+                        },
+                        function (error) {
+                            console.log(error);
+                        }
+                    );
+                };
+
+                $scope.pageChanged = function (page) {
+                    params.page = page;
+                    getList(params);
+                };
+
+                getList(params)
+            };
+
+            logLoginList();
         }
     ])
 
@@ -187,7 +240,7 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
                 });
             };
 
-            $scope.uploadFiles = function(file, errFiles) {
+            $scope.uploadFiles = function (file, errFiles) {
                 $scope.f = file;
                 $scope.errFile = errFiles && errFiles[0];
                 if (file) {
@@ -199,7 +252,7 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
                     file.upload.then(function (response) {
                         $timeout(function () {
                             file.result = response.data;
-                            
+
                             if (file.result.status === 0) {
                                 $scope.profileFormData.originpath = file.result.data.path;
                             }
@@ -225,16 +278,16 @@ angular.module('settingsCtrls', ['ngFileUpload', 'userServices', 'configServices
             };
 
             $scope.removeProfiles = function () {
-                var delete_ids = [];
+                var deleteIds = [];
                 var tip = $filter('translate')('Are you sure to delete') + ' ?';
 
                 $scope.profiles.map(function (e) {
                     if (e.toRemove) {
-                        delete_ids.push(e.id);
+                        deleteIds.push(e.id);
                     }
                 });
 
-                if (delete_ids.length && confirm(tip)) {
+                if (deleteIds.length && confirm(tip)) {
                     Profile.delete({ids: delete_ids.join(',')}, function (data) {
                         Profile.list({page: $scope.pagination.page}, getProfileList);
                     });
