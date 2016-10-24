@@ -227,7 +227,7 @@ class CmdProcessor(object):
 
     def _get_or_create_alarm(self, type, **kwargs):
         data = {
-            'sensorID': _prettify_uuid(kwargs['SensorID']),
+            'sensorID': _prettify_uuid(self.sensorID),
             'type': type,
             'point': (kwargs.get('Level') or kwargs.get('Point')),
             'timestamp': int(kwargs['Timestamp']) / 1000,
