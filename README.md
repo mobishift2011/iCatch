@@ -43,7 +43,8 @@ tar -xvf setuptools-0.7.2.tar.gz
 cd setuptools-0.7.2
 python2.7 setup.py install –prefix=/usr/local/python2.7
 
-
+mkdir -p /opt/sensors/
+mkdir -p /opt/upload/profiles/
 
 
 wget --no-check-certificate https://bootstrap.pypa.io/ez_setup.py
@@ -58,10 +59,20 @@ pip uninstall jinja2
 
 yum install redis
 yum install nginx
+
+
+
+service mysqld stop
+yum remove mysql mysql-*
+yum list installed | grep mysql
+yum remove mysql-libs
+rpm -Uvh http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm
+yum install -y mysql-community-server
+
+
 update mysql.user set password = password ('hoohoo123lab') where user = 'root';
 delete from mysql.user where user='';
 flush privileges;
-
 
 【参考资料】
 
