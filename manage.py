@@ -47,7 +47,10 @@ def init_db():
     _change_db('mysql')
     db.database.execute_sql('CREATE SCHEMA `{}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;'.format(db_name))
     _change_db(db_name)
-    db.database.create_tables(db.Model.__subclasses__(), safe=True)
+    try:
+    	db.database.create_tables(db.Model.__subclasses__(), safe=True)
+    except:
+        import traceback;traceback.print_exc()
 
 
 @manager.command
@@ -107,7 +110,7 @@ def _profile_test_data():
             description = 'Profile Desc {}'.format(i),
             addedBy_id=1
         )
-
+@manager.command
 def _computer_test_data():
     oses = ['windows 7', 'windows 10', 'linux', 'ubuntu', 'Mac OS']
     statuses = ['on', 'off', 'resume', 'pause', 'uninstall']
@@ -132,9 +135,11 @@ def _computer_test_data():
             last_communicated_timestamp = time.mktime(now.timetuple()),
             start_timestamp = time.mktime((now - datetime.timedelta(days=random.choice(days))).timetuple()),
             profile = profile,
+            name = 'computer' + str(i),
             is_quarantine = random.choice([True, False])
         )
 
+@manager.command
 def _alarm_test_data():
     now = datetime.datetime.utcnow()
     coms = Computer.select()
